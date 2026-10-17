@@ -1,0 +1,6 @@
+
+> dragon-market-aethoria@0.1.0 typecheck
+> tsc --noEmi
+
+npm warn Unknown user config "node-linker". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+\n

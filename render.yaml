@@ -5,7 +5,7 @@ services:
     runtime: docker
     plan: free
     region: frankfurt
-    branch: feat/human-review-deployment
+    branch: master
     dockerfilePath: ./Dockerfile.review
     autoDeployTrigger: 'off'
     healthCheckPath: /healthz

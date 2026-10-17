@@ -20,7 +20,7 @@ func TestWallet_Service_Reserve_ResetsSpentOnNewDay(t *testing.T) {
 		t.Fatal(err)
 	}
 	g := repo.guilds["guild-1"]
-	if g.DailySpent != 100 || !g.SpentOn.Equal(today.Truncate(24*time.Hour)) {
+	if g.DailySpent != 0 || !g.SpentOn.Equal(today.Truncate(24*time.Hour)) {
 		t.Fatalf("daily spent=%d spent on=%v", g.DailySpent, g.SpentOn)
 	}
 }
@@ -196,17 +196,17 @@ func TestWallet_Service_Reserve_DailyLimitReached(t *testing.T) {
 	}
 }
 
-func TestWallet_Service_Reserve_DailySpentUpdated(t *testing.T) {
+func TestWallet_Service_Reserve_DailySpentUnchanged(t *testing.T) {
 	const (
 		testGuildID           = "guild-1"
 		testInitialGold       = 200
 		testInitialReserve    = 100
-		testInitialDailyLimit = 100
+		testInitialDailyLimit = 200
 		testInitialDailySpent = 0
 
 		testReserveAmount      = 100
 		testExpectedReserve    = testInitialReserve + testReserveAmount
-		testExpectedDailySpent = testInitialDailySpent + testReserveAmount
+		testExpectedDailySpent = testInitialDailySpent
 	)
 
 	repo := MockGuildRepo{guilds: map[string]*Guild{
@@ -245,7 +245,7 @@ func TestWallet_Service_Reserve_ZeroLimitMeansUnlimited(t *testing.T) {
 		testInitialDailySpent = 100
 
 		testReserveAmount      = 1_000_000_000_000
-		testExpectedDailySpent = testInitialDailySpent + testReserveAmount
+		testExpectedDailySpent = testInitialDailySpent
 	)
 
 	repo := MockGuildRepo{guilds: map[string]*Guild{
@@ -437,7 +437,7 @@ func TestWallet_Service_Release_Insufficient(t *testing.T) {
 	}
 }
 
-func TestWallet_Service_Release_DailySpentDecremented(t *testing.T) {
+func TestWallet_Service_Release_DailySpentUnchanged(t *testing.T) {
 	const (
 		testGuildID              = "guild-1"
 		testInitialGold          = 200
@@ -447,7 +447,7 @@ func TestWallet_Service_Release_DailySpentDecremented(t *testing.T) {
 		testInitialDailyLimit    = 100
 
 		testReleaseAmount      = testInitialAvailableGold
-		testExpectedDailySpent = testInitialDailySpent - testReleaseAmount
+		testExpectedDailySpent = testInitialDailySpent
 	)
 	repo := MockGuildRepo{guilds: map[string]*Guild{
 		"guild-1": {

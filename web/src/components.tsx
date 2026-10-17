@@ -80,7 +80,7 @@ export function WalletView({ wallet }: { wallet: Wallet }) {
       </div>
       <div className="wallet-foot">
         <span>
-          Daily spending used <b>{gold(wallet.daily_spent)} G</b>
+          Spent today <b>{gold(wallet.daily_spent)} G</b>
         </span>
         <span>
           Daily limit{" "}
@@ -90,8 +90,8 @@ export function WalletView({ wallet }: { wallet: Wallet }) {
         </span>
       </div>
       <small>
-        Daily spending resets on the next wallet mutation in UTC. A read can
-        still show the previous spending day.
+        The daily limit covers spending today plus all reserved gold. Spending
+        resets at midnight UTC; reservations remain until released or settled.
       </small>
     </section>
   );

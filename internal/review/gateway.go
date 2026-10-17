@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-const Baseline = "8f31a33ecb6c94c7d26a26a2a6f617772ba27816"
+const Baseline = "07bc7e726c8f8228cd62849ef06054edf4f7e624"
 
 type Config struct {
 	Username, Password, Commit string
@@ -83,7 +83,7 @@ func Handler(c Config) (http.Handler, error) {
 		r.Body = http.MaxBytesReader(w, r.Body, 64<<10)
 		if r.URL.Path == "/review/config" && r.Method == "GET" {
 			w.Header().Set("Content-Type", "application/json")
-			_ = json.NewEncoder(w).Encode(map[string]any{"environment": "temporary-human-review", "commit": c.Commit, "implementation_baseline": Baseline, "approval": "PENDING_HUMAN_REVIEW", "isolated_runner": false, "known_issue": "WAL-03 / KNOWN-01: prior-day reservation release can bypass today's daily limit"})
+			_ = json.NewEncoder(w).Encode(map[string]any{"environment": "temporary-human-review", "commit": c.Commit, "implementation_baseline": Baseline, "approval": "PENDING_HUMAN_REVIEW", "isolated_runner": false, "accounting_status": "Repaired: completed UTC-day spending plus all outstanding holds; independent human approval pending"})
 			return
 		}
 		if strings.HasPrefix(r.URL.Path, "/api/") {

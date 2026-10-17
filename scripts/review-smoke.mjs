@@ -176,6 +176,9 @@ try {
   assert(
     config.commit === commit &&
       config.approval === "PENDING_HUMAN_REVIEW" &&
+      config.implementation_baseline ===
+        "07bc7e726c8f8228cd62849ef06054edf4f7e624" &&
+      config.accounting_status.startsWith("Repaired:") &&
       config.isolated_runner === false,
     "deployed identity and pending review truthful",
   );

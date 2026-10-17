@@ -6,7 +6,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
 });
-it("identifies the deployed revision, pending approval and known defect (mocked metadata)", async () => {
+it("identifies the deployed revision, pending approval and repair status (mocked metadata)", async () => {
   vi.stubGlobal(
     "fetch",
     vi.fn().mockResolvedValue(
@@ -17,14 +17,14 @@ it("identifies the deployed revision, pending approval and known defect (mocked 
           implementation_baseline: "b".repeat(40),
           approval: "PENDING_HUMAN_REVIEW",
           isolated_runner: false,
-          known_issue: "WAL-03 confirmed defect",
+          accounting_status: "Repaired wallet accounting; human review pending",
         }),
       ),
     ),
   );
   render(<ReviewNotice />);
   expect(await screen.findByText("a".repeat(40))).toBeInTheDocument();
-  expect(screen.getByText(/WAL-03 confirmed defect/)).toBeInTheDocument();
+  expect(screen.getByText(/Repaired wallet accounting/)).toBeInTheDocument();
   expect(
     screen.getByRole("link", { name: /Submit a reproducible/ }),
   ).toHaveAttribute("href", expect.stringContaining("human-review.yml"));

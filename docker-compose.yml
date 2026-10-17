@@ -24,6 +24,7 @@ services:
       - ./migrations/up/000008_restore_items_available.up.sql:/docker-entrypoint-initdb.d/000008.sql:ro
       - ./migrations/up/000009_create_idempotency_records_table.up.sql:/docker-entrypoint-initdb.d/000009.sql:ro
       - ./migrations/up/000010_add_wallet_audit_and_daily_date.up.sql:/docker-entrypoint-initdb.d/000010.sql:ro
+      - ./migrations/up/000011_daily_accounting_v2.up.sql:/docker-entrypoint-initdb.d/000011.sql:ro
       - ./dev/seed.sql:/docker-entrypoint-initdb.d/999_seed.sql:ro
   oracle:
     build:

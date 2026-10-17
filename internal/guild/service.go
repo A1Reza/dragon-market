@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"market-dragon/internal/gold"
+	"math"
 	"strings"
 	"time"
 )
@@ -55,8 +56,18 @@ func (s *WalletServiceImpl) CreateGuild(ctx context.Context, id string, initialG
 	return g, nil
 }
 
-func NewWalletService(r GuildRepository, tx Transactor) *WalletServiceImpl {
-	return &WalletServiceImpl{guildRepository: r, tx: tx, now: time.Now}
+type WalletOption func(*WalletServiceImpl)
+
+func WithClock(now func() time.Time) WalletOption {
+	return func(s *WalletServiceImpl) { s.now = now }
+}
+
+func NewWalletService(r GuildRepository, tx Transactor, options ...WalletOption) *WalletServiceImpl {
+	s := &WalletServiceImpl{guildRepository: r, tx: tx, now: time.Now}
+	for _, option := range options {
+		option(s)
+	}
+	return s
 }
 
 func (s *WalletServiceImpl) resetDailySpend(g *Guild) {
@@ -81,6 +92,17 @@ func (s *WalletServiceImpl) save(ctx context.Context, g *Guild, operation string
 	return nil
 }
 
+// All holds consume capacity on every day until released or settled. Subtract
+// from the limit rather than adding amounts that could overflow int64.
+func checkDailyCapacity(g *Guild, amount gold.Amount) error {
+	if g.DailyLimit > 0 && (g.DailySpent > g.DailyLimit ||
+		g.Reserved > g.DailyLimit-g.DailySpent ||
+		amount > g.DailyLimit-g.DailySpent-g.Reserved) {
+		return ErrDailyLimitReached
+	}
+	return nil
+}
+
 func (s *WalletServiceImpl) Reserve(ctx context.Context, id string, amount gold.Amount) error {
 	if amount <= 0 {
 		return ErrInvalidAmount
@@ -100,10 +122,9 @@ func (s *WalletServiceImpl) Reserve(ctx context.Context, id string, amount gold.
 		if available < amount {
 			return fmt.Errorf("%w: available %v, requested %v", ErrInsufficientBalance, available, amount)
 		}
-		if g.DailyLimit > 0 && g.DailySpent+amount > g.DailyLimit {
-			return fmt.Errorf("%w: spent %v, limit %v", ErrDailyLimitReached, g.DailySpent, g.DailyLimit)
+		if err := checkDailyCapacity(g, amount); err != nil {
+			return err
 		}
-		g.DailySpent += amount
 		g.Reserved += amount
 		return s.save(ctx, g, "reserve", amount)
 	})
@@ -130,6 +151,12 @@ func (s *WalletServiceImpl) Deduct(ctx context.Context, id string, amount gold.A
 		if amount > g.Gold {
 			return ErrInsufficientBalance
 		}
+		if g.DailySpent > math.MaxInt64-amount {
+			return ErrAmountOverflow
+		}
+		// Settlement exchanges an existing hold for completed spending. Total
+		// daily usage stays constant, including for holds from previous days.
+		g.DailySpent += amount
 		g.Reserved -= amount
 		g.Gold -= amount
 		return s.save(ctx, g, "deduct", amount)
@@ -156,11 +183,6 @@ func (s *WalletServiceImpl) Release(ctx context.Context, id string, amount gold.
 			return fmt.Errorf("%w: have %v, need %v", ErrInsufficientReserve, g.Reserved, amount)
 		}
 
-		if g.DailySpent > amount {
-			g.DailySpent -= amount
-		} else {
-			g.DailySpent = 0
-		}
 		g.Reserved -= amount
 		return s.save(ctx, g, "release", amount)
 	})
@@ -181,6 +203,9 @@ func (s *WalletServiceImpl) Earn(ctx context.Context, id string, amount gold.Amo
 		}
 		s.resetDailySpend(g)
 
+		if g.Gold > math.MaxInt64-amount {
+			return ErrAmountOverflow
+		}
 		g.Gold += amount
 		return s.save(ctx, g, "earn", amount)
 	})
@@ -205,8 +230,11 @@ func (s *WalletServiceImpl) Spend(ctx context.Context, id string, amount gold.Am
 		if available < amount {
 			return fmt.Errorf("%w: have %v, need %v", ErrInsufficientBalance, available, amount)
 		}
-		if g.DailyLimit > 0 && g.DailySpent+amount > g.DailyLimit {
-			return fmt.Errorf("%w: spent %v, limit %v", ErrDailyLimitReached, g.DailySpent, g.DailyLimit)
+		if err := checkDailyCapacity(g, amount); err != nil {
+			return err
+		}
+		if g.DailySpent > math.MaxInt64-amount {
+			return ErrAmountOverflow
 		}
 
 		g.DailySpent += amount
@@ -221,5 +249,8 @@ func (s *WalletServiceImpl) GetGuild(ctx context.Context, id string) (*Guild, er
 		return nil, err
 	}
 
-	return g, nil
+	// Project a stale persisted day for wallet reads without mutating storage.
+	current := *g
+	s.resetDailySpend(&current)
+	return &current, nil
 }

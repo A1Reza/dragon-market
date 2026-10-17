@@ -8,7 +8,7 @@ const configSchema = z.object({
   implementation_baseline: z.string().regex(/^[a-f0-9]{40}$/),
   approval: z.literal("PENDING_HUMAN_REVIEW"),
   isolated_runner: z.literal(false),
-  known_issue: z.string(),
+  accounting_status: z.string(),
 });
 
 export function ReviewNotice() {
@@ -42,11 +42,10 @@ export function ReviewNotice() {
           <p>
             Deployed commit: <code>{config.commit}</code>
             <br />
-            Implementation candidate:{" "}
-            <code>{config.implementation_baseline}</code>
+            Wallet repair commit: <code>{config.implementation_baseline}</code>
           </p>
           <p>
-            <strong>Confirmed issue:</strong> {config.known_issue}.
+            <strong>Wallet accounting:</strong> {config.accounting_status}.
           </p>
           <a
             href={`https://github.com/houtanrocky/dragon-market/issues/new?template=human-review.yml&title=${encodeURIComponent(`[Human review ${config.commit.slice(0, 8)}] `)}`}

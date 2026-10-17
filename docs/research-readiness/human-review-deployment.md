@@ -1,5 +1,12 @@
 # Temporary Render + Neon human review
 
+2026-10-18 integration update: `master` now integrates the wallet repair and migration 11 into the
+review deployment. Render's blueprint selects `master` with automatic deployment still disabled.
+Fresh review databases apply all 11 migrations before seeding; populated legacy databases are refused
+without modifying their data. The UI reports the repair status and deployed commit. Earlier candidate
+identities and reports below are historical; independent human approval remains pending. See the
+[integration report](../transactional-correctness-baseline/integration.md).
+
 This is a separate deployment phase before AI-agent experiments. Approval remains **PENDING_HUMAN_REVIEW**. The implementation candidate is `8f31a33ecb6c94c7d26a26a2a6f617772ba27816`; deployment work is on `feat/human-review-deployment`, descended from evidence ledger `b88407ee3559c512fdcb832b6b31c25dc4858d3f`. Existing candidate manifests and evidence have not been rewritten. The site shows its actual Render deployment commit separately from that earlier implementation candidate.
 
 ## Architecture and boundaries

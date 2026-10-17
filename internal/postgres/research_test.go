@@ -446,21 +446,19 @@ func TestWalletBoundedOperationSequences(t *testing.T) {
 		var err error
 		switch op {
 		case 0:
-			valid = total-reserved >= amount && spent+amount <= 5000
+			valid = total-reserved >= amount && spent+reserved+amount <= 5000
 			err = w.Reserve(ctx, "buyer", amount)
 			if valid {
 				reserved += amount
-				spent += amount
 			}
 		case 1:
 			valid = reserved >= amount
 			err = w.Release(ctx, "buyer", amount)
 			if valid {
 				reserved -= amount
-				spent -= min(spent, amount)
 			}
 		case 2:
-			valid = total-reserved >= amount && spent+amount <= 5000
+			valid = total-reserved >= amount && spent+reserved+amount <= 5000
 			err = w.Spend(ctx, "buyer", amount)
 			if valid {
 				total -= amount

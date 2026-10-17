@@ -7,4 +7,5 @@ web/coverage/
 .env
 web/.env.local
 artifacts/
+/.baseline-review/
 !docs/research-readiness/artifacts/
