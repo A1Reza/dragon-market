@@ -11,6 +11,42 @@ The fantasy-item domain keeps the example approachable: common and rare items us
 
 > This repository is designed as a compact backend engineering example. Authentication, production observability, and deployment infrastructure are intentionally outside its scope.
 
+## Dragon Market — Aethoria workbench
+
+The optional `web/` React/TypeScript frontend adds a local marketplace, guild switcher, wallet/audit views, Transaction Inspector, Research Lab and service diagnostics. The original Go application still builds and runs without Node. This is a **candidate research baseline, PENDING_HUMAN_REVIEW**; [a confirmed cross-day daily-limit defect](docs/research-readiness/known-issues.md) remains unresolved. Passing tests are not a proof of correctness.
+
+Requirements: Go 1.25+, Docker Desktop/Engine running with Linux containers, Node 24 LTS and npm. These commands work in PowerShell and POSIX shells, from the repository root:
+
+```sh
+npm --prefix web ci
+node scripts/workbench.mjs
+```
+
+Open **http://127.0.0.1:5173**. The script starts Compose PostgreSQL and local mock-oracle, Go API, isolated test runner and Vite processes. It uses the explicit local `market@127.0.0.1:15432` database, never an inherited DATABASE_URL. Ports 15432/8090/8080/8082/5173 must be free; WORKBENCH_DB_PORT can override the DB port. The original backend-only Compose workflow still defaults to 5432. Ctrl+C stops owned local processes; `docker compose stop` safely stops dependencies and retains database data. The Development Guild Switcher is **not authentication**. Do not expose this stack publicly.
+
+Fresh PostgreSQL volumes receive the ten original migrations and idempotent guild seed automatically. Existing volumes do not receive new initialization files. If your schema is already current but guilds are absent, apply only the seed:
+
+```sh
+docker compose exec -T postgres psql -v ON_ERROR_STOP=1 -U market -d market -f /docker-entrypoint-initdb.d/999_seed.sql
+```
+
+Do not reapply all migrations blindly to an existing database. No migrations were changed or added by the workbench. See [the reproduction guide](docs/research-readiness/reproduction-guide.md) for separate-process commands, environment examples, isolated tests and explicit disposable-data cleanup.
+
+Five-minute exploration: select guild-seller; create a rare item in Marketplace; list it from My Items; switch to guild-buyer and purchase it in Orders; inspect Wallet and Transaction Inspector; repeat the exact request with the same key. Create a legendary item to explore auction reservations and cancellation. Research Lab prepares unique data for A/B/D/E and uses fresh Testcontainers for C/F/G.
+
+Optional real showcase inventory: `node scripts/demo-fixtures.mjs`. This additive command checks the local development environment, creates five artifacts through the original HTTP APIs, lists two and starts one auction. It retains existing named items and never resets wallets or data. The initial seed itself still creates only guilds.
+
+```sh
+node scripts/verify.mjs
+node scripts/mutation-check.mjs
+npm --prefix web exec -- playwright install chromium
+npm --prefix web run test:e2e
+```
+
+If the browser download is unavailable and Chrome is installed, use `$env:PLAYWRIGHT_CHANNEL='chrome'` in PowerShell or `PLAYWRIGHT_CHANNEL=chrome npm --prefix web run test:e2e` in a POSIX shell. E2E creates a labeled disposable PostgreSQL container, applies migrations and seed, starts separate ports 8085/8087/5175, checks SQL effects, captures screenshots and removes only its verified container. Artifacts are under `artifacts/`, `web/test-results/`, and `web/playwright-report/`. If an interrupted run leaves a container, `node scripts/e2e-cleanup.mjs` verifies its recorded name and disposable label before removing it. It does not touch the Compose database.
+
+The [research-readiness directory](docs/research-readiness/) contains original execution evidence, invariant inventory, documented backend fixes, API additions, final statuses and a human review checklist. Keep it and the optional UI out of future backend-only experimental task snapshots unless explicitly included in the study condition.
+
 ## What this project demonstrates
 
 - Clean separation between Go domain logic, HTTP transport, and PostgreSQL infrastructure

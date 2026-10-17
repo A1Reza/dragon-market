@@ -5,6 +5,7 @@ import (
 	"hash/fnv"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -20,6 +21,10 @@ func main() {
 		w.Header().Set("Content-Type", "application/json")
 		_ = json.NewEncoder(w).Encode(map[string]uint64{"base_price": 100 + h.Sum64()%9901})
 	})
-	log.Print("mock price oracle listening on :8090")
-	log.Fatal(http.ListenAndServe(":8090", nil))
+	address := os.Getenv("ORACLE_HTTP_ADDR")
+	if address == "" {
+		address = "127.0.0.1:8090"
+	}
+	log.Printf("mock price oracle listening on %s", address)
+	log.Fatal(http.ListenAndServe(address, nil))
 }
