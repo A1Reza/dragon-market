@@ -1,11 +1,36 @@
 name: Workbench verification
 on:
   push:
-    branches: [main, master, 'feat/visual-research-workbench*']
+    branches: [main, master, 'feat/visual-research-workbench*', 'feat/human-review-deployment*']
   pull_request:
 permissions:
   contents: read
 jobs:
+  review-image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm --prefix web ci
+      - run: npx playwright install --with-deps chromium
+        working-directory: web
+      - run: docker build -f Dockerfile.review -t dragon-market-review:local .
+      - run: node scripts/review-smoke.mjs
+        env:
+          PLAYWRIGHT_CHANNEL: chromium
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: review-image-evidence
+          # Generated local test TLS keys are never uploaded.
+          path: |
+            artifacts/dragon-review-smoke-*/results.json
+            artifacts/dragon-review-smoke-*/*.png
   fast:
     runs-on: ubuntu-latest
     timeout-minutes: 15

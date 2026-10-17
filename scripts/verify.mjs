@@ -33,6 +33,8 @@ const checks = [
             "./internal/idempotency",
             "./internal/oracle",
             "./cmd/research-lab",
+            "./internal/review",
+            "./cmd/review",
           ]),
     ],
   ],

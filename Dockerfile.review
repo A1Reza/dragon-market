@@ -1,0 +1,28 @@
+FROM node:24-bookworm-slim AS frontend
+WORKDIR /src/web
+COPY web/package.json web/package-lock.json ./
+RUN npm ci
+COPY web/ ./
+ENV VITE_REVIEW_MODE=true
+RUN npm run build
+
+FROM golang:1.25-bookworm AS backend
+WORKDIR /src
+COPY go.mod go.sum ./
+COPY cmd/ cmd/
+COPY internal/ internal/
+RUN --mount=type=cache,target=/go/pkg/mod --mount=type=cache,target=/root/.cache/go-build \
+    CGO_ENABLED=0 go build -trimpath -o /out/market-server ./cmd/server && \
+    CGO_ENABLED=0 go build -trimpath -o /out/review ./cmd/review
+
+FROM debian:bookworm-slim
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY --from=backend /out/ /app/
+COPY --from=frontend /src/web/dist/ /app/web/
+COPY migrations/up/ /app/migrations/up/
+COPY dev/seed.sql /app/dev/seed.sql
+USER 65532:65532
+ENV PORT=10000
+EXPOSE 10000
+ENTRYPOINT ["/app/review"]

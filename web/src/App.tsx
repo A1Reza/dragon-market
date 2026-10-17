@@ -62,6 +62,7 @@ import {
   WalletView,
 } from "./components";
 import { ResearchLab } from "./ResearchLab";
+import { REVIEW_MODE, ReviewNotice } from "./review";
 
 const navigation = [
   ["overview", "Overview", LayoutGrid],
@@ -404,7 +405,11 @@ export function App() {
         </a>
         <div className="realm">
           <i className="dot green" />
-          <span>Local development realm</span>
+          <span>
+            {REVIEW_MODE
+              ? "Temporary human review realm"
+              : "Local development realm"}
+          </span>
         </div>
         <nav aria-label="Main navigation">
           {navigation.map(([id, label, Icon], index) => (
@@ -478,6 +483,7 @@ export function App() {
           </div>
         </header>
         <main id="main-content" tabIndex={-1}>
+          {REVIEW_MODE && <ReviewNotice />}
           <div className="page-heading">
             <div>
               <div className="eyebrow">

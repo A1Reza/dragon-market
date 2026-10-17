@@ -1,0 +1,59 @@
+name: Human review finding
+description: Report a reproducible marketplace, transaction, accessibility or research-readiness finding.
+title: '[Human review] '
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reviewing the candidate. Test results and browser observations are evidence, not proof.
+        Never include passwords, database connection strings or other secrets. The review database is shared and disposable.
+  - type: input
+    id: revision
+    attributes:
+      label: Deployed commit SHA
+      description: Copy the full deployed commit from the human-review notice.
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Review area
+      options:
+        - Transaction or business rule
+        - API or persistence
+        - UI or accessibility
+        - Reproduction or test adequacy
+        - Documentation or provenance
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps and initial state
+      description: Include guild IDs, item/order/auction IDs, UTC times, amounts and the exact sequence. Say whether another reviewer was active.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result and rule
+      description: Cite the invariant ID or explain the business-rule interpretation.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Observed result and evidence
+      description: Include sanitized responses, inspector screenshots or independent test/SQL evidence. Distinguish browser observations from persisted-state checks.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser, OS and review date
+  - type: textarea
+    id: independent
+    attributes:
+      label: Independent verification or remaining uncertainty
+      description: A successful click alone cannot establish transaction correctness. Describe what was checked and what remains unverified.

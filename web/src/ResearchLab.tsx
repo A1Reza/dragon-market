@@ -10,6 +10,7 @@ import type {
   Trace,
 } from "./contracts";
 import { Badge, Json } from "./components";
+import { REVIEW_MODE } from "./review";
 
 type Fixture = {
   seller: string;
@@ -276,8 +277,9 @@ export function ResearchLab({
           <p>
             A/B/D/E create unique fixtures in{" "}
             <b>{data?.database || "unavailable"}</b> through real APIs. C/F/G
-            run in a fresh disposable PostgreSQL container, isolated from this
-            database. No resets.
+            {REVIEW_MODE
+              ? "require the local isolated harness; execution is unavailable on this hosted site. No resets."
+              : "run in a fresh disposable PostgreSQL container, isolated from this database. No resets."}
           </p>
         </div>
         <Badge tone="gold">DEVELOPMENT ONLY</Badge>
@@ -316,20 +318,34 @@ export function ResearchLab({
               <div className="safety-note">
                 <Shield size={19} />
                 <p>
-                  Runs an allowlisted Go test in a new Testcontainers process.
-                  The harness supplies no application database URL and never
-                  resets shared state. A pass requires persisted-state
-                  assertions, not merely HTTP outcomes.
+                  {REVIEW_MODE
+                    ? "Hosted execution is unavailable. Run this scenario locally using the reproduction guide and independently inspect persisted-state assertions. Recorded results describe a prior run, not a test executed on this deployment."
+                    : "Runs an allowlisted Go test in a new Testcontainers process. The harness supplies no application database URL and never resets shared state. A pass requires persisted-state assertions, not merely HTTP outcomes."}
                 </p>
               </div>
               <button
                 className="primary"
-                disabled={busy}
+                disabled={busy || REVIEW_MODE}
                 onClick={() => void task(harness)}
               >
                 <Play size={15} />
-                {busy ? "Running isolated test…" : "Run isolated scenario"}
+                {REVIEW_MODE
+                  ? "Local harness required"
+                  : busy
+                    ? "Running isolated test…"
+                    : "Run isolated scenario"}
               </button>
+              {REVIEW_MODE && (
+                <p>
+                  <a
+                    href="https://github.com/houtanrocky/dragon-market/blob/feat/human-review-deployment/docs/research-readiness/reproduction-guide.md"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Reproduction instructions and recorded evidence
+                  </a>
+                </p>
+              )}
               {report && (
                 <>
                   <h3>
