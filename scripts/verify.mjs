@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { root } from "./processes.mjs";
 const full = !process.argv.includes("--fast");
+const frontendOnly = process.argv.includes("--frontend-only");
 const npmCli = [
   process.env.npm_execpath,
   resolve(dirname(process.execPath), "node_modules/npm/bin/npm-cli.js"),
@@ -46,6 +47,9 @@ const checks = [
     "web",
   ]),
 ];
+const selectedChecks = frontendOnly
+  ? checks.filter(([name]) => name.startsWith("frontend-"))
+  : checks;
 mkdirSync(resolve(root, "artifacts/verification"), { recursive: true });
 const report = {
   started_at: new Date().toISOString(),
@@ -55,10 +59,10 @@ const report = {
   }).stdout.trim(),
   platform: process.platform,
   node: process.version,
-  scope: full ? "full" : "fast",
+  scope: frontendOnly ? "frontend-only" : full ? "full" : "fast",
   results: [],
 };
-for (const [name, program, args, directory] of checks) {
+for (const [name, program, args, directory] of selectedChecks) {
   const start = new Date().toISOString();
   const result = spawnSync(program, args, {
     cwd: directory ? resolve(root, directory) : root,

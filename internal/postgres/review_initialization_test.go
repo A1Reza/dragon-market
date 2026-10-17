@@ -19,7 +19,8 @@ func TestReviewDatabaseInitializationSafety(t *testing.T) {
 		t.Fatalf("existing application database must be refused: %v", err)
 	}
 	// This database lives only in TestMain's fresh disposable container.
-	if _, err := testDB.Exec(`CREATE DATABASE dragon_review_disposable`); err != nil {
+	const databaseName = "dragon_review_disposable"
+	if _, err := testDB.Exec(`CREATE DATABASE ` + databaseName); err != nil {
 		t.Fatal(err)
 	}
 	host, err := testContainer.Host(ctx)
@@ -30,11 +31,16 @@ func TestReviewDatabaseInitializationSafety(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	db, err := sql.Open("pgx", fmt.Sprintf("postgres://test:test@%s:%s/dragon_review_disposable?sslmode=disable", host, port.Port()))
+	db, err := sql.Open("pgx", fmt.Sprintf("postgres://test:test@%s:%s/%s?sslmode=disable", host, port.Port(), databaseName))
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer db.Close()
+	t.Cleanup(func() {
+		_ = db.Close()
+		if _, err := testDB.Exec(`DROP DATABASE ` + databaseName); err != nil {
+			t.Errorf("drop disposable database: %v", err)
+		}
+	})
 	if _, err = db.Exec(`CREATE TABLE user_work (value TEXT)`); err != nil {
 		t.Fatal(err)
 	}

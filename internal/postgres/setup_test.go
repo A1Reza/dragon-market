@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"time"
 
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
@@ -65,6 +66,9 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		panic(err)
 	}
+	if err := waitForDatabase(ctx, testDB); err != nil {
+		panic(err)
+	}
 
 	// Load migrations ONCE
 	migrations := []string{
@@ -95,6 +99,34 @@ func TestMain(m *testing.M) {
 	testDB.Close()
 	testContainer.Terminate(ctx)
 	os.Exit(code)
+}
+
+// waitForDatabase verifies PostgreSQL can serve SQL before the first migration.
+// The container's log and port checks can complete while PostgreSQL is still
+// finishing startup and temporarily rejecting connections.
+func waitForDatabase(ctx context.Context, db *sql.DB) error {
+	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
+	defer cancel()
+
+	ticker := time.NewTicker(250 * time.Millisecond)
+	defer ticker.Stop()
+
+	var lastErr error
+	for {
+		pingCtx, pingCancel := context.WithTimeout(ctx, 2*time.Second)
+		err := db.PingContext(pingCtx)
+		pingCancel()
+		if err == nil {
+			return nil
+		}
+		lastErr = err
+
+		select {
+		case <-ctx.Done():
+			return fmt.Errorf("PostgreSQL did not become ready: %w (last ping: %v)", ctx.Err(), lastErr)
+		case <-ticker.C:
+		}
+	}
 }
 
 func TruncateTables(ctx context.Context, tables ...string) error {
