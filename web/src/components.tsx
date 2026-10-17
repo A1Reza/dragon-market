@@ -143,7 +143,14 @@ export function Dialog({
     };
   }, []);
   return (
-    <dialog ref={ref} onCancel={onClose} aria-label={title}>
+    <dialog
+      ref={ref}
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
+      aria-label={title}
+    >
       <div className="dialog-head">
         <h2>{title}</h2>
         <button

@@ -332,14 +332,16 @@ export function App() {
         {item.type === "legendary" ? "Start auction" : "Create listing"}
         <ArrowRight size={16} />
       </button>
-    ) : (
-      <span className="card-action muted">
-        {item.status === "free"
-          ? "Owned by another guild"
-          : "Inspect in " +
-            (item.status === "listed_in_order" ? "Orders" : "Auctions")}
+    ) : item.status !== "free" ? (
+      <a
+        className="card-action"
+        href={item.status === "listed_in_order" ? "#orders" : "#auctions"}
+      >
+        Inspect in {item.status === "listed_in_order" ? "Orders" : "Auctions"}
         <ChevronRight size={15} />
-      </span>
+      </a>
+    ) : (
+      <span className="card-action muted">Owned by another guild</span>
     );
   }
   function itemGrid(list: Item[]) {
