@@ -6,13 +6,28 @@ services:
       POSTGRES_PASSWORD: market
       POSTGRES_DB: market
     ports:
-      - "5432:5432"
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U market -d market"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
     volumes:
-      - ./migrations/up:/docker-entrypoint-initdb.d:ro
+      # Individual files avoid nesting a seed mount inside a read-only directory.
+      - ./migrations/up/000001_create_guilds_table.up.sql:/docker-entrypoint-initdb.d/000001.sql:ro
+      - ./migrations/up/000002_add_daily_fields_to_guilds.up.sql:/docker-entrypoint-initdb.d/000002.sql:ro
+      - ./migrations/up/000003_create_items_table.up.sql:/docker-entrypoint-initdb.d/000003.sql:ro
+      - ./migrations/up/000004_create_limit_orders_table.up.sql:/docker-entrypoint-initdb.d/000004.sql:ro
+      - ./migrations/up/000005_add_status_to_items_table.up.sql:/docker-entrypoint-initdb.d/000005.sql:ro
+      - ./migrations/up/000006_create_auctions_table.up.sql:/docker-entrypoint-initdb.d/000006.sql:ro
+      - ./migrations/up/000007_create_bids_table.up.sql:/docker-entrypoint-initdb.d/000007.sql:ro
+      - ./migrations/up/000008_restore_items_available.up.sql:/docker-entrypoint-initdb.d/000008.sql:ro
+      - ./migrations/up/000009_create_idempotency_records_table.up.sql:/docker-entrypoint-initdb.d/000009.sql:ro
+      - ./migrations/up/000010_add_wallet_audit_and_daily_date.up.sql:/docker-entrypoint-initdb.d/000010.sql:ro
       - ./dev/seed.sql:/docker-entrypoint-initdb.d/999_seed.sql:ro
   oracle:
     build:
       context: .
       dockerfile: Dockerfile.oracle
     ports:
-      - "8090:8090"
+      - "127.0.0.1:8090:8090"

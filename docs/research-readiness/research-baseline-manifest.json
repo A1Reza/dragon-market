@@ -1,0 +1,236 @@
+{
+  "repository_url": "https://github.com/houtanrocky/dragon-market",
+  "original_commit_sha": "ac599ff4da21b31171c277c96c7ae808dac012a5",
+  "original_branch": "master",
+  "original_working_tree": "clean",
+  "branch": "feat/visual-research-workbench",
+  "candidate_final_commit_sha": "8f31a33ecb6c94c7d26a26a2a6f617772ba27816",
+  "human_approval": "PENDING_HUMAN_REVIEW",
+  "captured_at": "2026-10-17T06:20:24Z",
+  "tools": {
+    "go": "go1.26.0 windows/amd64",
+    "go_mod": "1.25.0",
+    "node": "v24.18.0",
+    "npm": "11.16.0",
+    "docker": "29.1.5",
+    "docker_desktop": "4.58.0",
+    "compose": "v5.0.1",
+    "postgresql": "16.14",
+    "browser": "155.0.8059.80",
+    "os": "win32 x64"
+  },
+  "baseline_tests": {
+    "status": "PASS",
+    "commands": [
+      "go build ./...",
+      "go test ./...",
+      "go vet ./...",
+      "go test -race ./..."
+    ],
+    "artifacts": "docs/research-readiness/artifacts/baseline-*.log",
+    "completed_at": "2026-10-17T06:24:00Z"
+  },
+  "final_tests": [
+    {
+      "name": "go-build",
+      "command": "go build ./...",
+      "cwd": ".",
+      "started_at": "2026-10-17T07:13:35.252Z",
+      "finished_at": "2026-10-17T07:13:36.769Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "docs/research-readiness/artifacts/go-build.log"
+    },
+    {
+      "name": "go-vet",
+      "command": "go vet ./...",
+      "cwd": ".",
+      "started_at": "2026-10-17T07:13:36.771Z",
+      "finished_at": "2026-10-17T07:13:37.512Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "docs/research-readiness/artifacts/go-vet.log"
+    },
+    {
+      "name": "go-tests",
+      "command": "go test -count=1 ./...",
+      "cwd": ".",
+      "started_at": "2026-10-17T07:13:37.512Z",
+      "finished_at": "2026-10-17T07:13:51.795Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "docs/research-readiness/artifacts/go-tests.log"
+    },
+    {
+      "name": "go-race",
+      "command": "go test -race -count=1 ./...",
+      "cwd": ".",
+      "started_at": "2026-10-17T07:16:12.695Z",
+      "finished_at": "2026-10-17T07:16:30.204Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "docs/research-readiness/artifacts/go-race.log",
+      "attempts": [
+        {
+          "name": "go-race",
+          "command": "go test -race -count=1 ./...",
+          "cwd": ".",
+          "started_at": "2026-10-17T07:13:51.796Z",
+          "finished_at": "2026-10-17T07:14:59.776Z",
+          "status": "FAIL",
+          "exit": 1,
+          "artifact": "docs/research-readiness/artifacts/race-docker-readiness-failure.log",
+          "classification": "BLOCKED PostgreSQL fixture startup: Docker readiness inspection timed out"
+        }
+      ]
+    },
+    {
+      "name": "frontend-typecheck",
+      "command": "npm run typecheck",
+      "cwd": "web",
+      "started_at": "2026-10-17T07:14:59.776Z",
+      "finished_at": "2026-10-17T07:15:02.816Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "docs/research-readiness/artifacts/frontend-typecheck.log"
+    },
+    {
+      "name": "frontend-lint",
+      "command": "npm run lint",
+      "cwd": "web",
+      "started_at": "2026-10-17T07:15:02.817Z",
+      "finished_at": "2026-10-17T07:15:04.615Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "docs/research-readiness/artifacts/frontend-lint.log"
+    },
+    {
+      "name": "frontend-test",
+      "command": "npm run test",
+      "cwd": "web",
+      "started_at": "2026-10-17T07:15:04.616Z",
+      "finished_at": "2026-10-17T07:15:07.328Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "docs/research-readiness/artifacts/frontend-test.log"
+    },
+    {
+      "name": "frontend-build",
+      "command": "npm run build",
+      "cwd": "web",
+      "started_at": "2026-10-17T07:15:07.328Z",
+      "finished_at": "2026-10-17T07:15:11.047Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "docs/research-readiness/artifacts/frontend-build.log"
+    }
+  ],
+  "known_failures": [
+    "WAL-03 / KNOWN-01: prior-day reservation release can bypass today spending limit"
+  ],
+  "unresolved_issues": [
+    "Daily-limit reservation/day model requires policy review",
+    "Cross-operation deadlock progress stress not run",
+    "Linux/macOS clean reproduction and remote CI not executed locally",
+    "See known-issues.md for bounded evidence and other test gaps"
+  ],
+  "migration_checksums": [
+    {
+      "path": "migrations/up/000001_create_guilds_table.up.sql",
+      "sha256": "527f94632ba8d82dd8073ac44c67b7dae977b28979a8db9a4b9d400345ac9a92",
+      "checksum_source": "Git blob bytes (independent of checkout line endings)"
+    },
+    {
+      "path": "migrations/up/000002_add_daily_fields_to_guilds.up.sql",
+      "sha256": "e8fb36f762d4e8e411761bff488662bd595deab45335f4ead01290c5f7482505",
+      "checksum_source": "Git blob bytes (independent of checkout line endings)"
+    },
+    {
+      "path": "migrations/up/000003_create_items_table.up.sql",
+      "sha256": "cfa0c2b7ef633f5e57b9eca2c98d19048a447851e61a75bd4b976e17105e7b66",
+      "checksum_source": "Git blob bytes (independent of checkout line endings)"
+    },
+    {
+      "path": "migrations/up/000004_create_limit_orders_table.up.sql",
+      "sha256": "d428f3bcbc26a3dc345069b68f91d9602be114e108393fe9b9b80439436e2480",
+      "checksum_source": "Git blob bytes (independent of checkout line endings)"
+    },
+    {
+      "path": "migrations/up/000005_add_status_to_items_table.up.sql",
+      "sha256": "52e0b9a9406b413ba429356c9e7f7b782f7a302b28c8157c89c916e77319844d",
+      "checksum_source": "Git blob bytes (independent of checkout line endings)"
+    },
+    {
+      "path": "migrations/up/000006_create_auctions_table.up.sql",
+      "sha256": "83157c5936848c8150548b06c0fab174ef36f91d042b1f44e8ad1642d7287ce5",
+      "checksum_source": "Git blob bytes (independent of checkout line endings)"
+    },
+    {
+      "path": "migrations/up/000007_create_bids_table.up.sql",
+      "sha256": "ec50b5fbd98c2c373d140e4fb4513a5235e291574a0988158a582e6a6488ec10",
+      "checksum_source": "Git blob bytes (independent of checkout line endings)"
+    },
+    {
+      "path": "migrations/up/000008_restore_items_available.up.sql",
+      "sha256": "62dce7f378a5dd2473e44c689e8817813de43ab251ac9b4d183582d11c5638a7",
+      "checksum_source": "Git blob bytes (independent of checkout line endings)"
+    },
+    {
+      "path": "migrations/up/000009_create_idempotency_records_table.up.sql",
+      "sha256": "ffed262267d69e1e1eab0760b9c032eccaf92ddba520cc7cf13950c7083c87a9",
+      "checksum_source": "Git blob bytes (independent of checkout line endings)"
+    },
+    {
+      "path": "migrations/up/000010_add_wallet_audit_and_daily_date.up.sql",
+      "sha256": "360e5fb7dbd27708b001b46420774ea52691f72ee4a92241186b7c630e4d1158",
+      "checksum_source": "Git blob bytes (independent of checkout line endings)"
+    }
+  ],
+  "frontend_lockfile": {
+    "path": "web/package-lock.json",
+    "sha256": "98ced21b251f5ee5595001bb0cc18d9614c6c8b0eb9d15b5c08b4787f845a5a7"
+  },
+  "candidate_definition": "Implementation commit verified before this documentation-only evidence ledger. The ledger records its parent/source SHA to avoid an impossible self-referential Git hash. No approved tag exists.",
+  "source_tree": "6952b575ef8ec599f631103d6b57e5bf0df79c9f",
+  "browser_tests": {
+    "command": "PLAYWRIGHT_CHANNEL=chrome npm --prefix web run test:e2e",
+    "status": "PASS",
+    "startTime": "2026-10-17T07:17:24.518Z",
+    "duration": 55063.765,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0,
+    "artifact": "docs/research-readiness/artifacts/playwright-final.json"
+  },
+  "mutation_checks": [
+    {
+      "mutation": "missing-audit",
+      "status": "PASS",
+      "meaning": "Persisted-effect test detected the injected defect",
+      "command": "go test -count=1 ./internal/postgres -run ^TestHTTPPurchaseIdempotencyPersistedEffects$",
+      "exit": 1
+    },
+    {
+      "mutation": "missing-buyer-debit",
+      "status": "PASS",
+      "meaning": "Persisted-effect test detected the injected defect",
+      "command": "go test -count=1 ./internal/postgres -run ^TestHTTPPurchaseIdempotencyPersistedEffects$",
+      "exit": 1
+    }
+  ],
+  "finalized_at": "2026-10-17T07:18:40.000Z",
+  "git_history": [
+    "8f31a33ecb6c94c7d26a26a2a6f617772ba27816 fix(web): make listing inspection navigable and preserve busy dialogs",
+    "f21da6952ba91bad0dfe61f21b2cda7c728f252a fix(dev): wait for initialized PostgreSQL and support portable npm layouts",
+    "9b03613b5fc010497279d58a701b32aa47d8610b docs(research): catalog invariants known defects coverage and human review",
+    "9013403ab898c0c274f3de85ebefca1b738e46af chore(dev): add reproducible local startup isolated browser stack and CI",
+    "3b317411ba2ffd0069e82f1a9f5d351566f97fb9 feat(web): build Aethoria marketplace inspector and interactive research lab",
+    "feddbefc93504251df6a0408dba95e691ddd0183 test: cover simultaneous replay bid persistence and worker-only settlement",
+    "db9e086b56512cf54e56c9908bcd26023443fe60 test(research): verify persisted retries rollback contention and known rollover defect",
+    "5b810e1c99856c20d3e10cfb537ebef9db34ecc5 feat(api): add opt-in read-only development discovery and audit snapshot",
+    "2b7dc7ae8c438dcdd561e6f857ae8b2a292ddf14 fix: reject overflowing bid increments and malformed oracle payloads",
+    "66f79413e83561a284f4a86a816b9d6b4f4be7a9 fix(orders): enforce legendary eligibility and return truthful listing fields",
+    "9b0a8ff5aba5f9bb2a00c5424dabed3d05a17760 docs(research): capture original architecture and executed test baseline"
+  ]
+}

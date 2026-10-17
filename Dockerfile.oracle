@@ -6,8 +6,6 @@ RUN apk add --no-cache git
 
 COPY go.mod go.sum ./
 
-# Use china proxy with direct fallback
-ENV GOPROXY=https://goproxy.cn,direct
 RUN go mod download
 
 COPY cmd/mock-oracle ./cmd/mock-oracle
@@ -16,4 +14,5 @@ RUN CGO_ENABLED=0 go build -o /mock-oracle ./cmd/mock-oracle
 FROM alpine:3.22
 COPY --from=build /mock-oracle /usr/local/bin/mock-oracle
 EXPOSE 8090
+ENV ORACLE_HTTP_ADDR=:8090
 ENTRYPOINT ["mock-oracle"]

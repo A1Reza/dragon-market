@@ -1,0 +1,242 @@
+[
+  {
+    "category": "Backend",
+    "criterion": "Existing API functions",
+    "status": "PASS",
+    "evidence": "Browser original routes + independent SQL"
+  },
+  {
+    "category": "Backend",
+    "criterion": "Production Go build",
+    "status": "PASS",
+    "evidence": "go build ./..."
+  },
+  {
+    "category": "Backend",
+    "criterion": "Existing rules preserved except documented corrections",
+    "status": "PASS",
+    "evidence": "Full original + new tests; backend-fixes.md; does not assert WAL-03"
+  },
+  {
+    "category": "Backend",
+    "criterion": "Unit and HTTP tests",
+    "status": "PASS",
+    "evidence": "go test -count=1 ./..."
+  },
+  {
+    "category": "Backend",
+    "criterion": "PostgreSQL integration tests",
+    "status": "PASS",
+    "evidence": "Testcontainers; no skips"
+  },
+  {
+    "category": "Backend",
+    "criterion": "Race tests",
+    "status": "PASS",
+    "evidence": "go test -race -count=1 ./..."
+  },
+  {
+    "category": "Backend",
+    "criterion": "Static analysis",
+    "status": "PASS",
+    "evidence": "go vet ./..."
+  },
+  {
+    "category": "Backend",
+    "criterion": "Critical contention tests",
+    "status": "PASS",
+    "evidence": "Competing buyers/bids/auction starts/settlement + identical keys"
+  },
+  {
+    "category": "Backend",
+    "criterion": "Persisted idempotency effects",
+    "status": "PASS",
+    "evidence": "HTTP purchase/bid replay + SQL state; concurrent identical key"
+  },
+  {
+    "category": "Backend",
+    "criterion": "Late-failure rollback",
+    "status": "PASS",
+    "evidence": "TestResearchRollback compares committed state"
+  },
+  {
+    "category": "Backend",
+    "criterion": "Invariant inventory",
+    "status": "PASS",
+    "evidence": "Parsed catalog with machine manifest"
+  },
+  {
+    "category": "Backend",
+    "criterion": "Daily limit cannot be bypassed across UTC rollover",
+    "status": "FAIL",
+    "evidence": "Known-issue-rollover.log; policy/data-model issue unresolved"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "UI launches",
+    "status": "PASS",
+    "evidence": "7 real browser tests; direct SQL and screenshots"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "API connects",
+    "status": "PASS",
+    "evidence": "7 real browser tests; direct SQL and screenshots"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Guild switching",
+    "status": "PASS",
+    "evidence": "7 real browser tests; direct SQL and screenshots"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Item creation",
+    "status": "PASS",
+    "evidence": "7 real browser tests; direct SQL and screenshots"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Fixed-price listing",
+    "status": "PASS",
+    "evidence": "7 real browser tests; direct SQL and screenshots"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Purchase",
+    "status": "PASS",
+    "evidence": "7 real browser tests; direct SQL and screenshots"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Auction creation",
+    "status": "PASS",
+    "evidence": "7 real browser tests; direct SQL and screenshots"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Bidding",
+    "status": "PASS",
+    "evidence": "7 real browser tests; direct SQL and screenshots"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Eligible bid cancellation",
+    "status": "PASS",
+    "evidence": "7 real browser tests; direct SQL and screenshots"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Wallet reflects real persisted state",
+    "status": "PASS",
+    "evidence": "7 real browser tests; direct SQL and screenshots"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Understandable rejected request",
+    "status": "PASS",
+    "evidence": "7 real browser tests; direct SQL and screenshots"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Research Lab A through G",
+    "status": "PASS",
+    "evidence": "7 real browser tests; direct SQL and screenshots"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Desktop and mobile layout",
+    "status": "PASS",
+    "evidence": "7 real browser tests; direct SQL and screenshots"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Keyboard and direct refresh",
+    "status": "PASS",
+    "evidence": "7 real browser tests; direct SQL and screenshots"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Unit/component tests",
+    "status": "PASS",
+    "evidence": "12 tests with mocked HTTP; not backend evidence"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Browser E2E",
+    "status": "PASS",
+    "evidence": "Playwright Chrome, real Go/PostgreSQL, zero skips"
+  },
+  {
+    "category": "Frontend",
+    "criterion": "Production build",
+    "status": "PASS",
+    "evidence": "npm --prefix web run build"
+  },
+  {
+    "category": "Research",
+    "criterion": "Starting SHA recorded",
+    "status": "PASS",
+    "evidence": "ac599ff4da21b31171c277c96c7ae808dac012a5"
+  },
+  {
+    "category": "Research",
+    "criterion": "Backend changes documented",
+    "status": "PASS",
+    "evidence": "Required documents inspected by collector; backend-fixes.md"
+  },
+  {
+    "category": "Research",
+    "criterion": "Known issues documented",
+    "status": "PASS",
+    "evidence": "Known-issues.md + known defect characterization"
+  },
+  {
+    "category": "Research",
+    "criterion": "Critical invariants independently tested",
+    "status": "PASS",
+    "evidence": "Bounded SQL tests; WAL-03 fails and other gaps catalogued"
+  },
+  {
+    "category": "Research",
+    "criterion": "Local setup executed",
+    "status": "PASS",
+    "evidence": "workbench.mjs plus local-smoke.json"
+  },
+  {
+    "category": "Research",
+    "criterion": "Clean Linux/macOS reproduction",
+    "status": "NOT RUN",
+    "evidence": "Only Windows executed; workflow config is not execution evidence"
+  },
+  {
+    "category": "Research",
+    "criterion": "Remote CI execution",
+    "status": "NOT RUN",
+    "evidence": "No push authorized or performed"
+  },
+  {
+    "category": "Research",
+    "criterion": "Human checklist available",
+    "status": "PASS",
+    "evidence": "Required documentation validation"
+  },
+  {
+    "category": "Research",
+    "criterion": "Candidate SHA recorded",
+    "status": "PASS",
+    "evidence": "8f31a33ecb6c94c7d26a26a2a6f617772ba27816"
+  },
+  {
+    "category": "Research",
+    "criterion": "Human approval remains pending",
+    "status": "PASS",
+    "evidence": "Manifest exact PENDING_HUMAN_REVIEW; not approval"
+  },
+  {
+    "category": "Research",
+    "criterion": "Approved baseline tag",
+    "status": "NOT APPLICABLE",
+    "evidence": "User explicitly reserves final approval/tag"
+  }
+]

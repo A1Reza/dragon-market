@@ -50,7 +50,10 @@ type cancelOrderRequest struct {
 
 func newOrderResponse(o *order.LimitOrder) createOrderResponse {
 	return createOrderResponse{
-		ID: o.ID,
+		ID:        o.ID,
+		OwnerID:   o.SellerID,
+		Status:    o.Status,
+		BasePrice: o.Price,
 	}
 }
 

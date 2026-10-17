@@ -1,0 +1,416 @@
+{
+  "config": {
+    "argv": [
+      "C:\\nvm4w\\nodejs\\node.exe",
+      "S:\\Repos\\dragon-market\\web\\node_modules\\@playwright\\test\\cli.js",
+      "test"
+    ],
+    "configFile": "S:\\Repos\\dragon-market\\web\\playwright.config.ts",
+    "rootDir": "S:/Repos/dragon-market/web/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "S:\\Repos\\dragon-market\\scripts\\e2e-cleanup.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "S:/Repos/dragon-market/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "S:/Repos/dragon-market/web/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "S:\\Repos\\dragon-market\\web\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "chromium",
+        "testDir": "S:\\Repos\\dragon-market\\web\\tests",
+        "snapshotDir": "S:\\Repos\\dragon-market\\web\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5175",
+          "actionTimeout": 10000,
+          "navigationTimeout": 15000,
+          "channel": "chrome",
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chromium"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../artifacts/playwright-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "node ../scripts/e2e-stack.mjs",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "reuseExistingServer": false,
+      "timeout": 180000
+    }
+  },
+  "suites": [
+    {
+      "title": "marketplace.spec.ts",
+      "file": "marketplace.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real purchase, explicit replay, auctions, cancellation and persisted SQL effects",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10708,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T07:06:59.148Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "170e8a9d719db4caeb1d-b9c99fffb63e26630b74",
+          "file": "marketplace.spec.ts",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "guild creation and listing cancellation are real mutations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2778,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T07:07:10.213Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "170e8a9d719db4caeb1d-1fdfc283567cf75cc559",
+          "file": "marketplace.spec.ts",
+          "line": 183,
+          "column": 1
+        },
+        {
+          "title": "mobile navigation, keyboard focus and refresh-safe routes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2278,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T07:07:13.016Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "170e8a9d719db4caeb1d-3b675233722d9c4fbab9",
+          "file": "marketplace.spec.ts",
+          "line": 219,
+          "column": 1
+        },
+        {
+          "title": "Research Lab A/B/D/E uses real endpoints and displays expected rejection",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 14470,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Fixture ready')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Fixture ready') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Fixture ready')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Fixture ready')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Fixture ready') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Fixture ready')\u001b[22m\n\n    at S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts:305:49",
+                    "location": {
+                      "file": "S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts",
+                      "column": 49,
+                      "line": 305
+                    },
+                    "snippet": "  303 |   await page.getByRole(\"button\", { name: /Bid cancellation/ }).click();\n  304 |   await page.getByRole(\"button\", { name: \"Prepare unique fixture\" }).click();\n> 305 |   await expect(page.getByText(\"Fixture ready\")).toBeVisible();\n      |                                                 ^\n  306 |   await page.getByRole(\"button\", { name: \"First bid · 100 units\" }).click();\n  307 |   await page.getByRole(\"button\", { name: \"Outbid · 110 units\" }).click();\n  308 |   await page"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts",
+                        "column": 49,
+                        "line": 305
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Fixture ready')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Fixture ready') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Fixture ready')\u001b[22m\n\n\n  303 |   await page.getByRole(\"button\", { name: /Bid cancellation/ }).click();\n  304 |   await page.getByRole(\"button\", { name: \"Prepare unique fixture\" }).click();\n> 305 |   await expect(page.getByText(\"Fixture ready\")).toBeVisible();\n      |                                                 ^\n  306 |   await page.getByRole(\"button\", { name: \"First bid · 100 units\" }).click();\n  307 |   await page.getByRole(\"button\", { name: \"Outbid · 110 units\" }).click();\n  308 |   await page\n    at S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts:305:49"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T07:07:15.332Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-Research-Lab-A-c1eb1-displays-expected-rejection-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-Research-Lab-A-c1eb1-displays-expected-rejection-chromium\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-Research-Lab-A-c1eb1-displays-expected-rejection-chromium\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts",
+                    "column": 49,
+                    "line": 305
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "170e8a9d719db4caeb1d-494c3efdb89517b6097c",
+          "file": "marketplace.spec.ts",
+          "line": 256,
+          "column": 1
+        },
+        {
+          "title": "Research Lab Competing buyers executes isolated PostgreSQL assertions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10508,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T07:07:30.858Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "170e8a9d719db4caeb1d-5bc0249c92c14cf274c6",
+          "file": "marketplace.spec.ts",
+          "line": 327,
+          "column": 3
+        },
+        {
+          "title": "Research Lab Failure & rollback executes isolated PostgreSQL assertions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9121,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T07:07:41.658Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "170e8a9d719db4caeb1d-448981de704bba39cb18",
+          "file": "marketplace.spec.ts",
+          "line": 327,
+          "column": 3
+        },
+        {
+          "title": "Research Lab Auction settlement executes isolated PostgreSQL assertions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9093,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T07:07:50.793Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "170e8a9d719db4caeb1d-30ad81d43578e89a1498",
+          "file": "marketplace.spec.ts",
+          "line": 327,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T07:06:43.979Z",
+    "duration": 77481.55799999999,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

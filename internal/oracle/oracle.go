@@ -67,6 +67,9 @@ func (o *HTTPOracle) GetBasePrice(ctx context.Context, itemID string) (gold.Amou
 	if err := decoder.Decode(&payload); err != nil {
 		return 0, fmt.Errorf("decode oracle response: %w", err)
 	}
+	if err := decoder.Decode(&struct{}{}); !errors.Is(err, io.EOF) {
+		return 0, errors.New("oracle response must contain one JSON object")
+	}
 	if payload.BasePrice <= 0 {
 		return 0, fmt.Errorf("%w: %d", ErrInvalidPrice, payload.BasePrice)
 	}

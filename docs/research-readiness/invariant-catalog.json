@@ -1,0 +1,119 @@
+[
+  {
+    "id": "WAL-01",
+    "statement_and_definition": "available = gold − reserved; 0 ≤ reserved ≤ gold",
+    "implementation_and_database_constraints": "guild/service.go, api/guild_handler.go; migration 10 guilds_gold_nonnegative, guilds_reserved_valid",
+    "tests_and_verification": "TestWalletBoundedOperationSequences compares 120 seeded operations with independent model and SQL reads; TestInspectionSnapshotIsBoundedAndConsistent; frontend rejects inconsistent mapping",
+    "missing_coverage_and_edges": "Arbitrary sequences, crashes, int64 extremes",
+    "human_review_status": "PENDING",
+    "observed_status": "PASS_WITH_BOUNDED_EVIDENCE"
+  },
+  {
+    "id": "WAL-02",
+    "statement_and_definition": "failed financial operation leaves wallets/audits unchanged",
+    "implementation_and_database_constraints": "postgres/tx.go, guild/service.go; atomic SQL transaction",
+    "tests_and_verification": "TestResearchRollback fails late after spend/earn/transfer, compares all exposed persisted tables and checks rolled-back idempotency claim",
+    "missing_coverage_and_edges": "Process crash/commit ambiguity, network partition",
+    "human_review_status": "PENDING",
+    "observed_status": "PASS_WITH_BOUNDED_EVIDENCE"
+  },
+  {
+    "id": "WAL-03",
+    "statement_and_definition": "positive daily limit cannot be bypassed by releasing prior-day reservations",
+    "implementation_and_database_constraints": "guild/service.go resetDailySpend/Release; SQL only enforces nonnegative daily values",
+    "tests_and_verification": "**FAIL: TestKnownIssuePriorDayReleaseReducesTodaySpending confirms bypass**, artifacts/known-issue-rollover.log",
+    "missing_coverage_and_edges": "Repair requires reservation origin/day model. Same-day bounded sequences PASS is insufficient",
+    "human_review_status": "PENDING POLICY REVIEW",
+    "observed_status": "FAIL"
+  },
+  {
+    "id": "PUR-01",
+    "statement_and_definition": "one item can be purchased once from existing listed orders; exactly one winner under competition",
+    "implementation_and_database_constraints": "order/service.go locks item then order; item ownership/status predicates; order status constraint",
+    "tests_and_verification": "TestConcurrentBuy_OnlyOneBuyerGetsItem (original); TestResearchCompetingBuyers uses synchronized HTTP driver and independently checks winner/order/wallets/audits",
+    "missing_coverage_and_edges": "Opposing buyers/sellers across many items; deadlock progress",
+    "human_review_status": "PENDING",
+    "observed_status": "PASS_WITH_BOUNDED_EVIDENCE"
+  },
+  {
+    "id": "PUR-02",
+    "statement_and_definition": "payment, ownership and order state commit together; seller credit equals buyer debit",
+    "implementation_and_database_constraints": "order/service.go Buy, postgres item/order repositories",
+    "tests_and_verification": "TestResearchRollback; TestHTTPPurchaseIdempotencyPersistedEffects; Playwright direct SQL after UI purchase",
+    "missing_coverage_and_edges": "Seller deletion/infrastructure error variants; int64 edge transfers",
+    "human_review_status": "PENDING",
+    "observed_status": "PASS_WITH_BOUNDED_EVIDENCE"
+  },
+  {
+    "id": "IDEM-01",
+    "statement_and_definition": "completed identical request replay has no duplicate financial/audit effects; changed payload conflicts",
+    "implementation_and_database_constraints": "idempotency/service.go, postgres/idempotency_repo.go; primary key on key; completed record check",
+    "tests_and_verification": "HTTP purchase replay asserts gold, owner, audits=2, keys=1; TestConcurrentIdenticalPurchaseKeyOnePersistedEffect; TestHTTPBidReplayReservesOnce; SQL repository completion/rollback; browser replay then SQL",
+    "missing_coverage_and_edges": "Ambiguous commit/network retry and long-term key retention",
+    "human_review_status": "PENDING",
+    "observed_status": "PASS_WITH_BOUNDED_EVIDENCE"
+  },
+  {
+    "id": "ORD-01",
+    "statement_and_definition": "fixed-price orders exclude legendary; locked order price independent of oracle",
+    "implementation_and_database_constraints": "order/service.go List; no SQL type guard",
+    "tests_and_verification": "TestListRejectsLegendaryWithoutMutatingItem (regression); existing List/Buy tests; UI rarity actions",
+    "missing_coverage_and_edges": "Direct SQL writes not prevented by domain-only guard; explicit oracle-refresh-after-listing test absent",
+    "human_review_status": "PENDING",
+    "observed_status": "PASS_WITH_BOUNDED_EVIDENCE"
+  },
+  {
+    "id": "AUC-01",
+    "statement_and_definition": "≤1 active auction/item and ≤1 active bid/auction",
+    "implementation_and_database_constraints": "postgres/auction_repo.go; partial unique indexes migrations 6/7",
+    "tests_and_verification": "TestConcurrentAuctionStart_OnlyOneSucceeds; TestConcurrentBids_LeavesSingleHighestReservation counts SQL active rows and total reservation",
+    "missing_coverage_and_edges": "Many-auction stress and cross-auction reservation reconciliation",
+    "human_review_status": "PENDING",
+    "observed_status": "PASS_WITH_BOUNDED_EVIDENCE"
+  },
+  {
+    "id": "AUC-02",
+    "statement_and_definition": "positive bids by non-seller; next ≥ current+ceil(current/20); no representable increment rejects",
+    "implementation_and_database_constraints": "auction/service.go; bids amount>0",
+    "tests_and_verification": "TestService_PlaceBid_RejectsLowIncrement; TestBidIncrementRejectsUnrepresentableNextBid; UI invalid bid yields visible backend error",
+    "missing_coverage_and_edges": "Seller/expired HTTP transition matrix incomplete; full int64 property domain",
+    "human_review_status": "PENDING",
+    "observed_status": "PASS_WITH_BOUNDED_EVIDENCE"
+  },
+  {
+    "id": "AUC-03",
+    "statement_and_definition": "outbid reservation released; current bidder reserves only incremental difference; cancellation only active highest owner",
+    "implementation_and_database_constraints": "auction/service.go PlaceBid/CancelBid; unique active bid index",
+    "tests_and_verification": "Original unit replacement/cancellation tests; original SQL concurrent bids; browser sequential bids/outbid/cancel checks SQL reservation; lab invalid cancellation 409",
+    "missing_coverage_and_edges": "Same bidder SQL delta, multi-auction and rollover scenarios not complete",
+    "human_review_status": "PENDING",
+    "observed_status": "PASS_WITH_BOUNDED_EVIDENCE"
+  },
+  {
+    "id": "AUC-04",
+    "statement_and_definition": "expired settlement transfers asset/payment at most once; releases reserve; winning bid recorded",
+    "implementation_and_database_constraints": "auction/service.go EndAuction, worker.go; auction row lock/status predicates",
+    "tests_and_verification": "TestResearchSettlement runs controlled clock with real worker and competing batch; TestWorkerAloneSettlesExpiredAuction proves worker-only path; SQL checks buyer/seller/item/winning status and exactly three audit records",
+    "missing_coverage_and_edges": "Repeated worker crashes and no-bid real-worker path need review",
+    "human_review_status": "PENDING",
+    "observed_status": "PASS_WITH_BOUNDED_EVIDENCE"
+  },
+  {
+    "id": "AUD-01",
+    "statement_and_definition": "committed wallet mutations have matching audit; failed transactions append none",
+    "implementation_and_database_constraints": "guild/service.go save and postgres/guild_repo.go RecordWalletTransaction; migration 10",
+    "tests_and_verification": "Rollback test, purchase exact counts, seeded sequence exact count; missing-audit mutation is detected",
+    "missing_coverage_and_edges": "Audit has no immutable SQL privilege enforcement, correlation or daily-spend-after fields",
+    "human_review_status": "PENDING",
+    "observed_status": "PASS_WITH_BOUNDED_EVIDENCE"
+  },
+  {
+    "id": "ORA-01",
+    "statement_and_definition": "invalid/unavailable oracle results never replace last good price",
+    "implementation_and_database_constraints": "oracle/oracle.go, postgres/item_repo.go UpdateBasePrice positivity",
+    "tests_and_verification": "Existing fallback/refresh tests; TestHTTPOracleRejectsTrailingPayload regression",
+    "missing_coverage_and_edges": "Persisted price fallback under long outage and restart, timeout/non-200 table coverage still limited",
+    "human_review_status": "PENDING",
+    "observed_status": "PASS_WITH_BOUNDED_EVIDENCE"
+  }
+]

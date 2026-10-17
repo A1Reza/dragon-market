@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-17T07:18:37.114Z",
+  "services": {
+    "frontend": {
+      "url": "http://127.0.0.1:5173",
+      "status": "PASS",
+      "http_status": 200
+    },
+    "backend": {
+      "url": "http://127.0.0.1:8080/healthz",
+      "status": "PASS",
+      "http_status": 200
+    },
+    "database": {
+      "url": "http://127.0.0.1:8080/dev/snapshot",
+      "status": "PASS",
+      "http_status": 200
+    },
+    "runner": {
+      "url": "http://127.0.0.1:8082/healthz",
+      "status": "PASS",
+      "http_status": 200
+    },
+    "oracle": {
+      "url": "http://127.0.0.1:8090/prices/verification-fixture",
+      "status": "PASS",
+      "http_status": 200
+    }
+  },
+  "browser_version": "155.0.8059.80"
+}

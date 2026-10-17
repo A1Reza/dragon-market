@@ -1,0 +1,5 @@
+--- FAIL: TestHTTPPurchaseIdempotencyPersistedEffects (0.42s)
+    research_test.go:161: owner=buyer buyer=buyer status=sold gold seller=10100 winner=9900 loser=10000 audits=0
+FAIL
+FAIL	market-dragon/internal/postgres	8.959s
+FAIL

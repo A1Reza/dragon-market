@@ -1,0 +1,16 @@
+[
+  {
+    "mutation": "missing-audit",
+    "status": "PASS",
+    "meaning": "Persisted-effect test detected the injected defect",
+    "command": "go test -count=1 ./internal/postgres -run ^TestHTTPPurchaseIdempotencyPersistedEffects$",
+    "exit": 1
+  },
+  {
+    "mutation": "missing-buyer-debit",
+    "status": "PASS",
+    "meaning": "Persisted-effect test detected the injected defect",
+    "command": "go test -count=1 ./internal/postgres -run ^TestHTTPPurchaseIdempotencyPersistedEffects$",
+    "exit": 1
+  }
+]

@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"math"
 	"time"
 
 	"github.com/google/uuid"
@@ -159,7 +160,7 @@ func (s *AuctionServiceImpl) PlaceBid(ctx context.Context, auctionID, bidderID s
 			return err
 		}
 
-		if topBid != nil && amount < minimumNextBid(topBid.Amount) {
+		if topBid != nil && (minimumNextBid(topBid.Amount) == 0 || amount < minimumNextBid(topBid.Amount)) {
 			return fmt.Errorf("minimum bid is %d: %w", minimumNextBid(topBid.Amount), ErrBidTooLow)
 		}
 
@@ -311,6 +312,12 @@ func (s *AuctionServiceImpl) GetBid(ctx context.Context, bidID string) (*Bid, er
 }
 
 func minimumNextBid(current gold.Amount) gold.Amount {
-	increment := (current + 19) / 20 // ceil(current * 5 / 100)
+	increment := current / 20 // ceil(current * 5 / 100), without overflow
+	if current%20 != 0 {
+		increment++
+	}
+	if current > math.MaxInt64-increment {
+		return 0
+	} // no representable eligible bid
 	return current + increment
 }

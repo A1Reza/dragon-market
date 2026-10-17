@@ -1,0 +1,526 @@
+{
+  "config": {
+    "argv": [
+      "C:\\nvm4w\\nodejs\\node.exe",
+      "S:\\Repos\\dragon-market\\web\\node_modules\\@playwright\\test\\cli.js",
+      "test"
+    ],
+    "configFile": "S:\\Repos\\dragon-market\\web\\playwright.config.ts",
+    "rootDir": "S:/Repos/dragon-market/web/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "S:\\Repos\\dragon-market\\scripts\\e2e-cleanup.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "S:/Repos/dragon-market/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "S:/Repos/dragon-market/web/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "S:\\Repos\\dragon-market\\web\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "chromium",
+        "testDir": "S:\\Repos\\dragon-market\\web\\tests",
+        "snapshotDir": "S:\\Repos\\dragon-market\\web\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5175",
+          "channel": "chrome",
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chromium"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../artifacts/playwright-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "node ../scripts/e2e-stack.mjs",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "reuseExistingServer": false,
+      "timeout": 180000
+    }
+  },
+  "suites": [
+    {
+      "title": "marketplace.spec.ts",
+      "file": "marketplace.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real purchase, explicit replay, auctions, cancellation and persisted SQL effects",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8986,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T06:41:49.902Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "170e8a9d719db4caeb1d-b9c99fffb63e26630b74",
+          "file": "marketplace.spec.ts",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "guild creation and listing cancellation are real mutations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2757,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T06:41:59.520Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "170e8a9d719db4caeb1d-1fdfc283567cf75cc559",
+          "file": "marketplace.spec.ts",
+          "line": 183,
+          "column": 1
+        },
+        {
+          "title": "mobile navigation, keyboard focus and refresh-safe routes",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 180421,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts",
+                        "column": 67,
+                        "line": 33
+                      },
+                      "message": "Error: locator.click: Test timeout of 180000ms exceeded.\nBrowser logs:\n\n<launching> C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,AvoidCorsURLLoaderRestartOnRedirect,Translate,AutoDeElevate,OptimizationHints,NetworkTimeServiceQuerying,AimEnabled,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\\Users\\anon\\AppData\\Local\\Temp\\playwright_chromiumdev_profile-Iv1s3j --remote-debugging-pipe --no-startup-window\n<launched> pid=19256\n[pid=19256][err] [19256:21836:1017/101155.690:ERROR:google_apis\\gcm\\engine\\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT\n[pid=19256][err] [19256:21836:1017/101155.721:ERROR:google_apis\\gcm\\engine\\registration_request.cc:291] Registration response error message: PHONE_REGISTRATION_ERROR\n[pid=19256][err] [19256:21836:1017/101217.942:ERROR:google_apis\\gcm\\engine\\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT\n[pid=19256][err] [19256:21836:1017/101315.610:ERROR:google_apis\\gcm\\engine\\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT\n[pid=19256][err] [19256:21836:1017/101500.453:ERROR:google_apis\\gcm\\engine\\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT\n[pid=19256] <gracefully close start>\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Toggle navigation' })\u001b[22m\n\u001b[2m    - locator resolved to <button aria-label=\"Toggle navigation\" class=\"icon-button mobile-menu\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <a class=\"skip\" href=\"#main-content\">Skip to content</a> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <a class=\"skip\" href=\"#main-content\">Skip to content</a> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    343 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m        - element is visible, enabled and stable\u001b[22m\n\u001b[2m        - scrolling into view if needed\u001b[22m\n\u001b[2m        - done scrolling\u001b[22m\n\u001b[2m        - <a class=\"skip\" href=\"#main-content\">Skip to content</a> intercepts pointer events\u001b[22m\n\u001b[2m      - retrying click action\u001b[22m\n\u001b[2m        - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\n\n  31 | async function nav(page: Page, name: string) {\n  32 |   if (await page.getByRole(\"button\", { name: \"Toggle navigation\" }).isVisible())\n> 33 |     await page.getByRole(\"button\", { name: \"Toggle navigation\" }).click();\n     |                                                                   ^\n  34 |   await page\n  35 |     .getByRole(\"navigation\", { name: \"Main navigation\" })\n  36 |     .getByRole(\"link\", { name, exact: true })\n    at nav (S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts:33:67)\n    at S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts:241:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T06:42:02.291Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-mobile-navigat-06194-cus-and-refresh-safe-routes-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-mobile-navigat-06194-cus-and-refresh-safe-routes-chromium\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-mobile-navigat-06194-cus-and-refresh-safe-routes-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "170e8a9d719db4caeb1d-3b675233722d9c4fbab9",
+          "file": "marketplace.spec.ts",
+          "line": 219,
+          "column": 1
+        },
+        {
+          "title": "Research Lab A/B/D/E uses real endpoints and displays expected rejection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2840,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T06:45:03.862Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "170e8a9d719db4caeb1d-494c3efdb89517b6097c",
+          "file": "marketplace.spec.ts",
+          "line": 254,
+          "column": 1
+        },
+        {
+          "title": "Research Lab Competing buyers executes isolated PostgreSQL assertions",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 151023,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.scenario-panel h3')\nExpected substring: \u001b[32m\"PASS\"\u001b[39m\nTimeout: 150000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.scenario-panel h3') with timeout 150000ms\u001b[22m\n\u001b[2m  - waiting for locator('.scenario-panel h3')\u001b[22m\n\u001b[2m    85 × locator resolved to <h3>…</h3>\u001b[22m\n\u001b[2m       - unexpected value \"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.scenario-panel h3')\nExpected substring: \u001b[32m\"PASS\"\u001b[39m\nTimeout: 150000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.scenario-panel h3') with timeout 150000ms\u001b[22m\n\u001b[2m  - waiting for locator('.scenario-panel h3')\u001b[22m\n\u001b[2m    85 × locator resolved to <h3>…</h3>\u001b[22m\n\u001b[2m       - unexpected value \"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[22m\n\n    at S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts:310:54",
+                    "location": {
+                      "file": "S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts",
+                      "column": 54,
+                      "line": 310
+                    },
+                    "snippet": "  308 |     await page\n  309 |       .getByRole(\"button\", { name: new RegExp(name.replace(\"&\", \"&\")) })\n> 310 |       .click();\n      |                ^\n  311 |     await page.getByRole(\"button\", { name: \"Run isolated scenario\" }).click();\n  312 |     await expect(page.locator(\".scenario-panel h3\")).toContainText(\"PASS\", {\n  313 |       timeout: 150000,"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts",
+                        "column": 54,
+                        "line": 310
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.scenario-panel h3')\nExpected substring: \u001b[32m\"PASS\"\u001b[39m\nTimeout: 150000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.scenario-panel h3') with timeout 150000ms\u001b[22m\n\u001b[2m  - waiting for locator('.scenario-panel h3')\u001b[22m\n\u001b[2m    85 × locator resolved to <h3>…</h3>\u001b[22m\n\u001b[2m       - unexpected value \"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[22m\n\n\n  308 |     await page\n  309 |       .getByRole(\"button\", { name: new RegExp(name.replace(\"&\", \"&\")) })\n> 310 |       .click();\n      |                ^\n  311 |     await page.getByRole(\"button\", { name: \"Run isolated scenario\" }).click();\n  312 |     await expect(page.locator(\".scenario-panel h3\")).toContainText(\"PASS\", {\n  313 |       timeout: 150000,\n    at S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts:310:54"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T06:45:06.985Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-Research-Lab-C-97fc4-lated-PostgreSQL-assertions-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-Research-Lab-C-97fc4-lated-PostgreSQL-assertions-chromium\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-Research-Lab-C-97fc4-lated-PostgreSQL-assertions-chromium\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts",
+                    "column": 54,
+                    "line": 310
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "170e8a9d719db4caeb1d-5bc0249c92c14cf274c6",
+          "file": "marketplace.spec.ts",
+          "line": 302,
+          "column": 3
+        },
+        {
+          "title": "Research Lab Failure & rollback executes isolated PostgreSQL assertions",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 151200,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.scenario-panel h3')\nExpected substring: \u001b[32m\"PASS\"\u001b[39m\nReceived string:    \u001b[31m\"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[39m\nTimeout: 150000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.scenario-panel h3') with timeout 150000ms\u001b[22m\n\u001b[2m  - waiting for locator('.scenario-panel h3')\u001b[22m\n\u001b[2m    279 × locator resolved to <h3>…</h3>\u001b[22m\n\u001b[2m        - unexpected value \"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.scenario-panel h3')\nExpected substring: \u001b[32m\"PASS\"\u001b[39m\nReceived string:    \u001b[31m\"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[39m\nTimeout: 150000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.scenario-panel h3') with timeout 150000ms\u001b[22m\n\u001b[2m  - waiting for locator('.scenario-panel h3')\u001b[22m\n\u001b[2m    279 × locator resolved to <h3>…</h3>\u001b[22m\n\u001b[2m        - unexpected value \"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[22m\n\n    at S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts:310:54",
+                    "location": {
+                      "file": "S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts",
+                      "column": 54,
+                      "line": 310
+                    },
+                    "snippet": "  308 |     await page\n  309 |       .getByRole(\"button\", { name: new RegExp(name.replace(\"&\", \"&\")) })\n> 310 |       .click();\n      |                ^\n  311 |     await page.getByRole(\"button\", { name: \"Run isolated scenario\" }).click();\n  312 |     await expect(page.locator(\".scenario-panel h3\")).toContainText(\"PASS\", {\n  313 |       timeout: 150000,"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts",
+                        "column": 54,
+                        "line": 310
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.scenario-panel h3')\nExpected substring: \u001b[32m\"PASS\"\u001b[39m\nReceived string:    \u001b[31m\"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[39m\nTimeout: 150000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.scenario-panel h3') with timeout 150000ms\u001b[22m\n\u001b[2m  - waiting for locator('.scenario-panel h3')\u001b[22m\n\u001b[2m    279 × locator resolved to <h3>…</h3>\u001b[22m\n\u001b[2m        - unexpected value \"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[22m\n\n\n  308 |     await page\n  309 |       .getByRole(\"button\", { name: new RegExp(name.replace(\"&\", \"&\")) })\n> 310 |       .click();\n      |                ^\n  311 |     await page.getByRole(\"button\", { name: \"Run isolated scenario\" }).click();\n  312 |     await expect(page.locator(\".scenario-panel h3\")).toContainText(\"PASS\", {\n  313 |       timeout: 150000,\n    at S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts:310:54"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T06:47:38.747Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-Research-Lab-F-fba22-lated-PostgreSQL-assertions-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-Research-Lab-F-fba22-lated-PostgreSQL-assertions-chromium\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-Research-Lab-F-fba22-lated-PostgreSQL-assertions-chromium\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts",
+                    "column": 54,
+                    "line": 310
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "170e8a9d719db4caeb1d-448981de704bba39cb18",
+          "file": "marketplace.spec.ts",
+          "line": 302,
+          "column": 3
+        },
+        {
+          "title": "Research Lab Auction settlement executes isolated PostgreSQL assertions",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 151201,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.scenario-panel h3')\nExpected substring: \u001b[32m\"PASS\"\u001b[39m\nReceived string:    \u001b[31m\"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[39m\nTimeout: 150000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.scenario-panel h3') with timeout 150000ms\u001b[22m\n\u001b[2m  - waiting for locator('.scenario-panel h3')\u001b[22m\n\u001b[2m    279 × locator resolved to <h3>…</h3>\u001b[22m\n\u001b[2m        - unexpected value \"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.scenario-panel h3')\nExpected substring: \u001b[32m\"PASS\"\u001b[39m\nReceived string:    \u001b[31m\"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[39m\nTimeout: 150000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.scenario-panel h3') with timeout 150000ms\u001b[22m\n\u001b[2m  - waiting for locator('.scenario-panel h3')\u001b[22m\n\u001b[2m    279 × locator resolved to <h3>…</h3>\u001b[22m\n\u001b[2m        - unexpected value \"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[22m\n\n    at S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts:310:54",
+                    "location": {
+                      "file": "S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts",
+                      "column": 54,
+                      "line": 310
+                    },
+                    "snippet": "  308 |     await page\n  309 |       .getByRole(\"button\", { name: new RegExp(name.replace(\"&\", \"&\")) })\n> 310 |       .click();\n      |                ^\n  311 |     await page.getByRole(\"button\", { name: \"Run isolated scenario\" }).click();\n  312 |     await expect(page.locator(\".scenario-panel h3\")).toContainText(\"PASS\", {\n  313 |       timeout: 150000,"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts",
+                        "column": 54,
+                        "line": 310
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.scenario-panel h3')\nExpected substring: \u001b[32m\"PASS\"\u001b[39m\nReceived string:    \u001b[31m\"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[39m\nTimeout: 150000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.scenario-panel h3') with timeout 150000ms\u001b[22m\n\u001b[2m  - waiting for locator('.scenario-panel h3')\u001b[22m\n\u001b[2m    279 × locator resolved to <h3>…</h3>\u001b[22m\n\u001b[2m        - unexpected value \"FAIL isolated PostgreSQL Testcontainer (not application database)\"\u001b[22m\n\n\n  308 |     await page\n  309 |       .getByRole(\"button\", { name: new RegExp(name.replace(\"&\", \"&\")) })\n> 310 |       .click();\n      |                ^\n  311 |     await page.getByRole(\"button\", { name: \"Run isolated scenario\" }).click();\n  312 |     await expect(page.locator(\".scenario-panel h3\")).toContainText(\"PASS\", {\n  313 |       timeout: 150000,\n    at S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts:310:54"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T06:50:10.881Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-Research-Lab-A-27801-lated-PostgreSQL-assertions-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-Research-Lab-A-27801-lated-PostgreSQL-assertions-chromium\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "S:\\Repos\\dragon-market\\web\\test-results\\marketplace-Research-Lab-A-27801-lated-PostgreSQL-assertions-chromium\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "S:\\Repos\\dragon-market\\web\\tests\\marketplace.spec.ts",
+                    "column": 54,
+                    "line": 310
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "170e8a9d719db4caeb1d-30ad81d43578e89a1498",
+          "file": "marketplace.spec.ts",
+          "line": 302,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T06:41:36.938Z",
+    "duration": 666685.535,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}

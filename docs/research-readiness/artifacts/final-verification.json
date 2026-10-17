@@ -1,0 +1,103 @@
+{
+  "started_at": "2026-10-17T07:13:35.213Z",
+  "commit": "8f31a33ecb6c94c7d26a26a2a6f617772ba27816",
+  "platform": "win32",
+  "node": "v24.18.0",
+  "scope": "full",
+  "results": [
+    {
+      "name": "go-build",
+      "command": "go build ./...",
+      "cwd": ".",
+      "started_at": "2026-10-17T07:13:35.252Z",
+      "finished_at": "2026-10-17T07:13:36.769Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/go-build.log"
+    },
+    {
+      "name": "go-vet",
+      "command": "go vet ./...",
+      "cwd": ".",
+      "started_at": "2026-10-17T07:13:36.771Z",
+      "finished_at": "2026-10-17T07:13:37.512Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/go-vet.log"
+    },
+    {
+      "name": "go-tests",
+      "command": "go test -count=1 ./...",
+      "cwd": ".",
+      "started_at": "2026-10-17T07:13:37.512Z",
+      "finished_at": "2026-10-17T07:13:51.795Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/go-tests.log"
+    },
+    {
+      "name": "go-race",
+      "command": "go test -race -count=1 ./...",
+      "cwd": ".",
+      "started_at": "2026-10-17T07:16:12.695Z",
+      "finished_at": "2026-10-17T07:16:30.204Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/go-race.log",
+      "attempts": [
+        {
+          "name": "go-race",
+          "command": "go test -race -count=1 ./...",
+          "cwd": ".",
+          "started_at": "2026-10-17T07:13:51.796Z",
+          "finished_at": "2026-10-17T07:14:59.776Z",
+          "status": "FAIL",
+          "exit": 1,
+          "artifact": "docs/research-readiness/artifacts/race-docker-readiness-failure.log",
+          "classification": "BLOCKED PostgreSQL fixture startup: Docker readiness inspection timed out"
+        }
+      ]
+    },
+    {
+      "name": "frontend-typecheck",
+      "command": "npm run typecheck",
+      "cwd": "web",
+      "started_at": "2026-10-17T07:14:59.776Z",
+      "finished_at": "2026-10-17T07:15:02.816Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/frontend-typecheck.log"
+    },
+    {
+      "name": "frontend-lint",
+      "command": "npm run lint",
+      "cwd": "web",
+      "started_at": "2026-10-17T07:15:02.817Z",
+      "finished_at": "2026-10-17T07:15:04.615Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/frontend-lint.log"
+    },
+    {
+      "name": "frontend-test",
+      "command": "npm run test",
+      "cwd": "web",
+      "started_at": "2026-10-17T07:15:04.616Z",
+      "finished_at": "2026-10-17T07:15:07.328Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/frontend-test.log"
+    },
+    {
+      "name": "frontend-build",
+      "command": "npm run build",
+      "cwd": "web",
+      "started_at": "2026-10-17T07:15:07.328Z",
+      "finished_at": "2026-10-17T07:15:11.047Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/frontend-build.log"
+    }
+  ],
+  "finished_at": "2026-10-17T07:16:30.204Z"
+}

@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"runtime/debug"
 	"syscall"
 	"time"
 
@@ -103,9 +104,24 @@ func run() error {
 		orderSvc,
 		idemSvc,
 	)
+	address := os.Getenv("HTTP_ADDR")
+	if address == "" {
+		address = "127.0.0.1:8080"
+	}
+	if os.Getenv("APP_ENV") == "development" {
+		commit := "unavailable"
+		if info, ok := debug.ReadBuildInfo(); ok {
+			for _, setting := range info.Settings {
+				if setting.Key == "vcs.revision" {
+					commit = setting.Value
+				}
+			}
+		}
+		handler = api.WithDevelopmentInspection(handler, postgres.NewInspector(db, commit))
+	}
 
 	server := &http.Server{
-		Addr:              ":8080",
+		Addr:              address,
 		Handler:           handler,
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       10 * time.Second,
