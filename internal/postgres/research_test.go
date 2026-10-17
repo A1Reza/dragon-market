@@ -165,6 +165,150 @@ func TestHTTPPurchaseIdempotencyPersistedEffects(t *testing.T) {
 	}
 }
 
+func TestConcurrentIdenticalPurchaseKeyOnePersistedEffect(t *testing.T) {
+	w, i, o, a, idem, _ := researchFixture(t)
+	listing, err := o.List(context.Background(), "research-item", "seller", 100)
+	if err != nil {
+		t.Fatal(err)
+	}
+	server := httptest.NewServer(api.NewRouter(w, i, a, o, idem))
+	defer server.Close()
+	start := make(chan struct{})
+	results := make(chan *http.Response, 2)
+	failures := make(chan error, 2)
+	for range 2 {
+		go func() {
+			<-start
+			req, _ := http.NewRequest("POST", server.URL+"/orders/"+listing.ID+"/buy", strings.NewReader(`{"buyer_id":"buyer"}`))
+			req.Header.Set("Content-Type", "application/json")
+			req.Header.Set("Idempotency-Key", "simultaneous-key")
+			response, err := server.Client().Do(req)
+			if err != nil {
+				failures <- err
+				return
+			}
+			results <- response
+		}()
+	}
+	close(start)
+	replays := 0
+	for range 2 {
+		select {
+		case err := <-failures:
+			t.Fatal(err)
+		case response := <-results:
+			response.Body.Close()
+			if response.StatusCode != 204 {
+				t.Fatalf("status=%d", response.StatusCode)
+			}
+			if response.Header.Get("Idempotency-Replayed") == "true" {
+				replays++
+			}
+		}
+	}
+	if replays != 1 {
+		t.Fatalf("replay headers=%d", replays)
+	}
+	assertPurchaseState(t, "buyer")
+	var keys int
+	if err := testDB.QueryRow(`SELECT count(*) FROM idempotency_records`).Scan(&keys); err != nil || keys != 1 {
+		t.Fatalf("keys=%d err=%v", keys, err)
+	}
+}
+
+func TestHTTPBidReplayReservesOnce(t *testing.T) {
+	w, i, o, a, idem, _ := researchFixture(t)
+	if _, err := testDB.Exec(`UPDATE items SET type='legendary'`); err != nil {
+		t.Fatal(err)
+	}
+	created, err := a.StartAuction(context.Background(), "research-item", "seller")
+	if err != nil {
+		t.Fatal(err)
+	}
+	handler := api.NewRouter(w, i, a, o, idem)
+	var first []byte
+	for attempt := 0; attempt < 2; attempt++ {
+		req := httptest.NewRequest("POST", "/auctions/"+created.ID+"/bids", strings.NewReader(`{"bidder_id":"buyer","amount":100}`))
+		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("Idempotency-Key", "repeated-bid")
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, req)
+		if response.Code != 201 {
+			t.Fatalf("status=%d body=%s", response.Code, response.Body.String())
+		}
+		if attempt == 0 {
+			first = append([]byte{}, response.Body.Bytes()...)
+		} else {
+			assertJSONEqual(t, response.Body.Bytes(), first)
+			if response.Header().Get("Idempotency-Replayed") != "true" {
+				t.Fatal("missing replay header")
+			}
+		}
+	}
+	var reserved, bids, audits int
+	if err := testDB.QueryRow(`SELECT reserved FROM guilds WHERE id='buyer'`).Scan(&reserved); err != nil {
+		t.Fatal(err)
+	}
+	if err := testDB.QueryRow(`SELECT count(*) FROM bids`).Scan(&bids); err != nil {
+		t.Fatal(err)
+	}
+	if err := testDB.QueryRow(`SELECT count(*) FROM wallet_transactions`).Scan(&audits); err != nil {
+		t.Fatal(err)
+	}
+	if reserved != 100 || bids != 1 || audits != 1 {
+		t.Fatalf("reserved=%d bids=%d audits=%d", reserved, bids, audits)
+	}
+}
+
+func TestWorkerAloneSettlesExpiredAuction(t *testing.T) {
+	w, i, _, _, _, tx := researchFixture(t)
+	if _, err := testDB.Exec(`UPDATE items SET type='legendary'`); err != nil {
+		t.Fatal(err)
+	}
+	clock := &researchClock{now: time.Now().UTC()}
+	svc := auction.NewAuctionService(NewAuctionRepository(testDB), w, i, tx, auction.WithClock(clock))
+	created, err := svc.StartAuction(context.Background(), "research-item", "seller")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := svc.PlaceBid(context.Background(), created.ID, "buyer", 100); err != nil {
+		t.Fatal(err)
+	}
+	clock.advance(25 * time.Hour)
+	ctx, cancel := context.WithCancel(context.Background())
+	done := make(chan struct{})
+	go func() { defer close(done); auction.RunSettlementWorker(ctx, svc, time.Hour) }()
+	defer func() { cancel(); <-done }()
+	deadline := time.NewTimer(5 * time.Second)
+	defer deadline.Stop()
+	poll := time.NewTicker(10 * time.Millisecond)
+	defer poll.Stop()
+	for {
+		var owner string
+		if err := testDB.QueryRow(`SELECT owner_id FROM items WHERE id='research-item'`).Scan(&owner); err != nil {
+			t.Fatal(err)
+		}
+		if owner == "buyer" {
+			break
+		}
+		select {
+		case <-deadline.C:
+			t.Fatal("worker did not commit settlement")
+		case <-poll.C:
+		}
+	}
+	var gold, reserve, audits int
+	if err := testDB.QueryRow(`SELECT gold,reserved FROM guilds WHERE id='buyer'`).Scan(&gold, &reserve); err != nil {
+		t.Fatal(err)
+	}
+	if err := testDB.QueryRow(`SELECT count(*) FROM wallet_transactions`).Scan(&audits); err != nil {
+		t.Fatal(err)
+	}
+	if gold != 9900 || reserve != 0 || audits != 3 {
+		t.Fatalf("worker gold=%d reserve=%d audit=%d", gold, reserve, audits)
+	}
+}
+
 type failOrderUpdate struct{ *OrderRepository }
 
 var errDeliberateRollback = errors.New("test-only late order update failure")
