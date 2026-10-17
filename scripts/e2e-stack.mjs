@@ -56,11 +56,16 @@ try {
         [
           "exec",
           name,
-          "pg_isready",
+          "psql",
+          "-h",
+          "127.0.0.1",
           "-U",
           "research",
           "-d",
           "dragon_research_disposable",
+          "-At",
+          "-c",
+          "SELECT 1",
         ],
         { stdio: "pipe" },
       );

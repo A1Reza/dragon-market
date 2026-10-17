@@ -3,10 +3,13 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { root } from "./processes.mjs";
 const full = !process.argv.includes("--fast");
-const npmCli =
-  process.env.npm_execpath ||
-  resolve(dirname(process.execPath), "node_modules/npm/bin/npm-cli.js");
-if (!existsSync(npmCli))
+const npmCli = [
+  process.env.npm_execpath,
+  resolve(dirname(process.execPath), "node_modules/npm/bin/npm-cli.js"),
+  resolve(dirname(process.execPath), "../lib/node_modules/npm/bin/npm-cli.js"),
+  resolve(dirname(process.execPath), "../share/nodejs/npm/bin/npm-cli.js"),
+].find((path) => path && existsSync(path));
+if (!npmCli)
   throw new Error(
     "npm CLI not found beside Node; run via npm or install standard Node.js",
   );

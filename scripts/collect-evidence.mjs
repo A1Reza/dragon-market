@@ -158,7 +158,13 @@ baseline.migration_checksums = readdirSync(resolve(root, "migrations/up"))
   .sort()
   .map((file) => ({
     path: "migrations/up/" + file,
-    sha256: hash("migrations/up/" + file),
+    sha256: createHash("sha256")
+      .update(
+        spawnSync("git", ["show", "HEAD:migrations/up/" + file], { cwd: root })
+          .stdout,
+      )
+      .digest("hex"),
+    checksum_source: "Git blob bytes (independent of checkout line endings)",
   }));
 baseline.tools.postgresql = snapshot?.database_version || "NOT CHECKED";
 baseline.tools.browser = smoke.browser_version;
