@@ -17,3 +17,11 @@ Near int64 maximum, `(current+19)/20` and addition overflowed, permitting a less
 ## FIX-04: malformed trailing oracle payload
 
 HTTP oracle accepted a valid first JSON object followed by garbage or another object. TestHTTPOracleRejectsTrailingPayload reproduces both cases. An EOF check now rejects trailing input before any price is returned. No pricing policy or refresh cadence changed. Evidence: artifacts/boundaries-before.log and boundaries-after.log.
+
+## SETUP-01: original Compose nested read-only mount conflict
+
+Observed during actual one-command startup: runc could not create the 999_seed.sql mountpoint inside the read-only migrations directory. Compose now mounts each immutable original migration file and the seed individually; SQL contents are unchanged. Startup then succeeded on a dedicated workbench host DB port (15432), preserving the unrelated service already using 5432. Original backend-only Compose defaults to 5432; POSTGRES_PORT can override it. No database was wiped. This is a development setup correction, not a domain fix.
+
+## Test/driver corrections during implementation
+
+The first browser run passed purchase/auction SQL checks but failed mobile focus and Lab report presentation. The skip link covered the mobile menu while focused; its position/focus activation were corrected. go test -json splits long output lines, so the test runner now reassembles events before parsing reports (with a unit regression). JSONB canonically reorders response fields: bid replay tests compare JSON semantics, not byte ordering; no domain assertion was weakened. Initial browser failures and final rerun evidence are preserved separately.
