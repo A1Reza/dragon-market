@@ -47,6 +47,10 @@ If the browser download is unavailable and Chrome is installed, use `$env:PLAYWR
 
 The [research-readiness directory](docs/research-readiness/) contains original execution evidence, invariant inventory, documented backend fixes, API additions, final statuses and a human review checklist. Keep it and the optional UI out of future backend-only experimental task snapshots unless explicitly included in the study condition.
 
+## Temporary online human review
+
+For invited reviewers, a separate Render Free + Neon Free deployment is prepared on `feat/human-review-deployment`. It uses a reviewer access gate, dedicated disposable database, visible deployed SHA/known issue, and no publicly callable test harness. The local workbench above must remain local. See [the deployment and review protocol](docs/research-readiness/human-review-deployment.md) for account setup, exact configuration, independent review, and shutdown before AI-agent experiments. Preparation does not imply a live deployment or human approval.
+
 ## What this project demonstrates
 
 - Clean separation between Go domain logic, HTTP transport, and PostgreSQL infrastructure

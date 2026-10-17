@@ -1,0 +1,20 @@
+# Temporary human review only. No paid resources or test runner.
+services:
+  - type: web
+    name: dragon-market-human-review
+    runtime: docker
+    plan: free
+    region: frankfurt
+    branch: feat/human-review-deployment
+    dockerfilePath: ./Dockerfile.review
+    autoDeployTrigger: 'off'
+    healthCheckPath: /healthz
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: REVIEW_USERNAME
+        sync: false
+      - key: REVIEW_PASSWORD
+        generateValue: true
+      - key: REVIEW_DISPOSABLE_DATABASE
+        value: dragon_review_disposable

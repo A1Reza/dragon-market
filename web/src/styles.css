@@ -2123,6 +2123,20 @@ main:focus {
     font-size: 34px;
   }
 }
+.review-notice {
+  border: 1px solid #8b6d32;
+  border-radius: 12px;
+  background: linear-gradient(110deg, #252333, #181e2b);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  color: #e2d6b9;
+  font-size: 13px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+.review-notice strong, .review-notice a { color: #f2cf85; }
+.review-notice p { margin: 8px 0; }
+.review-notice code { font-size: 11px; }
 @media (prefers-reduced-motion: reduce) {
   *,
   *:before,
