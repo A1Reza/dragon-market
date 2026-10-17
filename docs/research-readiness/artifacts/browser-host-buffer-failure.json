@@ -1,0 +1,80 @@
+[
+  {
+    "type": "resource-snapshot",
+    "snapshot": {
+      "pageref": "page@e8089fa0c961820adddc58de71b9fa5c",
+      "startedDateTime": "2026-10-17T07:07:19.682Z",
+      "time": 1.6880000000019209,
+      "request": {
+        "method": "POST",
+        "url": "http://127.0.0.1:5175/api/auctions",
+        "httpVersion": "HTTP/1.1",
+        "cookies": [],
+        "headers": [
+          {
+            "name": "sec-ch-ua-platform",
+            "value": "\"Windows\""
+          },
+          {
+            "name": "Referer",
+            "value": "http://127.0.0.1:5175/"
+          },
+          {
+            "name": "User-Agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"
+          },
+          {
+            "name": "sec-ch-ua",
+            "value": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\""
+          },
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "name": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "name": "Accept-Language",
+            "value": "en-US"
+          }
+        ],
+        "queryString": [],
+        "headersSize": -1,
+        "bodySize": 84,
+        "postData": {
+          "mimeType": "application/json",
+          "text": "",
+          "params": [],
+          "_file": "resources/16a592797fb8b330ebda6ea71c0eed2997cc8f3c.json"
+        }
+      },
+      "response": {
+        "status": -1,
+        "statusText": "",
+        "httpVersion": "HTTP/1.1",
+        "cookies": [],
+        "headers": [],
+        "content": {
+          "size": -1,
+          "mimeType": "x-unknown"
+        },
+        "headersSize": -1,
+        "bodySize": -1,
+        "redirectURL": "",
+        "_transferSize": -1,
+        "_failureText": "net::ERR_NO_BUFFER_SPACE"
+      },
+      "cache": {},
+      "timings": {
+        "send": -1,
+        "wait": -1,
+        "receive": -1
+      },
+      "_frameref": "frame@769a7668f8a6299e749c15557733336f",
+      "_monotonicTime": 36415.643,
+      "_resourceType": "fetch"
+    }
+  }
+]

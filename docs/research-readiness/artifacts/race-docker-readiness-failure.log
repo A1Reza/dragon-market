@@ -1,0 +1,21 @@
+?   	market-dragon/cmd/mock-oracle	[no test files]
+ok  	market-dragon/cmd/research-lab	1.050s
+?   	market-dragon/cmd/server	[no test files]
+ok  	market-dragon/internal/api	1.078s
+ok  	market-dragon/internal/auction	1.068s
+?   	market-dragon/internal/gold	[no test files]
+ok  	market-dragon/internal/guild	1.068s
+ok  	market-dragon/internal/idempotency	1.065s
+?   	market-dragon/internal/inspection	[no test files]
+ok  	market-dragon/internal/item	1.078s
+ok  	market-dragon/internal/oracle	1.067s
+ok  	market-dragon/internal/order	1.052s
+panic: start container: started hook: wait until ready: internal check: container exec inspect: Get "http://%2F%2F.%2Fpipe%2Fdocker_engine/v1.52/exec/7e2fee4d8e808dffba57dddb00fb47859ae986f9f947b5e09fdc0364f11d539e/json": context deadline exceeded, host port waiting failed
+
+goroutine 1 [running]:
+market-dragon/internal/postgres.TestMain(0xc00025a780)
+	S:/Repos/dragon-market/internal/postgres/setup_test.go:50 +0xc77
+main.main()
+	_testmain.go:96 +0x172
+FAIL	market-dragon/internal/postgres	63.969s
+FAIL

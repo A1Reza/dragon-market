@@ -1,0 +1,34 @@
+[
+  {
+    "path": "initial-assessment.md",
+    "status": "PASS"
+  },
+  {
+    "path": "baseline-test-report.md",
+    "status": "PASS"
+  },
+  {
+    "path": "invariant-catalog.md",
+    "status": "PASS"
+  },
+  {
+    "path": "test-coverage-matrix.md",
+    "status": "PASS"
+  },
+  {
+    "path": "known-issues.md",
+    "status": "PASS"
+  },
+  {
+    "path": "api-changes.md",
+    "status": "PASS"
+  },
+  {
+    "path": "human-review-checklist.md",
+    "status": "PASS"
+  },
+  {
+    "path": "reproduction-guide.md",
+    "status": "PASS"
+  }
+]
