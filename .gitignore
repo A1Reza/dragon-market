@@ -1,0 +1,10 @@
+web/node_modules/
+web/dist/
+web/test-results/
+web/playwright-report/
+web/coverage/
+*.exe
+.env
+web/.env.local
+artifacts/
+!docs/research-readiness/artifacts/
