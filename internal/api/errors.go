@@ -49,6 +49,7 @@ func writeDomainError(w http.ResponseWriter, err error) bool {
 		errors.Is(err, order.ErrCancelOrderNotListed),
 		errors.Is(err, guild.ErrInsufficientBalance),
 		errors.Is(err, guild.ErrInsufficientReserve),
+		errors.Is(err, guild.ErrAmountOverflow),
 		errors.Is(err, guild.ErrDailyLimitReached):
 		http.Error(w, err.Error(), http.StatusConflict)
 	default:

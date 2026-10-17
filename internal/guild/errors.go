@@ -10,4 +10,5 @@ var (
 	ErrInsufficientBalance = errors.New("insufficient available balance")
 	ErrInsufficientReserve = errors.New("insufficient reserved balance")
 	ErrDailyLimitReached   = errors.New("daily spending limit reached")
+	ErrAmountOverflow      = errors.New("gold amount exceeds accounting range")
 )

@@ -1324,7 +1324,7 @@ function Inspector({
                       {after ? gold(after.available) : "Unavailable"} G
                     </span>
                     <span>
-                      Daily used: {gold(before.daily_spent)} →{" "}
+                      Completed spending: {gold(before.daily_spent)} →{" "}
                       {after ? gold(after.daily_spent) : "Unavailable"} G
                     </span>
                   </div>

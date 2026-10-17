@@ -25,8 +25,8 @@ func NewWalletRepository(db *sql.DB) *Repository {
 
 func (r *Repository) Create(ctx context.Context, g *guild.Guild) error {
 	result, err := r.guildConn(ctx).ExecContext(ctx, `INSERT INTO guilds
-		(id, gold, reserved, daily_limit, daily_spent, daily_spent_on)
-		VALUES ($1, $2, $3, $4, $5, $6)
+		(id, gold, reserved, daily_limit, daily_spent, daily_spent_on, daily_accounting_version)
+		VALUES ($1, $2, $3, $4, $5, $6, 2)
 		ON CONFLICT (id) DO NOTHING`,
 		g.ID, g.Gold, g.Reserved, g.DailyLimit, g.DailySpent, g.SpentOn)
 	if err != nil {
@@ -56,7 +56,7 @@ func (r *Repository) GuildExists(ctx context.Context, guildID string) (bool, err
 
 func (r *Repository) Get(ctx context.Context, id string) (*guild.Guild, error) {
 	q := r.guildConn(ctx)
-	row := q.QueryRowContext(ctx, `SELECT id, gold, reserved, daily_limit, daily_spent, daily_spent_on FROM guilds WHERE id = $1 FOR UPDATE`, id)
+	row := q.QueryRowContext(ctx, `SELECT id, gold, reserved, daily_limit, daily_spent, daily_spent_on FROM guilds WHERE id = $1 AND daily_accounting_version = 2 FOR UPDATE`, id)
 
 	var g guild.Guild
 	err := row.Scan(&g.ID, &g.Gold, &g.Reserved, &g.DailyLimit, &g.DailySpent, &g.SpentOn)
