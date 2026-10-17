@@ -1,0 +1,17 @@
+{
+  "repository_url": "https://github.com/houtanrocky/dragon-market",
+  "original_commit_sha": "ac599ff4da21b31171c277c96c7ae808dac012a5",
+  "original_branch": "master",
+  "original_working_tree": "clean",
+  "branch": "feat/visual-research-workbench",
+  "candidate_final_commit_sha": null,
+  "human_approval": "PENDING_HUMAN_REVIEW",
+  "captured_at": "2026-10-17T06:20:24Z",
+  "tools": {"go": "go1.26.0 windows/amd64", "go_mod": "1.25.0", "node": "v24.18.0", "npm": "11.16.0", "docker": "29.1.5", "docker_desktop": "4.58.0", "compose": "v5.0.1", "postgresql": "NOT YET QUERIED"},
+  "baseline_tests": {"status": "PASS", "commands": ["go build ./...", "go test ./...", "go vet ./...", "go test -race ./..."], "artifacts": "docs/research-readiness/artifacts/baseline-*.log", "completed_at": "2026-10-17T06:24:00Z"},
+  "final_tests": [],
+  "known_failures": [],
+  "unresolved_issues": ["See initial-assessment.md; inspection findings require validation"],
+  "migration_checksums": [],
+  "frontend_lockfile": null
+}
