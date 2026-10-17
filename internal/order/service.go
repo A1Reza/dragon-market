@@ -60,6 +60,9 @@ func (s *OrderServiceImpl) List(ctx context.Context, itemID, sellerID string, pr
 		if it.OwnerID != sellerID {
 			return ErrOrderItemNotOwnedBySeller
 		}
+		if it.Type == item.Legendary {
+			return fmt.Errorf("%w: legendary items require auctions", ErrInvalidOrder)
+		}
 		if it.Status == item.ListedInAuction {
 			return ErrCantListOrderListedInAuction
 		}
