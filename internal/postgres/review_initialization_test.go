@@ -46,7 +46,7 @@ func TestReviewDatabaseInitializationSafety(t *testing.T) {
 	if err := db.QueryRow(`SELECT count(*) FROM dragon_review_migrations`).Scan(&ledger); err != nil {
 		t.Fatal(err)
 	}
-	if gold != 9123 || ledger != 12 || version != 2 {
+	if gold != 9123 || ledger != 13 || version != 2 {
 		t.Fatalf("restart changed persisted state or accounting version: gold=%d ledger=%d version=%d", gold, ledger, version)
 	}
 	changed := fstest.MapFS{}
@@ -109,7 +109,7 @@ func TestReviewLegacyAccountingIsRefusedWithoutDataLoss(t *testing.T) {
 	}
 	// Reproduce an actual previous review schema with its immutable migration ledger.
 	for _, p := range append(paths, "dev/seed.sql") {
-		if strings.Contains(p, "000011_") {
+		if strings.Contains(p, "000011_") || strings.Contains(p, "000012_") {
 			continue
 		}
 		b, err := fs.ReadFile(files, p)

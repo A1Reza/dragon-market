@@ -259,7 +259,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"item_id\": \"{{legendary_item_id}}\",\n  \"seller_id\": \"{{seller_id}}\"\n}",
+              "raw": "{\n  \"item_id\": \"{{legendary_item_id}}\",\n  \"seller_id\": \"{{seller_id}}\",\n  \"base_price\": 500\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": { "raw": "{{base_url}}/auctions", "host": ["{{base_url}}"], "path": ["auctions"] }

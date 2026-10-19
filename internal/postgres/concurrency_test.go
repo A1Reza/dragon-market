@@ -83,8 +83,8 @@ func TestConcurrentBids_LeavesSingleHighestReservation(t *testing.T) {
 		('seller', 0, 0, 0), ('bidder-1', 1000, 0, 0), ('bidder-2', 1000, 0, 0);
 		INSERT INTO items (id, name, type, owner_id, status, base_price)
 		VALUES ('legend-1', 'Soul Reaver', 'legendary', 'seller', 'listed_in_auction', 100);
-		INSERT INTO auctions (id, item_id, seller_id, ends_at, status)
-		VALUES ('auction-1', 'legend-1', 'seller', NOW() + INTERVAL '1 hour', 'active');`)
+		INSERT INTO auctions (id, item_id, seller_id, ends_at, status, base_price)
+		VALUES ('auction-1', 'legend-1', 'seller', NOW() + INTERVAL '1 hour', 'active', 100);`)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -144,7 +144,7 @@ func TestConcurrentAuctionStart_OnlyOneSucceeds(t *testing.T) {
 	for range 2 {
 		go func() {
 			<-start
-			_, err := svc.StartAuction(ctx, "legend-1", "seller")
+			_, err := svc.StartAuction(ctx, "legend-1", "seller", 100)
 			results <- err
 		}()
 	}

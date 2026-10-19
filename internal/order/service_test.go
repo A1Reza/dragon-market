@@ -214,15 +214,21 @@ func TestService_List_Success(t *testing.T) {
 
 func TestService_List_InvalidPrice(t *testing.T) {
 	ctx := context.Background()
-	oRepo := &MockOrderRepo{orders: map[string]*LimitOrder{}}
-	r := &MockOrderRepo{orders: map[string]*LimitOrder{}}
-
-	iSvc := &MockItemService{defaultItem()}
-	wSvc := &MockWalletService{defaultGuilds()}
-
-	_, err := NewOrderService(oRepo, wSvc, iSvc, r).List(ctx, itemID, sellerID, 0)
-	if err == nil {
-		t.Error("expected error for zero price, got nil")
+	for _, price := range []gold.Amount{0, -1} {
+		oRepo := &MockOrderRepo{orders: map[string]*LimitOrder{}}
+		iSvc := &MockItemService{defaultItem()}
+		wSvc := &MockWalletService{defaultGuilds()}
+		_, err := NewOrderService(oRepo, wSvc, iSvc, oRepo).List(ctx, item2ID, sellerID, price)
+		if !errors.Is(err, ErrInvalidOrder) {
+			t.Fatalf("listing price %d: error = %v, want ErrInvalidOrder", price, err)
+		}
+		it, err := iSvc.GetItem(ctx, item2ID)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if len(oRepo.orders) != 0 || it.Status != item.Free {
+			t.Fatalf("listing price %d: rejected listing changed state", price)
+		}
 	}
 }
 

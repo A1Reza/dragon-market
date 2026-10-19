@@ -196,11 +196,11 @@ func TestDailyLimitAuctionRolloverCancelAndSettle(t *testing.T) {
 		INSERT INTO items(id,name,type,owner_id,status,base_price) VALUES('second','Second wand','legendary','seller','free',100)`); err != nil {
 		t.Fatal(err)
 	}
-	first, err := a.StartAuction(ctx, "research-item", "seller")
+	first, err := a.StartAuction(ctx, "research-item", "seller", 100)
 	if err != nil {
 		t.Fatal(err)
 	}
-	second, err := a.StartAuction(ctx, "second", "seller")
+	second, err := a.StartAuction(ctx, "second", "seller", 100)
 	if err != nil {
 		t.Fatal(err)
 	}

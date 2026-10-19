@@ -21,25 +21,28 @@ import (
 
 // -- start auction req
 type startAuctionRequest struct {
-	ItemID   string `json:"item_id"`
-	SellerID string `json:"seller_id"`
+	ItemID    string      `json:"item_id"`
+	SellerID  string      `json:"seller_id"`
+	BasePrice gold.Amount `json:"base_price"`
 }
 
 type auctionResponse struct {
-	ID       string                `json:"id"`
-	ItemID   string                `json:"item_id"`
-	SellerID string                `json:"seller_id"`
-	EndsAt   time.Time             `json:"ends_at"`
-	Status   auction.AuctionStatus `json:"status"`
+	ID        string                `json:"id"`
+	ItemID    string                `json:"item_id"`
+	SellerID  string                `json:"seller_id"`
+	BasePrice gold.Amount           `json:"base_price"`
+	EndsAt    time.Time             `json:"ends_at"`
+	Status    auction.AuctionStatus `json:"status"`
 }
 
 func newAuctionResponse(a *auction.Auction) auctionResponse {
 	return auctionResponse{
-		ID:       a.ID,
-		ItemID:   a.ItemID,
-		SellerID: a.SellerID,
-		EndsAt:   a.EndsAt,
-		Status:   a.Status,
+		ID:        a.ID,
+		ItemID:    a.ItemID,
+		SellerID:  a.SellerID,
+		BasePrice: a.BasePrice,
+		EndsAt:    a.EndsAt,
+		Status:    a.Status,
 	}
 }
 
@@ -80,7 +83,7 @@ func newGetBidResponse(b *auction.Bid) placeBidResponse {
 }
 
 type AuctionService interface {
-	StartAuction(ctx context.Context, itemID, sellerID string) (*auction.Auction, error)
+	StartAuction(ctx context.Context, itemID, sellerID string, basePrice gold.Amount) (*auction.Auction, error)
 	PlaceBid(ctx context.Context, auctionID, bidderID string, amount gold.Amount) (*auction.Bid, error)
 	CancelBid(ctx context.Context, auctionID, bidID, bidderID string) error
 	EndAuction(ctx context.Context, auctionID string) error
@@ -134,7 +137,7 @@ func (h *auctionHandler) Start(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	created, err := h.svc.StartAuction(r.Context(), req.ItemID, req.SellerID)
+	created, err := h.svc.StartAuction(r.Context(), req.ItemID, req.SellerID, req.BasePrice)
 
 	if errors.Is(err, auction.ErrItemNotAvailable) {
 		http.Error(w, "item is not free to be listed in auction", http.StatusBadRequest)

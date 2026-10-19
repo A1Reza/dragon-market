@@ -221,7 +221,7 @@ func TestHTTPBidReplayReservesOnce(t *testing.T) {
 	if _, err := testDB.Exec(`UPDATE items SET type='legendary'`); err != nil {
 		t.Fatal(err)
 	}
-	created, err := a.StartAuction(context.Background(), "research-item", "seller")
+	created, err := a.StartAuction(context.Background(), "research-item", "seller", 100)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -267,7 +267,7 @@ func TestWorkerAloneSettlesExpiredAuction(t *testing.T) {
 	}
 	clock := &researchClock{now: time.Now().UTC()}
 	svc := auction.NewAuctionService(NewAuctionRepository(testDB), w, i, tx, auction.WithClock(clock))
-	created, err := svc.StartAuction(context.Background(), "research-item", "seller")
+	created, err := svc.StartAuction(context.Background(), "research-item", "seller", 100)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -370,7 +370,7 @@ func TestResearchSettlement(t *testing.T) {
 	}
 	clock := &researchClock{now: time.Now().UTC()}
 	svc := auction.NewAuctionService(NewAuctionRepository(testDB), w, i, tx, auction.WithClock(clock))
-	a, err := svc.StartAuction(ctx, "research-item", "seller")
+	a, err := svc.StartAuction(ctx, "research-item", "seller", 100)
 	if err != nil {
 		t.Fatal(err)
 	}

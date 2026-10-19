@@ -135,7 +135,7 @@ export function ResearchLab({
       method: "POST",
       path: auction ? "/auctions" : "/orders",
       body: auction
-        ? { item_id: item.id, seller_id: guilds.seller }
+        ? { item_id: item.id, seller_id: guilds.seller, base_price: 100 }
         : { item_id: item.id, owner_id: guilds.seller, base_price: 100 },
       actor: guilds.seller,
       label: auction ? "Lab: start auction" : "Lab: create listing",

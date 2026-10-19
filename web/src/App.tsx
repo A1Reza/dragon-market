@@ -249,7 +249,11 @@ export function App() {
           m = {
             method: "POST",
             path: "/auctions",
-            body: { item_id: editor.item!.id, seller_id: actor },
+            body: {
+              item_id: editor.item!.id,
+              seller_id: actor,
+              base_price: integer(f.get("price")),
+            },
             actor,
             label: "Start auction",
             target: editor.item!.id,
@@ -792,10 +796,10 @@ export function App() {
               <div className="info-strip">
                 <Gavel size={20} />
                 <p>
-                  Backend deadlines are UTC. Minimum increment: 5%, rounded up
-                  in smallest units. Bids in the final five minutes extend the
-                  deadline by five minutes. Refresh to inspect worker
-                  settlement.
+                  Every bid must meet the auction base price. Backend deadlines
+                  are UTC. Minimum increment: 5%, rounded up in smallest units.
+                  Bids in the final five minutes extend the deadline by five
+                  minutes. Refresh to inspect worker settlement.
                 </p>
               </div>
               <div className="auction-grid">
@@ -833,12 +837,15 @@ export function App() {
                             {new Date(a.ends_at).toLocaleString()}
                           </small>
                         </p>
+                        <p>
+                          Auction base price: <Money value={a.base_price} />
+                        </p>
                         <div className="auction-price">
                           <span>
                             {top ? "Highest active bid" : "No active bids"}
                             <small>
                               {top?.bidder_id ||
-                                "First bid can be any positive amount"}
+                                `First bid must be at least ${a.base_price} smallest units`}
                             </small>
                           </span>
                           {top && <Money value={top.amount} />}
@@ -848,7 +855,7 @@ export function App() {
                             Next eligible amount ≥{" "}
                             {nextBid(top.amount) === null
                               ? "unavailable (numeric range)"
-                              : `${nextBid(top.amount)} smallest units`}
+                              : `${Math.max(a.base_price, nextBid(top.amount)!)} smallest units`}
                           </p>
                         )}
                         {a.status === "active" && a.seller_id !== actor && (
@@ -1076,17 +1083,37 @@ export function App() {
               </>
             )}
             {editor.kind === "auction" && (
-              <p>
-                Start a 24-hour auction for <b>{editor.item?.name}</b>. The
-                backend sets the deadline and determines eligibility.
-              </p>
+              <>
+                <p>
+                  Start a 24-hour auction for <b>{editor.item?.name}</b>.
+                </p>
+                <Field label="Auction base price (integer smallest units)">
+                  <input
+                    name="price"
+                    type="number"
+                    min="1"
+                    max={Number.MAX_SAFE_INTEGER}
+                    step="1"
+                    defaultValue={editor.item?.base_price}
+                    required
+                    autoFocus
+                  />
+                </Field>
+                <p>
+                  Choose any positive price, lower or higher than the item's
+                  base price. Every bid, including the first, must meet this
+                  price. It stays fixed for this auction, even if the item's
+                  base price changes.
+                </p>
+              </>
             )}
             {editor.kind === "bid" && (
               <Field label="Bid amount (integer smallest units)">
                 <input
                   name="amount"
                   type="number"
-                  min="1"
+                  min={editor.auction!.base_price}
+                  max={Number.MAX_SAFE_INTEGER}
                   step="1"
                   required
                   autoFocus

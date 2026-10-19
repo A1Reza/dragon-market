@@ -35,6 +35,7 @@ export const AuctionSchema = z.object({
   id: z.string(),
   item_id: z.string(),
   seller_id: z.string(),
+  base_price: amount.positive(),
   ends_at: z.string(),
   status: z.enum(["active", "ended"]),
 });

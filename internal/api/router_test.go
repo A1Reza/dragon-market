@@ -18,7 +18,7 @@ type routeAuctionService struct {
 	startErr error
 }
 
-func (s routeAuctionService) StartAuction(context.Context, string, string) (*auction.Auction, error) {
+func (s routeAuctionService) StartAuction(context.Context, string, string, gold.Amount) (*auction.Auction, error) {
 	return nil, s.startErr
 }
 func (s routeAuctionService) PlaceBid(context.Context, string, string, gold.Amount) (*auction.Bid, error) {
@@ -59,7 +59,7 @@ func TestRouter_MissingReferencedItemReturns404(t *testing.T) {
 		},
 		{
 			name: "auction", method: http.MethodPost, path: "/auctions",
-			body:   `{"item_id":"missing","seller_id":"seller"}`,
+			body:   `{"item_id":"missing","seller_id":"seller","base_price":100}`,
 			router: NewRouter(nil, nil, routeAuctionService{startErr: item.ErrItemNotFound}, nil, nil),
 		},
 	}

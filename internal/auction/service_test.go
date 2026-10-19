@@ -218,19 +218,84 @@ func newService(repo *mockAuctionRepository, wallet *mockWallet, items *mockItem
 }
 
 func activeAuction(endsAt time.Time) *Auction {
-	return &Auction{ID: auctionID, ItemID: itemID, SellerID: sellerID, EndsAt: endsAt, Status: ActiveAuction}
+	return &Auction{ID: auctionID, ItemID: itemID, SellerID: sellerID, BasePrice: 100, EndsAt: endsAt, Status: ActiveAuction}
 }
 
 func TestService_StartAuction(t *testing.T) {
-	repo, wallet, items := newMockAuctionRepository(), &mockWallet{}, newMockItems()
-	svc := newService(repo, wallet, items, fixedNow)
-
-	a, err := svc.StartAuction(context.Background(), itemID, sellerID)
-	if err != nil {
-		t.Fatalf("StartAuction() error = %v", err)
+	for _, tc := range []struct {
+		name  string
+		price gold.Amount
+	}{
+		{"minimum positive", 1},
+		{"below item price", 500},
+		{"equal to item price", 750},
+		{"above item price", 1000},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			repo, wallet, items := newMockAuctionRepository(), &mockWallet{}, newMockItems()
+			items.items[itemID].BasePrice = 750
+			svc := newService(repo, wallet, items, fixedNow)
+			a, err := svc.StartAuction(context.Background(), itemID, sellerID, tc.price)
+			if err != nil {
+				t.Fatalf("StartAuction() error = %v", err)
+			}
+			if a.BasePrice != tc.price || a.EndsAt != fixedNow.Add(24*time.Hour) || items.items[itemID].Status != item.ListedInAuction {
+				t.Fatal("auction price, deadline or item status was not initialized")
+			}
+			if items.items[itemID].BasePrice != 750 {
+				t.Fatal("choosing an auction price changed the item's base price")
+			}
+		})
 	}
-	if a.EndsAt != fixedNow.Add(24*time.Hour) || items.items[itemID].Status != item.ListedInAuction {
-		t.Fatal("auction deadline or item status was not initialized")
+}
+
+func TestService_StartAuctionRequiresPositiveBasePrice(t *testing.T) {
+	for _, price := range []gold.Amount{0, -1} {
+		repo, wallet, items := newMockAuctionRepository(), &mockWallet{}, newMockItems()
+		svc := newService(repo, wallet, items, fixedNow)
+		if _, err := svc.StartAuction(context.Background(), itemID, sellerID, price); !errors.Is(err, ErrInvalidBasePrice) {
+			t.Fatalf("base price %d: error = %v", price, err)
+		}
+		if len(repo.auctions) != 0 || items.items[itemID].Status != item.Free {
+			t.Fatalf("base price %d: rejected auction changed persisted state", price)
+		}
+	}
+}
+
+func TestService_AuctionBasePriceSurvivesPriceChangesAndCancellation(t *testing.T) {
+	ctx := context.Background()
+	repo, wallet, items := newMockAuctionRepository(), &mockWallet{}, newMockItems()
+	items.items[itemID].BasePrice = 750
+	svc := newService(repo, wallet, items, fixedNow)
+	a, err := svc.StartAuction(ctx, itemID, sellerID, 500)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// The auction floor belongs to the seller's listing, not the live oracle.
+	items.items[itemID].BasePrice = 1
+	for _, amount := range []gold.Amount{1, 499} {
+		if _, err := svc.PlaceBid(ctx, a.ID, bidder1, amount); !errors.Is(err, ErrBidTooLow) {
+			t.Fatalf("first bid %d: error = %v", amount, err)
+		}
+	}
+	if len(wallet.reserved) != 0 || len(repo.bids) != 0 {
+		t.Fatal("rejected bids changed reservations or bid history")
+	}
+	b, err := svc.PlaceBid(ctx, a.ID, bidder1, 500)
+	if err != nil {
+		t.Fatalf("bid at base price: %v", err)
+	}
+	if _, err := svc.PlaceBid(ctx, a.ID, bidder2, 524); !errors.Is(err, ErrBidTooLow) {
+		t.Fatalf("5%% increment was not enforced: %v", err)
+	}
+	if err := svc.CancelBid(ctx, a.ID, b.ID, bidder1); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := svc.PlaceBid(ctx, a.ID, bidder2, 499); !errors.Is(err, ErrBidTooLow) {
+		t.Fatalf("cancel removed base price floor: %v", err)
+	}
+	if _, err := svc.PlaceBid(ctx, a.ID, bidder2, 500); err != nil {
+		t.Fatalf("restart at base price: %v", err)
 	}
 }
 

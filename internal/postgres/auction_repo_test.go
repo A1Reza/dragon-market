@@ -27,13 +27,22 @@ func TestAuctionRepository_Lifecycle(t *testing.T) {
 	repo := NewAuctionRepository(testDB)
 	a := &auction.Auction{
 		ID: "auction-1", ItemID: "item-1", SellerID: "seller",
-		EndsAt: time.Now().Add(time.Hour), Status: auction.ActiveAuction,
+		BasePrice: 100,
+		EndsAt:    time.Now().Add(time.Hour), Status: auction.ActiveAuction,
 	}
 	if err := repo.CreateAuction(ctx, a); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := repo.GetActiveAuctionByItemID(ctx, a.ItemID); err != nil {
+	active, err := repo.GetActiveAuctionByItemID(ctx, a.ItemID)
+	if err != nil {
 		t.Fatal(err)
+	}
+	loaded, err := repo.GetAuctionByID(ctx, a.ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if active.BasePrice != 100 || loaded.BasePrice != 100 {
+		t.Fatalf("auction base price not persisted: active=%d loaded=%d", active.BasePrice, loaded.BasePrice)
 	}
 
 	b := &auction.Bid{

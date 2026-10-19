@@ -89,7 +89,10 @@ func NewAuctionService(repo AuctionRepository, wallet WalletService, items ItemS
 	return service
 }
 
-func (s *AuctionServiceImpl) StartAuction(ctx context.Context, itemID, sellerID string) (*Auction, error) {
+func (s *AuctionServiceImpl) StartAuction(ctx context.Context, itemID, sellerID string, basePrice gold.Amount) (*Auction, error) {
+	if basePrice <= 0 {
+		return nil, ErrInvalidBasePrice
+	}
 	var created *Auction
 	err := s.tx.RunInTransaction(ctx, func(ctx context.Context) error {
 		it, err := s.itemService.GetItem(ctx, itemID)
@@ -120,7 +123,8 @@ func (s *AuctionServiceImpl) StartAuction(ctx context.Context, itemID, sellerID 
 		now := s.clock.Now()
 		created = &Auction{
 			ID: uuid.NewString(), ItemID: itemID, SellerID: sellerID,
-			EndsAt: now.Add(s.config.Duration), Status: ActiveAuction,
+			BasePrice: basePrice,
+			EndsAt:    now.Add(s.config.Duration), Status: ActiveAuction,
 		}
 		return s.repo.CreateAuction(ctx, created)
 	})
@@ -153,6 +157,9 @@ func (s *AuctionServiceImpl) PlaceBid(ctx context.Context, auctionID, bidderID s
 		}
 		if auction.SellerID == bidderID {
 			return ErrSellerCannotBid
+		}
+		if amount < auction.BasePrice {
+			return fmt.Errorf("minimum bid is %d: %w", auction.BasePrice, ErrBidTooLow)
 		}
 
 		topBid, err := s.repo.GetTopActiveBid(ctx, auctionID)

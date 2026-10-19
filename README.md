@@ -24,7 +24,7 @@ node scripts/workbench.mjs
 
 Open **http://127.0.0.1:5173**. The script starts Compose PostgreSQL and local mock-oracle, Go API, isolated test runner and Vite processes. It uses the explicit local `market@127.0.0.1:15432` database, never an inherited DATABASE_URL. Ports 15432/8090/8080/8082/5173 must be free; WORKBENCH_DB_PORT can override the DB port. The original backend-only Compose workflow still defaults to 5432. Ctrl+C stops owned local processes; `docker compose stop` safely stops dependencies and retains database data. The Development Guild Switcher is **not authentication**. Do not expose this stack publicly.
 
-Fresh PostgreSQL volumes receive migrations 1–11 and the idempotent guild seed automatically. Migration 11 introduces accounting v2: completed spending today plus all outstanding reservations count against the limit. It requires an empty guilds table; existing wallets need a separately reviewed reconciliation. Existing volumes do not receive new initialization files, and the repaired wallet service requires the v2 schema. If your v2 schema is already current but guilds are absent, apply only the seed:
+Fresh PostgreSQL volumes receive migrations 1–12 and the idempotent guild seed automatically. Migration 11 introduces accounting v2: completed spending today plus all outstanding reservations count against the limit. It requires an empty guilds table; existing wallets need a separately reviewed reconciliation. Existing volumes do not receive new initialization files, and the repaired wallet service requires the v2 schema. Existing v2 databases must also apply [migration 12](migrations/up/000012_auction_base_price.up.sql) before running this version. It adds auction base prices without changing balances or accepted bids; pre-existing auctions retain their previous minimum of 1. If your v2 schema is already current but guilds are absent, apply only the seed:
 
 ```sh
 docker compose exec -T postgres psql -v ON_ERROR_STOP=1 -U market -d market -f /docker-entrypoint-initdb.d/999_seed.sql
@@ -183,6 +183,23 @@ curl -X POST http://localhost:8080/items \
 | `GET` | `/bids/{id}` | Get a bid |
 | `DELETE` | `/auctions/{auctionID}/bids/{bidID}` | Cancel the current highest bid |
 
+### Auction prices
+
+The **Start auction** form defaults to the item's exact current base price in integer smallest units: an item price of `4321` produces an input of `4321` (43.21 G). The seller can keep that value or choose any positive integer below or above it, including `1`. Zero and negative prices are rejected for both auctions and fixed-price listings.
+
+Starting an auction through the API requires its own `base_price`; missing, zero, negative, fractional, and out-of-range values return HTTP 400:
+
+```http
+POST /auctions
+Content-Type: application/json
+
+{"item_id":"legendary-item-id","seller_id":"guild-seller","base_price":500}
+```
+
+This price is stored on the auction without changing the item's base price. Later oracle updates do not change the auction's price. Every bid must be at least this amount, including the first bid and bids after the highest bid is cancelled. When an active bid exists, the next bid must also increase it by at least 5%, rounded up in smallest units: after a bid of `500`, the next minimum is `525`. A bid below the applicable minimum returns HTTP 409 without reserving funds or recording a bid.
+
+Migration 12 preserves the previous minimum of `1` for auctions that already existed; newly started auctions always require the seller's positive base price.
+
 ## Concurrency and reliability
 
 - Purchases lock both the item and order before transferring funds and ownership.
@@ -191,7 +208,8 @@ curl -X POST http://localhost:8080/items \
 - Daily spending resets on the next UTC calendar day.
 - Wallet mutations append an audit record inside the same transaction.
 - Bids reserve funds; an outbid bidder's reservation is released atomically.
-- Bids must exceed the current bid by at least 5%.
+- Starting an auction requires a positive integer `base_price`, selected by the seller. The UI defaults it to the item's current base price. This auction price is fixed and independent of later item/oracle updates.
+- Every bid, including the first and bids after cancellation, must be at least the auction's base price. When an active bid exists, bids must also exceed it by at least 5%, rounded up in smallest units.
 - Bids placed in the final five minutes extend the auction by five minutes.
 - A background worker settles expired auctions; database locks make concurrent workers safe.
 - Repeating a completed mutation with the same idempotency key returns its original result.
@@ -251,6 +269,8 @@ The integration suite covers competing purchases, concurrent bids, duplicate auc
 ## Contributing
 
 Issues and pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) for setup, testing, and architectural constraints.
+
+See [CHANGELOG.md](CHANGELOG.md) for recorded changes and upgrade notes.
 
 ## License
 

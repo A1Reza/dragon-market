@@ -47,8 +47,8 @@ func Initialize(ctx context.Context, db *sql.DB, files fs.FS) error {
 	if err != nil {
 		return err
 	}
-	if len(paths) != 11 {
-		return fmt.Errorf("expected 11 migrations including daily accounting v2, got %d", len(paths))
+	if len(paths) != 12 {
+		return fmt.Errorf("expected 12 migrations including auction base prices, got %d", len(paths))
 	}
 	sort.Strings(paths)
 	paths = append(paths, "dev/seed.sql")

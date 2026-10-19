@@ -20,18 +20,18 @@ func NewAuctionRepository(db *sql.DB) *AuctionRepository {
 
 func (r *AuctionRepository) CreateAuction(ctx context.Context, a *auction.Auction) error {
 	_, err := r.conn(ctx).ExecContext(ctx, `INSERT INTO auctions
-		(id, item_id, seller_id, ends_at, status) VALUES ($1, $2, $3, $4, $5)`,
-		a.ID, a.ItemID, a.SellerID, a.EndsAt, a.Status)
+		(id, item_id, seller_id, ends_at, status, base_price) VALUES ($1, $2, $3, $4, $5, $6)`,
+		a.ID, a.ItemID, a.SellerID, a.EndsAt, a.Status, a.BasePrice)
 	return err
 }
 
 func (r *AuctionRepository) GetAuctionByID(ctx context.Context, id string) (*auction.Auction, error) {
-	query := `SELECT id, item_id, seller_id, ends_at, status FROM auctions WHERE id = $1`
+	query := `SELECT id, item_id, seller_id, ends_at, status, base_price FROM auctions WHERE id = $1`
 	if getTx(ctx) != nil {
 		query += ` FOR UPDATE`
 	}
 	var a auction.Auction
-	err := r.conn(ctx).QueryRowContext(ctx, query, id).Scan(&a.ID, &a.ItemID, &a.SellerID, &a.EndsAt, &a.Status)
+	err := r.conn(ctx).QueryRowContext(ctx, query, id).Scan(&a.ID, &a.ItemID, &a.SellerID, &a.EndsAt, &a.Status, &a.BasePrice)
 	if errors.Is(err, sql.ErrNoRows) {
 		return nil, auction.ErrAuctionNotFound
 	}
@@ -43,9 +43,9 @@ func (r *AuctionRepository) GetAuctionByID(ctx context.Context, id string) (*auc
 
 func (r *AuctionRepository) GetActiveAuctionByItemID(ctx context.Context, itemID string) (*auction.Auction, error) {
 	var a auction.Auction
-	err := r.conn(ctx).QueryRowContext(ctx, `SELECT id, item_id, seller_id, ends_at, status
+	err := r.conn(ctx).QueryRowContext(ctx, `SELECT id, item_id, seller_id, ends_at, status, base_price
 		FROM auctions WHERE item_id = $1 AND status = 'active'`, itemID).
-		Scan(&a.ID, &a.ItemID, &a.SellerID, &a.EndsAt, &a.Status)
+		Scan(&a.ID, &a.ItemID, &a.SellerID, &a.EndsAt, &a.Status, &a.BasePrice)
 	if errors.Is(err, sql.ErrNoRows) {
 		return nil, auction.ErrAuctionNotFound
 	}

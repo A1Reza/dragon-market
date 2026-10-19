@@ -36,13 +36,13 @@ async function nav(page: Page, name: string) {
     .getByRole("link", { name, exact: true })
     .click();
 }
-async function item(page: Page, name: string, type: string) {
+async function item(page: Page, name: string, type: string, basePrice = 700) {
   await nav(page, "Marketplace");
   await page.getByRole("button", { name: "Create item", exact: true }).click();
   const dialog = page.getByRole("dialog");
   await dialog.getByLabel("Artifact name").fill(name);
   await dialog.getByLabel("Item type").selectOption(type);
-  await dialog.getByLabel("Base price").fill("700");
+  await dialog.getByLabel("Base price").fill(String(basePrice));
   await dialog.getByRole("button", { name: "Confirm item" }).click();
   await expect(dialog).not.toBeVisible();
   return page
@@ -116,15 +116,45 @@ test("real purchase, explicit replay, auctions, cancellation and persisted SQL e
     "legendary",
   );
   await legendary.getByRole("button", { name: "Start auction" }).click();
+  const auctionPrice = page
+    .getByRole("dialog")
+    .getByLabel("Auction base price");
+  await expect(auctionPrice).toHaveValue("700");
+  await auctionPrice.fill("0");
+  await page
+    .getByRole("button", { name: "Confirm auction", exact: true })
+    .click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  expect(
+    await auctionPrice.evaluate(
+      (input: HTMLInputElement) => input.validity.rangeUnderflow,
+    ),
+  ).toBe(true);
+  expect(sql("SELECT count(*) FROM auctions")).toBe("0");
+  await auctionPrice.fill("500");
   await page
     .getByRole("button", { name: "Confirm auction", exact: true })
     .click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
+  expect(sql("SELECT base_price FROM auctions")).toBe("500");
   await page
     .getByRole("combobox", { name: "Development Guild Switcher" })
     .selectOption("guild-buyer");
   await nav(page, "Auctions");
+  await expect(page.locator(".auction-card")).toContainText(
+    "Auction base price:",
+  );
+  await expect(page.locator(".auction-card")).toContainText(
+    "First bid must be at least 500",
+  );
   await page.getByRole("button", { name: "Place bid", exact: true }).click();
+  await page.getByRole("dialog").getByLabel("Bid amount").fill("1");
+  await expect(
+    page.getByRole("dialog").getByLabel("Bid amount"),
+  ).toHaveAttribute("min", "500");
+  await page.getByRole("button", { name: "Confirm bid", exact: true }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  expect(sql("SELECT count(*) FROM bids")).toBe("0");
   await page.getByRole("dialog").getByLabel("Bid amount").fill("500");
   await page.getByRole("button", { name: "Confirm bid", exact: true }).click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
@@ -155,6 +185,9 @@ test("real purchase, explicit replay, auctions, cancellation and persisted SQL e
     .click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
   expect(sql("SELECT reserved FROM guilds WHERE id='guild-bidder'")).toBe("0");
+  await expect(page.locator(".auction-card")).toContainText(
+    "First bid must be at least 500",
+  );
   const snapshot = await (await request.get("/api/dev/snapshot")).json();
   const cancelled = snapshot.bids.find(
     (b: { status: string }) => b.status === "cancelled",
@@ -180,6 +213,41 @@ test("real purchase, explicit replay, auctions, cancellation and persisted SQL e
   expect(errors).toEqual([]);
 });
 
+for (const selectedPrice of [undefined, 8765, 1]) {
+  test(`auction price defaults exactly to item price and accepts ${selectedPrice ?? "the unchanged default"}`, async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page
+      .getByRole("combobox", { name: "Development Guild Switcher" })
+      .selectOption("guild-seller");
+    const name = `Auction pricing ${selectedPrice ?? "default"}`;
+    const artifact = await item(page, name, "legendary", 4321);
+    await artifact.getByRole("button", { name: "Start auction" }).click();
+    const dialog = page.getByRole("dialog");
+    const price = dialog.getByLabel("Auction base price");
+    await expect(price).toHaveValue("4321");
+    if (selectedPrice !== undefined) await price.fill(String(selectedPrice));
+    await dialog
+      .getByRole("button", { name: "Confirm auction", exact: true })
+      .click();
+    await expect(dialog).not.toBeVisible();
+    expect(
+      sql(
+        `SELECT a.base_price,i.base_price FROM auctions a JOIN items i ON i.id=a.item_id WHERE i.name='${name}'`,
+      ),
+    ).toBe(`${selectedPrice ?? 4321}|4321`);
+    await nav(page, "Auctions");
+    await expect(
+      page
+        .locator(".auction-card")
+        .filter({ has: page.getByRole("heading", { name, exact: true }) }),
+    ).toContainText(
+      `First bid must be at least ${selectedPrice ?? 4321} smallest units`,
+    );
+  });
+}
+
 test("guild creation and listing cancellation are real mutations", async ({
   page,
 }) => {
@@ -201,6 +269,21 @@ test("guild creation and listing cancellation are real mutations", async ({
   );
   const card = await item(page, "Apothecary flask", "common");
   await card.getByRole("button", { name: "Create listing" }).click();
+  const listingPrice = page.getByRole("dialog").getByLabel("Listing price");
+  await listingPrice.fill("0");
+  await page.getByRole("button", { name: "Confirm list", exact: true }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  expect(
+    await listingPrice.evaluate(
+      (input: HTMLInputElement) => input.validity.rangeUnderflow,
+    ),
+  ).toBe(true);
+  expect(
+    sql(
+      "SELECT count(*) FROM limit_orders o JOIN items i ON i.id=o.item_id WHERE i.name='Apothecary flask'",
+    ),
+  ).toBe("0");
+  await listingPrice.fill("700");
   await page.getByRole("button", { name: "Confirm list", exact: true }).click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await nav(page, "Orders");

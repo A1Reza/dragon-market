@@ -42,7 +42,11 @@ for (const [name, type, price, listing] of fixtures) {
       base_price: price,
     });
   if (listing === "auction")
-    await api("/auctions", { item_id: item.id, seller_id: "guild-seller" });
+    await api("/auctions", {
+      item_id: item.id,
+      seller_id: "guild-seller",
+      base_price: price,
+    });
   console.log(`Created real ${type} item: ${name}`);
 }
 console.log("Additive fixtures complete. Existing rows and balances retained.");

@@ -57,9 +57,9 @@ func (s *Inspector) Snapshot(ctx context.Context, offset int) (*inspection.Snaps
 			out.Orders = append(out.Orders, v)
 			return err
 		}},
-		{`SELECT id,item_id,seller_id,ends_at,status FROM auctions ORDER BY ends_at DESC,id LIMIT 200 OFFSET $1`, func(r *sql.Rows) error {
+		{`SELECT id,item_id,seller_id,ends_at,status,base_price FROM auctions ORDER BY ends_at DESC,id LIMIT 200 OFFSET $1`, func(r *sql.Rows) error {
 			var v inspection.Auction
-			err := r.Scan(&v.ID, &v.ItemID, &v.SellerID, &v.EndsAt, &v.Status)
+			err := r.Scan(&v.ID, &v.ItemID, &v.SellerID, &v.EndsAt, &v.Status, &v.BasePrice)
 			out.Auctions = append(out.Auctions, v)
 			return err
 		}},

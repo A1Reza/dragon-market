@@ -25,6 +25,7 @@ func writeDomainError(w http.ResponseWriter, err error) bool {
 		errors.Is(err, guild.ErrInvalidGuild),
 		errors.Is(err, order.ErrInvalidOrder),
 		errors.Is(err, auction.ErrInvalidBidAmount),
+		errors.Is(err, auction.ErrInvalidBasePrice),
 		errors.Is(err, auction.ErrItemNotLegendary),
 		errors.Is(err, guild.ErrInvalidAmount):
 		http.Error(w, err.Error(), http.StatusBadRequest)

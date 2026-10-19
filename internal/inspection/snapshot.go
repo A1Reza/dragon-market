@@ -34,11 +34,12 @@ type Order struct {
 	ListedAt time.Time   `json:"listed_at"`
 }
 type Auction struct {
-	ID       string    `json:"id"`
-	ItemID   string    `json:"item_id"`
-	SellerID string    `json:"seller_id"`
-	EndsAt   time.Time `json:"ends_at"`
-	Status   string    `json:"status"`
+	ID        string      `json:"id"`
+	ItemID    string      `json:"item_id"`
+	SellerID  string      `json:"seller_id"`
+	BasePrice gold.Amount `json:"base_price"`
+	EndsAt    time.Time   `json:"ends_at"`
+	Status    string      `json:"status"`
 }
 type Bid struct {
 	ID        string      `json:"id"`

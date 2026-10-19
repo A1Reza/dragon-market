@@ -22,11 +22,12 @@ const (
 )
 
 type Auction struct {
-	ID       string
-	ItemID   string
-	SellerID string
-	EndsAt   time.Time
-	Status   AuctionStatus
+	ID        string
+	ItemID    string
+	SellerID  string
+	BasePrice gold.Amount
+	EndsAt    time.Time
+	Status    AuctionStatus
 }
 
 type Bid struct {
