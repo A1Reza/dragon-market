@@ -1,0 +1,5 @@
+{"id": "wallet-mutations", "argv": ["node", "scripts/check-daily-limit-mutations.mjs"], "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market", "started_at_utc": "2026-10-21T14:37:35.451943+00:00"}
+DETECTED release-erases-completed-spending
+DETECTED capacity-ignores-carried-holds
+DETECTED settlement-omits-completed-debit
+Evidence: S:\Repos\reserach-reviewer\codex-review\dragon-market\artifacts\daily-limit-mutations\2026-10-21T14-37-35-530Z

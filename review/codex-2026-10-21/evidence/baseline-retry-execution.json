@@ -1,0 +1,15 @@
+[
+  {
+    "id": "baseline-verifier-retry",
+    "argv": [
+      "node",
+      "scripts/verify-transactional-baseline.mjs"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:39:51.321764+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:40:49.039476+00:00",
+    "status": "PASS",
+    "log": "baseline-verifier-retry.log"
+  }
+]

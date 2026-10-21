@@ -1,0 +1,1172 @@
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+1
+PDF rendering note: this is a reflowed export of the complete filled Word form, produced by the reviewer with ReportLab. The
+editable DOCX is the original-layout deliverable. Word COM export did not complete; this PDF does not claim exact Word
+pagination.
+INDEPENDENT REVIEW PACKAGE
+Dragon Market
+Transactional Correctness &
+Research Baseline Review
+Reviewer instructions • hands-on test plan • evidence log • approval form
+Target repository
+github.com/houtanrocky/dragon-market
+Exact reviewed revision
+f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7
+Review status
+AI REVIEW: CHANGES REQUIRED. Independent human approval remains pending.
+Pack prepared
+18 October 2026 | Reviewer copy 1.0
+Intended use
+Independent assessment before MSc coding-agent experiments
+IMPORTANT This is an editable checklist and sign-off document, not a claim that Dragon Market is bug-free. Mark every test with the
+result you personally observed; never approve based only on the coding agent’s previous test report.
+COMPLETED AI REVIEW — Codex executed this review on 2026-10-21. No independent human review or researcher approval
+is claimed. Existing initially clean exact-SHA checkout used at requester instruction. All 68 activity results are explicitly
+completed; optional research task checks are NOT RUN. Three findings remain open. Reviewer declaration and typed
+acknowledgement are in Section 11.
+For invited reviewers
+Please review only the areas within your expertise. Functional/UI reviewers can assess visible workflows; Go/PostgreSQL
+reviewers should evaluate invariants, SQL effects and concurrency; reproducibility reviewers can independently rebuild and
+inspect evidence. Record the scope of your review and sign Section 11.
+You may fill this Word document electronically or print it. In a result cell, tick one status: P = PASS; F = FAIL; B = BLOCKED; NR
+= NOT RUN; N/A = NOT APPLICABLE. Do not leave required sections ambiguous.
+Review outcomes
+APPROVE: no unresolved material issues within the reviewed scope. CONDITIONAL: specific unresolved minor items are listed.
+REJECT / CHANGES REQUIRED: material correctness or reproducibility concerns. A reviewer’s signature attests only to the
+checks they performed; the researcher makes the final baseline-freeze decision.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+2
+1. Assignment, safety and evidence rules
+Reviewer details — complete before testing
+Reviewer name
+Codex (OpenAI AI coding assistant)
+Contact / affiliation
+AI reviewer in this session; no personal contact address or institutional appointment. Does not sign on
+behalf of OpenAI.
+Review date (UTC)
+2026-10-21 UTC
+Role(s)
+☒ UI / functional ☒ Go/backend ☒ PostgreSQL ☒ Reproducibility ☒ Accessibility (limited
+automated/keyboard scope)
+Testing scope
+☐ Local clean checkout ☒ Existing local install ☐ Hosted review URL ☐ Source-only. Exact SHA initially
+clean; disposable DB harness.
+Independent of author?
+☐ Yes ☒ No / not established: AI reviewer requested by owner; not an independent human. No
+implementation authored in this review; earlier authorship independence cannot be certified.
+Rules
+• Never use a production database, real financial information, or shared user records. Use the local dev database or the
+isolated test harness.
+• Do not use docker compose down -v, reset unknown volumes, replay SQL migrations on a populated database, or bypass
+migration-11 safeguards.
+• Do not push fixes directly while reviewing. Report a finding with an exact reproduction; proposed patches should use
+separate branches.
+• Do not share passwords, database URLs, bearer tokens, full environment dumps, or private test oracles in screenshots or
+reports.
+• For every failure, preserve the exact SHA, command/request, expected rule, actual observation, logs or sanitized screenshot,
+and issue ID.
+• Make no approval claim for tests you did not execute. Automated PASS is useful evidence but not proof of the rule’s
+correctness.
+• The web UI includes a Development Guild Switcher, not authentication; it is for local/demo testing only.
+SCOPE CONTROL The primary manual-review application is the local workbench. A hosted review site is optional and may run a different
+SHA. If using one, record its displayed deployed SHA and do not treat it as a review of f4ba211 unless they match.
+Evidence naming convention
+Use e.g. R2-WAL-04-2026-10-18.txt, R1-UI-03.png, or a GitHub issue link. Keep evidence in a private folder until scrubbed.
+Document the Git SHA and UTC timestamp with each artifact.
+2. Clean checkout and first-time setup
+Prerequisites
+Install Git, Go 1.25 or newer, Docker Desktop/Engine with Linux containers running, Node.js 24 LTS and npm. For Go race tests
+on Windows, a supported C compiler/CGO toolchain is required. Playwright/Chromium is needed for browser E2E tests.
+Check installed tools (PowerShell or Bash)
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+3
+git --version
+go version
+node --version
+npm --version
+docker version
+docker compose version
+Get the exact tested revision
+Run in a NEW folder (not inside your existing working copy)
+git clone https://github.com/houtanrocky/dragon-market.git
+cd dragon-market
+git switch --detach f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7
+git rev-parse HEAD
+git status --short
+The SHA printed by git rev-parse HEAD must exactly equal f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7, and git status
+--short should be empty before testing. Detached HEAD is intentional for review; it prevents accidental branch updates.
+3. Start the application and run automated checks
+Launch the interactive workbench
+From the cloned dragon-market directory
+npm --prefix web ci
+node scripts/workbench.mjs
+Open http://127.0.0.1:5173 in your browser. The documented workbench uses PostgreSQL on 15432, Go API 8080, mock
+oracle 8090, optional lab runner 8082, and Vite 5173. These ports must be available. Keep the command running while
+performing browser checks.
+On a fresh initialized database, seed guilds are guild-seller, guild-buyer, guild-bidder. Their raw balances are 10,000 integer
+units (= 100.00 display G), and daily limits are 5,000 units (= 50.00 G). Do not confuse raw integer amounts with displayed G.
+FRESH DATABASE The workbench command does not guarantee an unused Docker volume if this computer previously ran Dragon Market.
+Confirm that migration 11 is present and the database is dedicated to review. The safest independent database exercises use
+Testcontainers/E2E, not deletion of an unknown Compose volume.
+Baseline automated verification — record each outcome
+Run with Docker engine active; save raw outputs
+go build ./...
+go test -count=1 ./...
+go test -race -count=1 ./...
+go vet ./...
+node scripts/verify.mjs
+node scripts/mutation-check.mjs
+Focused wallet regression and fault-injection evidence
+go test -v -count=1 ./internal/guild ./internal/postgres -run '^TestDailyLimit'
+node scripts/verify-transactional-baseline.mjs
+node scripts/check-daily-limit-mutations.mjs
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+4
+Browser end-to-end checks (isolated disposable DB)
+npm --prefix web exec -- playwright install chromium
+npm --prefix web run test:e2e
+If Chromium installation is blocked and Chrome is installed, consult the README for PLAYWRIGHT_CHANNEL=chrome.
+Browser E2E uses disposable test containers and different ports; do not point it at the shared workbench database.
+The focused verifier writes into its evidence folder; copy existing evidence elsewhere before rerunning. Mutation checks
+operate on disposable source copies, not the reviewed code. Record all FAILED, BLOCKED and NOT RUN statuses honestly.
+3A. Automated execution log
+Tick a status only after you personally observe the command output. Add evidence filename or issue ID in the right cell.
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+AUTO-01 Git SHA and clean tree
+Expected / inspect: Printed exact target SHA; review checkout initially
+clean.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E01
+Exact target SHA; initially clean existing checkout. No clone/pull;
+requester-authorized deviation.
+AUTO-02 Go build and vet
+Expected / inspect: Build and vet complete with exit code 0.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03
+Original Go build and vet exit 0.
+AUTO-03 Uncached Go tests
+Expected / inspect: All relevant unit, integration, and repository tests
+exit 0; no Testcontainers failures hidden.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03
+Uncached verbose suite exit 0; real PostgreSQL Testcontainers;
+no skipped tests observed.
+AUTO-04 Race-enabled suite
+Expected / inspect: Race detector exits 0; record Windows CGO
+failures separately as BLOCKED.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03
+Windows CGO race suite exit 0; GCC 16.1.0 available.
+AUTO-05 Full verify.mjs
+Expected / inspect: Complete verification reports successful backend
+and frontend checks; save results.json.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E04
+Full verifier exit 0: build/vet/tests/race plus frontend
+typecheck/lint/15 tests/build.
+AUTO-06 Baseline wallet regression
+Expected / inspect: Daily-limit targeted tests and transactional verifier
+pass with real database.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E05, E12
+Focused daily-limit tests and final baseline verifier pass. First
+verifier attempt failed due to reviewer file packaging; preserved
+and corrected.
+AUTO-07 Fault mutation checks
+Expected / inspect: All deliberate daily-limit wallet faults are detected
+as business assertion failures, not compile failures.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E06
+All three daily-limit mutants rejected by named SQL-backed
+assertion; two purchase mutants also detected.
+AUTO-08 Playwright end-to-end
+Expected / inspect: Real browser suite passes on a disposable
+database; collect trace/screenshot report.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E07
+All 7 existing browser tests passed with installed Chrome and
+isolated disposable DB.
+4. Manual browser review — functional testers
+Choose a unique suffix for entities (e.g., R1-1810) to avoid mixing your results with another reviewer. Use the seeded guilds.
+Capture initial wallet and ownership values before changing anything. Perform UI tasks through real endpoints, not
+screenshots from a previous run.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+5
+4A. UI, market and accessibility
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+UI-01 Start and health
+Expected / inspect: Workbench loads; System Status clearly displays
+actual environment, backend reachability and errors.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E08
+System Status shows development, exact SHA, PostgreSQL
+identity, successful read and HTTP health.
+UI-02 Identity selector
+Expected / inspect: Switch between guild-seller, guild-buyer and
+guild-bidder; wallet changes to selected guild. No claim of true
+authentication.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E08
+Switched all three seeded guilds; initial visible 100.00 G; explicitly
+not authentication.
+UI-03 Create item
+Expected / inspect: Create a common/rare item under seller; it appears
+with correct ID, owner, item type and price.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E08
+Created uniquely named rare item; owner/type/700-unit price
+verified in real snapshot.
+UI-04 Create fixed-price order
+Expected / inspect: List an eligible common/rare item; order becomes
+available to buyer. Invalid items/prices are rejected.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E08
+Listed for 700; zero price blocked by native range validation;
+invalid API price rejected.
+UI-05 Purchase and ownership
+Expected / inspect: Buy as another guild; final owner changes once;
+balances update consistently and order cannot be re-sold.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E08
+Buyer 10000→9300, seller 10000→10700; owner transferred
+once; sold rebuy rejected.
+UI-06 Cancel order
+Expected / inspect: An eligible order cancels; a bought or otherwise
+ineligible order cannot be cancelled incorrectly.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E08
+Common-item listing cancelled to free; sold listing cancellation
+rejected (400).
+UI-07 Create auction
+Expected / inspect: Create a legendary item auction; verify the
+displayed base price, deadline and starting state.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E08
+Legendary 700-unit base item; active auction, backend deadline
+approximately 24 hours ahead.
+UI-08 Bid and wallet reservations
+Expected / inspect: Bid as buyer/bidder; accepted bid changes
+reserved and available balance; total gold stays unchanged.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E08
+500 bid reserves 500; total gold unchanged; available gold
+decreases by hold.
+UI-09 Outbid/cancel behavior
+Expected / inspect: Place a higher valid bid; old bidder hold releases;
+cancel only eligible active highest bid.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E08
+Raise 500→525 uses delta 25; bidder 552 outbids; old hold
+released; highest cancellation succeeds; repeated cancellation
+409.
+UI-10 Request replay
+Expected / inspect: Repeat an eligible financial request with the same
+Idempotency-Key; inspect persisted effect, not just response text.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E08
+Same-key replay: 204 plus replay header; unchanged
+ownership/balances; exactly 2 audit rows and 1 idempotency
+record.
+UI-11 Transaction Inspector
+Expected / inspect: Compare pre/post snapshots and IDs. Identify
+which values are raw persisted fields vs current-day projection.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E08, E09, E11
+Inspected raw persisted pre/post values and date; distinguished
+them from GET-wallet projection. DM-REV-CODEX-001
+documents wrong Wallet display.
+UI-12 Errors and validation
+Expected / inspect: Try invalid amount, malformed data or forbidden
+transition. UI shows clear backend error without a misleading success
+message.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E08
+526 rejected below required 552 with visible error; zero base
+price HTTP 400; no false success.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+6
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+UI-13 Accessibility/responsiveness
+Expected / inspect: Keyboard Tab/focus, visible labels, appropriate
+contrast, mobile viewport, refresh and navigation work.
+☐ P ☒ F ☐ B ☐ NR ☐ N/A
+Evidence: E10; DM-REV-CODEX-003
+Mobile audit scroller lacks keyboard focus (axe serious). Desktop
+scan, skip link, route refresh and page-width checks passed.
+UI-14 Safety boundaries
+Expected / inspect: Research Lab labels C/F/G local-only where
+applicable; no unrestricted remote reset, SQL, or hidden test routes.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E07, E08, E11
+Local harness executes C/F/G in isolated DBs; hosted gateway
+tests reject harness/arbitrary debug routes. No live hosted site
+assessed.
+4B. Record a complete purchase example
+Item and order IDs
+Item: bd3c9cf4-3acc-40c7-b64f-842c3e02ca84
+Order: 5f1a6680-a565-410b-af1f-0659d893342f
+Codex-R1-2110-Emberglass; raw price 700 = 7.00 G.
+Seller / buyer guilds
+guild-seller → guild-buyer; isolated dragon_research_disposable database.
+Initial wallet snapshots
+Before purchase: seller gold=10000/reserved=0/spent=0; buyer gold=10000/reserved=0/spent=0;
+available equals gold. Limit=5000 each.
+Final wallet snapshots
+After purchase and same-key replay: seller gold=10700/reserved=0/spent=0; buyer
+gold=9300/reserved=0/spent=700; audit rows=2; idempotency rows=1. All amounts raw units.
+Ownership before / after
+guild-seller → guild-buyer once; order sold; same-key replay retains buyer; new-key rebuy rejected.
+Same-key replay outcome
+204 and Idempotency-Replayed:true; no new monetary, ownership or ledger effects (independent
+SQL).
+Screenshot / API evidence
+E08: browser/purchase-example.json; browser/observations.json;
+browser/purchase-replay-inspector.png; browser/browser-trace.zip.
+5. Business invariant correctness — expert code review
+ CRITICAL RULE The key rule selected by the project is: S(d) + R <= L, where S(d) is completed spending on the current UTC day, R is all
+outstanding holds regardless of age, and L is the positive daily limit. A zero limit means unlimited. The accounting rule is a specification to
+critically assess, not something reviewers must automatically agree with.
+Wallet transition expectations
+Operation
+Completed spend S
+Reserved R
+Reserve a
+unchanged
++a
+Release a
+unchanged
+−a
+Spend a
++a
+unchanged
+Settle/Deduct a
++a
+−a
+Earn a
+unchanged
+unchanged
+UTC date rollover
+reset to 0
+unchanged
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+7
+Also verify: total gold changes only for actual debits/earnings; available gold = gold − reserved; reserves and spend require
+adequate capacity; settlement converts an existing hold to spending without double-counting.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+8
+5A. Wallet semantics and edge cases
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+WAL-01 Policy acceptance
+Expected / inspect: Independently assess whether completed UTC-day
+spending plus every outstanding historical reservation is the intended
+limit rule.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E05, E11
+Supplied S(current UTC day)+all holds≤positive L is coherent
+under valid starting state, fixed limits and reliable UTC clock; L=0
+unlimited. Human intent confirmation remains owner-owned.
+WAL-02 Reservation capacity
+Expected / inspect: New hold accepted only if funds and S + R + new
+hold fit positive L; rejection has zero persisted changes.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E05
+Funds/capacity checks and row locks enforce reserve allowance;
+failed operations have no committed effect.
+WAL-03 Release after old hold
+Expected / inspect: Release reduces R without changing already
+completed S; yesterday’s hold release must never erase today’s
+spending.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E05, E06
+Old hold release reduces reserved only; mixed-age test and
+mutation rejection preserve completed spending.
+WAL-04 Old hold at UTC rollover
+Expected / inspect: At midnight UTC S resets; existing R stays. A hold
+of 500 with limit 500 leaves no capacity for another spend of 300
+before release.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E05
+500 hold at 500 limit rejects 300 spend before release; Tehran
+midnight does not reset UTC allowance.
+WAL-05 Spend 300 then reject 500
+Expected / inspect: After the above hold is released and 300 is spent
+today, a further 500 must fail under limit 500; only 300 debit persists.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E05
+After release, 300 debit persists; next 500 rejected; SQL
+gold=9700/reserved=0/completed=300/audits=2.
+WAL-06 Settle old reserved amount
+Expected / inspect: Converting reserved a to completed spending a
+preserves S+R and changes total gold exactly once.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E05
+Old settlement exchanges reserved for spending; SQL gold
+debited once; repeated settlement rejected.
+WAL-07 Cancel same-day bid
+Expected / inspect: Cancellation frees reservation headroom without
+refunding completed debits from same day.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E05, E08
+Cancellation/outbid restores reservation capacity while
+completed 700-unit purchase remains charged.
+WAL-08 Earnings do not reset allowance
+Expected / inspect: An earn increases gold but does not reduce S(d) or
+restore daily spending allowance.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E09
+Independent SQL test: spend 500, earn 1000, next spend 1
+rejected; gold=10500/spent=500/audits=2.
+WAL-09 Exact limit and zero limit
+Expected / inspect: S+R exactly L is accepted where otherwise valid; >
+L rejected. L=0 uses documented unlimited rule.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E05
+Exact boundary accepted; over-cap rejected; zero-limit behavior
+and integer limits exercised.
+WAL-10 Integer bounds and invalid amounts
+Expected / inspect: Negative, zero, insufficient funds/reserves and
+integer overflow cannot corrupt stored accounting.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E05
+Positive amounts, insufficient funds/reserve and int64 overflow
+checked in domain suites.
+WAL-11 Projection and raw audit fields
+Expected / inspect: GET wallet projects current UTC spend without
+mutating history; diagnostic raw daily_spent must be interpreted with
+daily_spent_on.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E05, E09, E11
+GET wallet projects prior-day counter to 0 without write; raw
+inspector retains 300 and prior date. UI defect separately
+reported.
+WAL-12 Independently inspect ledger
+Expected / inspect: Compare transaction/audit rows and wallet state
+with the expected arithmetic; do not rely only on UI or service
+response.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E08, E09
+Independently queried PostgreSQL wallet/item/audit rows and
+debit totals; no reliance on UI responses alone.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+9
+6. Transaction, order and auction correctness
+6A. Financial and concurrency semantics
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+TX-01 Double-purchase prevention
+Expected / inspect: Two concurrent buyers cannot both purchase one
+listing; only one owner and intended persisted money effects remain.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E07
+Concurrent-buy and Research Lab tests: single winner, intended
+owner and committed ledger effects.
+TX-02 Purchase atomicity
+Expected / inspect: If purchase fails during transaction, ownership,
+balances and relevant audit records all roll back.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E07
+Controlled late failure after debit/earn/transfer rolls back every
+persisted effect and idempotency claim.
+TX-03 Same idempotency key
+Expected / inspect: Replaying completed buy/bid returns original
+logical result; no duplicated debit, hold, item transfer or ledger rows.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E08
+Buy/bid replay suites inspect SQL; UI exact purchase replay
+produces no extra ledger entries.
+TX-04 Different keys/new operation
+Expected / inspect: New key means a distinct attempt and must still
+enforce item/order and wallet validity.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E08
+New-key attempt on sold order rejected; changed same-key
+payload covered by existing SQL-backed test.
+TX-05 Auction unique activation
+Expected / inspect: A legendary item cannot have two simultaneously
+active auctions when the rule forbids it.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03
+Concurrent auction starts yield one active auction; partial unique
+index and item transition reviewed.
+TX-06 Bid minimum increment
+Expected / inspect: Bids below required 5% step are rejected;
+acceptable amounts respect integer rounding defined by
+implementation.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E08
+ceil(current/20) minimum increment reviewed; 525→552
+boundary and 526 rejection observed; overflow test passes.
+TX-07 Outbid release atomicity
+Expected / inspect: Old bidder reservation releases and new bidder
+reservation applies in same consistent transaction.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E08
+Outbid release and new hold within outer transaction;
+concurrent-bid SQL test leaves one active highest reservation.
+TX-08 Same bidder raises bid
+Expected / inspect: Delta amount is reserved correctly; no duplicate
+full reservation.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E05, E08
+Same-bidder delta reserve confirmed: total reservation 525, not
+1025.
+TX-09 Highest-bid cancellation
+Expected / inspect: Only active highest bid can be cancelled where
+allowed; release affects correct wallet and bid state.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E08
+Only eligible active highest cancellation releases correct wallet;
+repeated invalid cancellation 409.
+TX-10 Deadline extension
+Expected / inspect: A valid bid in final five minutes extends deadline
+by five minutes under documented rules.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E11
+Controlled-clock auction test verifies final-five-minute extension;
+default config is 5-minute window/extension.
+TX-11 Settlement idempotence
+Expected / inspect: Simultaneous/repeated settlement cannot
+duplicate transfer or debit; winning hold converts to spend exactly
+once.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E05, E07
+Worker plus concurrent settlement driver and repeat batch
+produce one debit/credit/ownership transfer.
+TX-12 Concurrent reserve/spend
+Expected / inspect: Competing operations on one wallet cannot
+collectively exceed its allowed capacity.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E05
+12 competing reserve/spend operations accept exactly 5×100
+under limit 500; SQL usage=500.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+10
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+TX-13 Audit insertion rollback
+Expected / inspect: Force a controlled audit-write failure in isolated
+tests; date/accounting/ownership changes must roll back.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E05
+Injected audit failure rolls back accounting and stored day;
+purchase late-failure test rolls back ownership.
+TX-14 Locking and nested transaction use
+Expected / inspect: Read SQL paths: FOR UPDATE and reuse of outer
+transaction protect correctness; no lock-order hazards introduced.
+☐ P ☒ F ☐ B ☐ NR ☐ N/A
+Evidence: E09, E11; DM-REV-CODEX-002
+Nested transactions reuse outer transaction, but
+buyer-then-seller wallet locks deadlock reciprocal purchases
+(40P01); one rolls back. No automatic retry.
+Required expert commentary
+Transaction boundary / locking issues observed
+DM-REV-CODEX-002: nested transaction reuse and rollback work, but opposite buyer/seller lock order causes 40P01 under reciprocal
+purchases. E09 independent-tests.log and E11 source-excerpts.txt. No financial conservation failure observed.
+Invariant counterexamples or missing concurrency interleavings
+One naturally possible reciprocal-purchase schedule aborts one valid transaction. Existing same-item competition tests do not cover
+distinct items sharing two wallets in opposite directions. Cross-auction reciprocal wallets and worker starvation remain untested concerns,
+not claimed reproductions.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+11
+7. Schema, migration and reproducibility safety
+7A. PostgreSQL and environment
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+DB-01 New database migrations
+Expected / inspect: Fresh PostgreSQL receives migrations 1–11 in
+order and seed after migrations, and starts successfully.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E07, E08
+Fresh Testcontainers/E2E apply migrations 1–11 before seeding;
+v2 wallets and successful API startup observed.
+DB-02 Legacy populated schema refusal
+Expected / inspect: Migration 11 refuses populated legacy guild data
+rather than silently reinterpreting mixed counters; original data
+unchanged.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E05
+Legacy initialization and focused migration tests reject
+populated v1 without changed balances/counters/ledger.
+DB-03 Unsafe downgrade refusal
+Expected / inspect: Down migration refuses populated wallets; no
+silent data loss or inconsistent legacy rollback.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E09
+Reviewer ran down migration on populated v2; explicit refusal;
+marker=2/gold=9877/spent=123 preserved.
+DB-04 New code against v1 schema
+Expected / inspect: Wallet service fails clearly if
+daily_accounting_version=2 schema is absent; no silent fallback.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E09
+Reviewer temp v1 schema: new wallet read rejects absent
+daily_accounting_version (42703); no silent fallback.
+DB-05 Historical evidence preserved
+Expected / inspect: Original defect logs and prior candidate reports
+remain accessible; newer PASS does not rewrite historical FAIL.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E01, E14
+All 234 tracked files byte-identical at completion, including
+historical FAIL/PASS evidence; temporary verifier output
+separately captured and restored.
+DB-06 No destructive test cleanup
+Expected / inspect: Automated test harness only deletes its positively
+identified disposable containers; Compose data remains intact.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E14
+Only positively identified disposable containers removed; no
+Compose launch/reset/down -v; zero running containers before
+and after.
+DB-07 Local UTC dates
+Expected / inspect: Test local midnight that is not UTC midnight and
+UTC day rollover; recorded daily_spent_on matches chosen model.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E05
+Tehran midnight vs UTC midnight and persisted UTC day
+covered; carried reservations retained.
+DB-08 Price-oracle fallback
+Expected / inspect: Bad/zero/negative/malformed/timeout oracle
+responses preserve last known good value; fixed order price stays
+fixed.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E13
+Reviewer real HTTP oracle cases
+valid/zero/negative/malformed/503/timeout preserve cached
+250; SQL base=250, fixed listing stays 100.
+DB-09 Go/frontend separability
+Expected / inspect: Go backend can build/test without Node and UI
+does not implement separate monetary business logic.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E11
+Go build/test commands run independently of frontend tooling.
+Frontend formats/validates/suggests bids; server remains
+monetary authority.
+DB-10 Reproduction evidence
+Expected / inspect: Log OS, Go/PostgreSQL/Node/Docker versions,
+test commands, SHA, exits, timestamps and any discrepancy.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E01, E02, E08
+OS/tool/browser/PostgreSQL versions, SHA, timestamps, argv,
+exits, source hashes and deviations recorded.
+DB-11 Review deployment identity (if used)
+Expected / inspect: Actual displayed deployed SHA and review DB
+name recorded; do not assume hosted URL runs f4ba211.
+☐ P ☐ F ☐ B ☐ NR ☒ N/A
+Evidence: E01, E08
+Hosted deployment not used. Local stack independently reports
+exact target SHA; no claims about Render/Neon/live CI.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+12
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+DB-12 Scope of security controls
+Expected / inspect: Guild switcher is not authentication; debug routes
+and Research Lab prohibited on untrusted public instances.
+☒ P ☐ F ☐ B ☐ NR ☐ N/A
+Evidence: E03, E11
+Local-only dev snapshot and harness restrictions plus gateway
+gate/origin/path tests reviewed. No production security
+certification.
+Important migration warning
+Migration 11 is deliberately a fresh-data boundary. A populated older database may already contain irrecoverable ambiguity
+in its old spending/reservation counter. Reviewers must NOT “fix” tests by clearing or transforming such data. Flag it for a
+separate reviewed reconciliation.
+8. Independent review of research task packages
+This optional-but-recommended specialist section concerns the separate agent-invariant-preservation repository. Baseline
+approval and task/oracle approval are TWO DIFFERENT decisions. The research manifest currently distinguishes operational
+target f4ba211 from task starting commit 58913f2; changes to either must be justified and evaluated independently.
+Open a SEPARATE checkout for the research repository
+git clone https://github.com/houtanrocky/agent-invariant-preservation.git
+cd agent-invariant-preservation
+git rev-parse HEAD
+Do not place hidden reference patches or private evaluation tests inside the workspace later supplied to LLM agents. For
+private task/oracle review, the study owner should provide the exact task package and controlled access to references. A
+public repository alone may not include confidential oracles.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+13
+8A. T001 and T002 review
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+TASK-01 T001 identity
+Expected / inspect: Record exact starting SHA and task ID: retry-safe
+purchase service outcome. Confirm requirement not already
+implemented as specified.
+☐ P ☐ F ☐ B ☒ NR ☐ N/A
+Evidence: E11; scope exclusion
+Separate research repository, exact task packages, reference
+patches and controlled hidden oracles not supplied/reviewed.
+No task/oracle/fairness/leakage approval claimed.
+TASK-02 T001 human reference
+Expected / inspect: Independent reviewer checks that reference patch
+implements requested behavior and preserves pre-existing purchase,
+wallet, audit and ownership rules.
+☐ P ☐ F ☐ B ☒ NR ☐ N/A
+Evidence: E11; scope exclusion
+Separate research repository, exact task packages, reference
+patches and controlled hidden oracles not supplied/reviewed.
+No task/oracle/fairness/leakage approval claimed.
+TASK-03 T001 hidden oracle
+Expected / inspect: Confirm baseline fails new feature test for the
+intended reason, reference passes, and faulty implementation is
+rejected.
+☐ P ☐ F ☐ B ☒ NR ☐ N/A
+Evidence: E11; scope exclusion
+Separate research repository, exact task packages, reference
+patches and controlled hidden oracles not supplied/reviewed.
+No task/oracle/fairness/leakage approval claimed.
+TASK-04 T002 identity
+Expected / inspect: Record exact starting SHA and task ID: retry-safe
+bid cancellation. Confirm precise semantics and allowed cancellation
+state.
+☐ P ☐ F ☐ B ☒ NR ☐ N/A
+Evidence: E11; scope exclusion
+Separate research repository, exact task packages, reference
+patches and controlled hidden oracles not supplied/reviewed.
+No task/oracle/fairness/leakage approval claimed.
+TASK-05 T002 human reference
+Expected / inspect: Review bid cancellation reference for reservation
+release, concurrency, idempotency and audit behavior.
+☐ P ☐ F ☐ B ☒ NR ☐ N/A
+Evidence: E11; scope exclusion
+Separate research repository, exact task packages, reference
+patches and controlled hidden oracles not supplied/reviewed.
+No task/oracle/fairness/leakage approval claimed.
+TASK-06 T002 hidden oracle
+Expected / inspect: Confirm baseline/reference/faulty-variant behavior
+as in TASK-03; test is not coupled to implementation details.
+☐ P ☐ F ☐ B ☒ NR ☐ N/A
+Evidence: E11; scope exclusion
+Separate research repository, exact task packages, reference
+patches and controlled hidden oracles not supplied/reviewed.
+No task/oracle/fairness/leakage approval claimed.
+TASK-07 Prompt fairness
+Expected / inspect: A and B have same underlying requirements, repo
+snapshot, tools and budgets; only presentation of invariant guidance
+differs.
+☐ P ☐ F ☐ B ☒ NR ☐ N/A
+Evidence: E11; scope exclusion
+Separate research repository, exact task packages, reference
+patches and controlled hidden oracles not supplied/reviewed.
+No task/oracle/fairness/leakage approval claimed.
+TASK-08 Leakage and provenance
+Expected / inspect: Tests/references excluded from agent workspace;
+source hashes, SHA, versions, evidence, and reviewer findings
+recorded.
+☐ P ☐ F ☐ B ☒ NR ☐ N/A
+Evidence: E11; scope exclusion
+Separate research repository, exact task packages, reference
+patches and controlled hidden oracles not supplied/reviewed.
+No task/oracle/fairness/leakage approval claimed.
+9. Evidence, exception and issue reporting
+Record PASS only with inspectable evidence: command output, committed test, SQL snapshot, trace/screenshot, or
+code-review note with file:line. A reported bug that reproduces is useful research evidence; never change the expected result
+to make it disappear.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+14
+9A. Reviewer execution record
+Review checkout SHA
+f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7
+Git status before tests
+☒ Clean initially ☐ Not clean. After review: additive review/ only; all 234 tracked hashes unchanged.
+OS / version
+Windows 11 10.0.26200, amd64; Linux PostgreSQL via Docker Desktop.
+Go / Node / npm
+Go 1.26.0 windows/amd64; Node v24.18.0; npm 11.16.0; GCC 16.1.0; CGO race passed.
+PostgreSQL / Docker
+PostgreSQL 16.14 (postgres:16-alpine); Docker Desktop 4.58.0, Engine 29.1.5, Compose 5.0.1; Chrome
+155.0.8059.85.
+Database used
+☒ Isolated Testcontainers ☒ Dedicated local disposable E2E DB ☐ Hosted review. No Compose/shared
+DB touched.
+Workbench URL / SHA
+http://127.0.0.1:5175 — disposable E2E workbench; API 8085, lab 8087. Actual displayed backend SHA:
+f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7. Shared 5173 launch intentionally replaced with
+isolated harness.
+UTC start / end
+2026-10-21T14:33:46.786657+00:00 → 2026-10-21T14:56:36+00:00 (UTC; testing completed before
+document sign-off).
+Raw log folder / link
+review/codex-2026-10-21/evidence/; E01–E14 index and SHA256SUMS.txt; packaged evidence ZIP.
+9B. Finding template — duplicate this for each issue
+Finding ID
+DM-REV-CODEX-002
+Severity
+☐ Critical ☐ High ☒ Medium ☐ Low ☐ Observation
+Failed test ID(s)
+TX-14
+Affected revision
+f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7
+How to reproduce
+Run tools/run_independent.py against this exact checkout. The retained source copy adds only
+reviewer_independent_test.go. Create a rare listing owned by seller and another owned by buyer.
+Launch buyer buying seller’s item and seller buying buyer’s item concurrently. A test-only wallet
+wrapper waits after each real Spend has locked its buyer row; then lets both real Earn calls proceed.
+This deterministically schedules a naturally possible interleaving without changing application SQL or
+domain code.
+Expected behavior
+Valid reciprocal operations complete through consistent multi-wallet lock order or a bounded
+transaction retry; failed attempts must roll back.
+Observed behavior
+TestReviewerReciprocalPurchasesDoNotDeadlock fails: one service operation returns ERROR: deadlock
+detected (SQLSTATE 40P01), the other succeeds. SQL total gold=30000, audit rows=2, sold orders=1.
+Rollback/money conservation hold. HTTP 500 follows from handler mapping by source inspection;
+HTTP deadlock response was not separately executed.
+Code / DB evidence
+internal/order/service.go:132, :135; internal/postgres/guild_repo.go:60; internal/postgres/tx.go:37;
+internal/api/order_handler.go:188
+Sanitized screenshot/log
+E09 independent-tests.log; tools/independent_postgres_test.go.txt; E11 source-excerpts.txt
+Suggested action
+Acquire all participating wallet locks in a deterministic order, or deliberately retry the entire transaction
+on 40P01/40001 with bounded attempts. Retain rollback/idempotency guarantees. Review
+cross-auction two-wallet paths too.
+Re-test status
+☒ Open ☐ Fixed + verified ☐ Accepted risk ☐ Cannot reproduce
+Detailed reproduction and SQL/state evidence
+TestReviewerReciprocalPurchasesDoNotDeadlock fails: one service operation returns ERROR: deadlock detected (SQLSTATE 40P01), the
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+15
+other succeeds. SQL total gold=30000, audit rows=2, sold orders=1. Rollback/money conservation hold. HTTP 500 follows from handler
+mapping by source inspection; HTTP deadlock response was not separately executed.
+All three findings, exact reproductions and evidence links are completed in Appendix C and REVIEW_REPORT.md. No finding has been
+fixed or accepted by the researcher.
+9C. Reviewer’s concerns about test adequacy
+Concerns about test adequacy
+Passing original suites missed reciprocal-wallet deadlocks, stale-day Wallet rendering and mobile audit keyboard access. Additional cases
+reproduced these. Broader cross-auction interleavings, long transactions across UTC midnight, clock skew, screen-reader behavior, other
+platforms and live CI/cloud deployment remain unverified. T001/T002 references/oracles and prompt fairness were not reviewed. See E11
+review-notes.md.
+10. Section-level results and coverage summary
+Each section owner records the number of checks actually performed. Not performing a section is acceptable if outside
+expertise; it does not count as approval of that section.
+Section
+Checks
+P
+F
+B / NR / N/A
+3A — Automated execution
+8
+8
+0
+B=0; NR=0;
+N/A=0
+4A — UI and marketplace
+14
+13
+1
+B=0; NR=0;
+N/A=0
+5A — Wallet accounting
+12
+12
+0
+B=0; NR=0;
+N/A=0
+6A — Transaction/concurrency
+14
+13
+1
+B=0; NR=0;
+N/A=0
+7A — Schema/migrations
+12
+11
+0
+B=0; NR=0;
+N/A=1
+8A — Research tasks
+8
+0
+0
+B=0; NR=8;
+N/A=0
+Stop / escalation rules
+• Any reproducible financial invariant violation, duplicate charge/ownership transfer, unsafe migration, or unsafe deletion is a
+BLOCKER for baseline approval.
+• Any test that passes because it characterizes the old bug instead of asserting safe behavior is NOT proof of correctness.
+• A passing CI pipeline alone is insufficient to approve business semantics and hidden test oracles.
+• If a fix changes source code, start a NEW approval review for the new full commit SHA; prior sign-off does not automatically
+transfer.
+• If important checks are BLOCKED or NOT RUN, restrict the scope of approval explicitly; do not imply complete coverage.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+16
+Review decision interpretation
+Approve scoped baseline
+All material checks in claimed scope reviewed; no unresolved material correctness issue.
+Approve with conditions
+Only explicitly listed conditions remain; baseline must not be frozen until critical conditions clear.
+Changes required
+Material defect, inadequate oracle, migration risk, or inability to reproduce the intended behavior.
+Unable to assess
+Not enough access, evidence, background or working environment to make a decision.
+11. Reviewer declaration and sign-off
+I confirm that the responses in this document describe the checks I personally performed on the exact revision recorded
+below. I have identified unperformed checks and disclosed known unresolved findings. My signature does not imply formal
+verification or that the software is defect-free.
+Full name
+Codex (OpenAI AI coding assistant)
+Affiliation / role
+AI reviewer: code reasoning, direct command execution, SQL-backed reproduction and browser
+automation; limited keyboard/axe accessibility checks. No human or corporate signing authority
+claimed.
+Reviewed source SHA
+f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7
+Review date (UTC)
+2026-10-21 UTC; acknowledgement time 2026-10-21T14:56:36+00:00
+Evidence archive location
+review/codex-2026-10-21/evidence/ and Dragon_Market_Codex_Review_Evidence_2026-10-21.zip; see
+SHA256SUMS.txt.
+Issues / findings raised
+DM-REV-CODEX-001 (stale today display), -002 (reciprocal deadlock), -003 (mobile keyboard scroller).
+All open. No external issue posted.
+Tests personally executed
+Original build/vet/uncached/race suites, full verifier, focused daily-limit and final baseline verifier, five
+mutations, locked npm ci, frontend 15 tests/build/lint/typecheck, seven existing browser tests, custom
+browser/SQL/axe sessions, six reviewer-authored PostgreSQL checks. Exact commands and both
+reviewer-caused failed attempts retained in E02/E09/E12/E13.
+My review decision
+☐ APPROVE — within my explicitly documented scope
+☐ CONDITIONAL APPROVAL — with conditions listed below
+☒ REJECT / CHANGES REQUIRED — material concerns remain
+☐ UNABLE TO ASSESS — no correctness decision offered
+Decision: REJECT / CHANGES REQUIRED within the reviewed application scope.
+Three unresolved findings include a deterministic concurrency deadlock, incorrect daily-spend presentation and inaccessible mobile audit
+scrolling. Resolve or explicitly disposition them before baseline freeze; rerun affected checks against a new exact SHA if code changes.
+Existing financial safety checks passed, and aborted reciprocal purchase preserved atomicity. Optional research tasks/private oracles,
+independent human review, live hosted deployment, remote CI and other platforms are excluded. This is an AI reviewer acknowledgement
+only; human approval remains pending.
+Reviewer signature: /s/ Codex (OpenAI AI coding assistant) UTC date: 2026-10-21
+Typed electronic authorship acknowledgement at 2026-10-21T14:56:36+00:00; AI reviewer, not a human or certificate-backed
+signature.
+Signature may be typed as an acknowledgement if the recipient accepts electronic sign-off. Do not enter another person’s
+name or tick approvals on their behalf.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+17
+Separate researcher / baseline-owner acceptance (NOT reviewer-owned)
+Final baseline approval is reserved for the research owner after reconciling independent findings. Reviewers should leave this
+block blank.
+Owner decision
+PENDING — reserved for researcher; no owner approval supplied or inferred.
+Approved SHA
+Not approved by owner in this review. Reviewed SHA recorded above; no approved SHA asserted.
+Review evidence IDs
+Reviewer package E01–E14 supplied for owner consideration; no owner acceptance evidence recorded.
+Pin update / branch
+No research pin/branch/tag update performed; owner decision pending.
+Owner signature / date
+Not signed — researcher / baseline-owner field; outside AI reviewer authority.
+Appendix A — Optional quick-review route for less technical friends
+If you cannot install Go or Docker, you can still provide valuable UI feedback. You must NOT sign off on concurrency,
+migrations, wallet invariants or API/database correctness without examining relevant evidence.
+1. Ask the project owner for the real hosted review URL and access details via a private channel; do not use a guessed link.
+2. On System Status, record the deployed SHA and environment. It may not equal the intended f4ba211 baseline.
+3. Create a uniquely named rare item and fixed-price listing (if the review site is configured for safe disposable use).
+4. Switch development guilds and complete the purchase; record before/after screen values and errors.
+5. Attempt invalid input and repeat a transaction with the same idempotency key if the UI supports it.
+6. Create a legendary auction, place bids and observe reservations and eligible cancellations.
+7. Check keyboard focus, mobile behavior, navigation, error messages and page refresh.
+8. Fill UI-01 through UI-14, mark all non-reviewed technical tests NOT RUN, and sign only for UI/functional scope.
+HOSTED REVIEW LIMITATION Online Lab C/F/G require the LOCAL harness. The hosted review is not an acceptable substitute for
+independent SQL, race, fault injection or migration checks. Shared reviewer state may be affected by other participants.
+Appendix B — Reference documents and exact source links
+• Dragon Market repository: https://github.com/houtanrocky/dragon-market
+• Target source commit:
+https://github.com/houtanrocky/dragon-market/commit/f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7
+• Project README at target commit:
+https://github.com/houtanrocky/dragon-market/blob/f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7/README.md
+• Independent human review checklist: https://github.com/houtanrocky/dragon-market/blob/f4ba21185d1ba7b4bbb56f5add
+cc27d1b75bdec7/docs/transactional-correctness-baseline/HUMAN_REVIEW.md
+• Accounting model and reproduction: https://github.com/houtanrocky/dragon-market/blob/f4ba21185d1ba7b4bbb56f5add
+cc27d1b75bdec7/docs/transactional-correctness-baseline/README.md
+• Research repository: https://github.com/houtanrocky/agent-invariant-preservation
+• Baseline review manifest:
+https://github.com/houtanrocky/agent-invariant-preservation/blob/main/benchmark/manifests/baseline-review.json
+• Workbench reproduction guide (may evolve on master):
+https://github.com/houtanrocky/dragon-market/blob/master/docs/research-readiness/reproduction-guide.md
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+18
+• Hosted review protocol (may evolve on master):
+https://github.com/houtanrocky/dragon-market/blob/master/docs/research-readiness/human-review-deployment.md
+Version control note: files pinned to f4ba211 describe the chosen review revision. Master-branch docs are convenient
+references only; re-check them if the project changes. This pack contains instructions and blank fields, not pre-filled reviewer
+evidence.
+Appendix C — Completed findings, evidence and execution exceptions
+This appendix is part of the signed review. Evidence paths are relative to the evidence/ directory beside this document.
+REVIEW_REPORT.md contains the complete activity-by-activity record and detailed reasoning. Original guide preserved as
+Guide.original.docx.
+DM-REV-CODEX-001 — Wallet shows yesterday’s spending as “Spent today”
+Severity: Medium
+Tests: UI-11 / WAL-11 display limitation (backend projection itself passes)
+Reproduction: On the positively labelled disposable E2E DB only, set guild-buyer daily_spent=300 and daily_spent_on to UTC
+yesterday. Open /#wallet, select guild-buyer and reload. GET /api/guilds/guild-buyer/wallet independently.
+Expected: Today’s visible completed spend is 0.00 G; raw inspector retains yesterday’s 300 with its date. Reading must not alter
+stored history.
+Actual: Wallet visibly shows Spent today 3.00 G. GET wallet returns daily_spent=0; SQL retains 300 and yesterday’s date.
+Reproduced in both custom browser sessions and reviewer SQL test. No spending-limit bypass observed.
+Source: web/src/components.tsx:83; web/src/App.tsx:133 and :919; internal/postgres/inspection.go:42;
+internal/guild/service.go:GetGuild
+Evidence: E08 browser/finding-stale-spent-today.png, browser/observations.json (stale_counter); E09 independent-tests.log
+Action: Use current-day wallet projection for Wallet/Overview, or project with the observation’s UTC day while keeping dated
+raw inspector data. Add a stale-day UI regression.
+Status: Open; exact source unchanged.
+DM-REV-CODEX-002 — Reciprocal purchases acquire wallet locks in opposite order and deadlock
+Severity: Medium
+Tests: TX-14
+Reproduction: Run tools/run_independent.py against this exact checkout. The retained source copy adds only
+reviewer_independent_test.go. Create a rare listing owned by seller and another owned by buyer. Launch buyer buying seller’s
+item and seller buying buyer’s item concurrently. A test-only wallet wrapper waits after each real Spend has locked its buyer
+row; then lets both real Earn calls proceed. This deterministically schedules a naturally possible interleaving without changing
+application SQL or domain code.
+Expected: Valid reciprocal operations complete through consistent multi-wallet lock order or a bounded transaction retry;
+failed attempts must roll back.
+Actual: TestReviewerReciprocalPurchasesDoNotDeadlock fails: one service operation returns ERROR: deadlock detected
+(SQLSTATE 40P01), the other succeeds. SQL total gold=30000, audit rows=2, sold orders=1. Rollback/money conservation
+hold. HTTP 500 follows from handler mapping by source inspection; HTTP deadlock response was not separately executed.
+Source: internal/order/service.go:132, :135; internal/postgres/guild_repo.go:60; internal/postgres/tx.go:37;
+internal/api/order_handler.go:188
+Evidence: E09 independent-tests.log; tools/independent_postgres_test.go.txt; E11 source-excerpts.txt
+Action: Acquire all participating wallet locks in a deterministic order, or deliberately retry the entire transaction on
+40P01/40001 with bounded attempts. Retain rollback/idempotency guarantees. Review cross-auction two-wallet paths too.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+19
+Status: Open; deterministic counterexample preserved; no production source patched.
+DM-REV-CODEX-003 — Mobile wallet audit region cannot receive keyboard focus
+Severity: Medium
+Tests: UI-13
+Reproduction: With wallet audit rows present, open /#wallet at 390×844 in Chrome. Run axe-core 4.11.1 WCAG2 A/AA and
+WCAG2.1 AA scan; inspect .table-wrap.
+Expected: A horizontally scrollable audit table has an accessible keyboard scrolling path, with suitable region naming/focus
+behavior.
+Actual: Repeated scans flag scrollable-region-focusable, impact serious, target .table-wrap. Audit table has overflow content
+with no focusable descendant/tabindex. Desktop scan has zero violations. Skip link, main focus, mobile page width, navigation
+and refresh checks pass. No screen-reader evaluation or complete WCAG certification performed.
+Source: web/src/App.tsx:1181 (AuditTable wrapper); web/src/styles.css (.table-wrap)
+Evidence: E10 browser/axe-wallet-mobile.json and browser/axe-wallet-desktop.json; browser/wallet-mobile.png; E08
+browser/browser-trace.zip
+Action: Provide a named keyboard-focusable scroll region and verify horizontal scrolling and focus visibility with keyboard and
+assistive technology.
+Status: Open; reproduced twice; no fix applied.
+Evidence index
+E01 — identity.json; source-hashes-before.json; source-integrity.json; source-hashes-after.json
+E02 — executions.json; platform.json; *-version.log; go-cgo.log; gcc-version.log
+E03 — go-build.log; go-vet.log; go-tests.log; go-race.log
+E04 — full-verifier.log; full-verifier/results.json; full-verifier/frontend-*.log
+E05 — wallet-regressions.log; baseline-verifier-retry.log; baseline-verifier-retry/verification.json
+E06 — purchase-mutations.log; purchase-mutations/; wallet-mutations.log; wallet-mutations/
+E07 — playwright.log; playwright-results.json; playwright-test-results/; playwright-report/
+E08 — browser/observations.json; browser/purchase-example.json; browser/browser-trace.zip; browser/*.png
+E09 — independent-tests.log; independent-tests.json; ../tools/independent_postgres_test.go.txt
+E10 — browser/axe-wallet-desktop.json; browser/axe-wallet-mobile.json; browser/wallet-mobile.png
+E11 — source-excerpts.txt; review-notes.md
+E12 — reviewer-incident.json; baseline-verifier/; baseline-verifier.log; browser-first-attempt/
+E13 — independent-tests-oracle.log; independent-tests-oracle.json
+E14 — historical-evidence-restoration.json; source-integrity.json; docker-before.log; cleanup.json
+Source reasoning, deviations and actual execution history
+Reviewer: Codex, an OpenAI AI coding assistant. This is a new AI-executed review, not an independent human review,
+institutional attestation or authority to freeze a research baseline. No source changes were made. Human independence from
+earlier AI-assisted authorship is not established.
+The supplied positive-limit policy S(d)+R<=L is internally coherent. Reserve/spend check remaining capacity using guarded
+subtraction; nonnegative SQL constraints and funds checks bound additions. Release decreases only R. Deduct exchanges a
+hold for equal completed spending while decreasing gold. Earn changes gold only. UTC rollover drops nonnegative completed
+spending and preserves all holds. Thus each transition preserves the bound from valid service-created state with a fixed limit
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+20
+and reliable clock. L=0 still has int64 accounting bounds. This assessment accepts the supplied technical policy; it does not
+establish what a human researcher intends.
+Wallet reads copy the row and project the day; diagnostic snapshots intentionally return raw values and dates. The UI
+incorrectly labels the raw historical counter as today's spending, independently reproduced. The inspector's visible comparison
+also omits the raw date; readers must use the recorded snapshot/date instead of assuming a current-day projection. The audit
+column says UTC time but prints offset-bearing raw timestamps (for example +03:30); this is an additional low-severity
+labeling observation, not a debit/accounting error.
+Wallet UPDATE and audit insert share the context transaction. Order operations lock item then order; same-item competition
+serializes. Auction operations lock the auction and reuse that outer transaction. The wallet repository always uses FOR
+UPDATE; nested RunInTransaction calls reuse the transaction. There is no ordering across multiple distinct wallet rows and no
+40P01 retry. Opposing purchases can deadlock despite same-listing contention tests passing. The reviewer barrier only
+schedules after real successful Spend calls and does not manufacture a lock type absent from production. The observed abort
+preserves atomicity; this is a liveness/error-handling finding rather than evidence of money duplication.
+The price increment is current + ceil(current/20), with overflow rejected. The browser exercised a 525->552 minimum and a
+526 rejection; existing controlled-clock tests cover extension and repeated/concurrent settlement. Reviewer oracle checks use
+a real local HTTP server and the real resilient oracle, then persist its result through the real repository to compare base and
+fixed-order prices. They do not claim a separate new updater-scheduling test; the existing updater test was also executed.
+Migration 11's refusal is an intentional fresh-data boundary. The reviewer executed populated downgrade refusal and
+old-schema rejection in isolated tests. Existing legacy initialization checks compare surviving balances and ledger; no
+populated database was cleared or reinterpreted.
+Test adequacy limits: ordinary passing suites did not cover reciprocal wallet-lock ordering, dated-wallet rendering or mobile
+audit keyboard scrolling. Broader cross-auction/cross-order interleavings, worker batch starvation after persistent failure, long
+transactions spanning UTC midnight, clock skew, a complete screen-reader audit, other browsers/OSs and live cloud
+deployment/CI were not independently exercised. Simulation uses injected UTC clocks; the review did not wait for real
+midnight. No load/performance or formal correctness proof is claimed.
+Section 8: the separate research repository, exact T001/T002 packages, human references and controlled private evaluation
+oracles were not supplied in the reviewed application checkout and were not accessed. All eight task checks are NOT RUN. No
+statement about fairness, feature novelty, hidden-oracle adequacy or absence of leakage is made. No research pin, branch,
+tag, hosted database or deployment changed.
+Environment: existing initially clean exact-SHA checkout as explicitly requested, not a newly cloned independent machine;
+Windows 11 build 26200, Go 1.26.0 windows/amd64, Node 24.18.0/npm 11.16.0, GCC 16.1.0, Docker Desktop 4.58.0/Engine
+29.1.5/Compose 5.0.1, PostgreSQL 16.14 Linux container, Chrome 155.0.8059.85. Browser channel chrome selected instead of
+downloading Chromium, as README permits. Workbench frontend/backend exercised through the repository's disposable
+E2E stack at 5175/8085/8087; shared Compose stack at 5173 was not started. Testcontainers used separate fresh databases.
+No remote CI status was queried or inherited from old logs.
+Reviewer setup installed python-docx/reportlab/pypdf for document work and isolated @axe-core/playwright 4.11.1 for
+accessibility scanning. npm ci installed the locked frontend dependencies; no lockfile change; npm audit reported zero
+vulnerabilities at execution (not a security certification). npm emitted an unknown user node-linker config warning, jsdom
+reported unimplemented scrollTo, and Playwright emitted color-environment warnings; these did not fail the relevant checks.
+Early document-text extraction failed under cp1252 and was rerun with Python UTF-8. Some read-only exploratory file
+searches used nonexistent paths or Windows wildcard forms and were corrected; none changed application state.
+The first baseline-verifier invocation was contaminated by the review author's temporary .go file under review/tools, outside its
+intended postgres package. Build/vet then reported undefined helper symbols in that review-only package. This was a
+reviewer packaging mistake, not an application regression. The file was renamed .go.txt and only copied into a disposable
+source tree for the additional tests. A complete fresh baseline-verifier retry passed; both runs are retained. Original tracked
+historical evidence was byte-backed-up before each exact verifier invocation, copied separately for this review, then restored;
+source hashes confirm all originals unchanged.
+The first custom browser script completed purchase/replay/auction/accessibility/stale-day observations but its final exact
+Research Lab locator omitted the DEV badge in the accessible name and timed out. This was a reviewer locator mistake. The
+entire first attempt was preserved; a complete second fresh-disposable-stack run used the documented #lab route and
+completed. Both browser sessions reproduced the same two UI findings; the concurrency counterexample was independently
+reproduced twice in SQL-backed Go tests. Existing seven-test Playwright suite passed independently before these custom
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+21
+sessions.
+The combined final reviewer-authored SQL-backed suite executed all six additional checks: five passed and the
+reciprocal-purchase expectation failed again with 40P01. The initial five-test run and supplemental oracle run remain
+preserved. Optional Word COM PDF export did not complete; a complete reflowed PDF was instead rendered from the filled
+DOCX with ReportLab, with the rendering method disclosed on its first page. The stalled optional pymupdf download was
+stopped; pypdfium2 was installed for visual inspection. No application check result was changed by document rendering.
+No implementation fixes were made, no messages/issues were posted externally, no repository was pulled/cloned, and no
+baseline owner decision was supplied. Review-scoped typed signature only; no certificate-backed or human signature is
+claimed.
+Purchase replay: unchanged balance and ownership; independently checked ledger rows.
+DM-REV-CODEX-001: prior-day 300 shown as Spent today 3.00 G; API projects zero.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+22
+DM-REV-CODEX-003: mobile audit overflows inside the table region; axe identifies absent keyboard focus.
+
+Dragon Market · Codex AI review · f4ba21185d1b · human approval pending
+23
+/s/ Codex (OpenAI AI coding assistant)
+Signed UTC: 2026-10-21T14:56:36+00:00
+Decision and exclusions as in Section 11. Owner acceptance remains pending.

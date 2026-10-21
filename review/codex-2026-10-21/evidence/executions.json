@@ -1,0 +1,286 @@
+[
+  {
+    "id": "git-version",
+    "argv": [
+      "git",
+      "--version"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:34:34.726912+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:34:34.765923+00:00",
+    "status": "PASS",
+    "log": "git-version.log"
+  },
+  {
+    "id": "go-version",
+    "argv": [
+      "go",
+      "version"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:34:34.767028+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:34:34.840723+00:00",
+    "status": "PASS",
+    "log": "go-version.log"
+  },
+  {
+    "id": "node-version",
+    "argv": [
+      "node",
+      "--version"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:34:34.841061+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:34:34.880771+00:00",
+    "status": "PASS",
+    "log": "node-version.log"
+  },
+  {
+    "id": "npm-version",
+    "argv": [
+      "npm.cmd",
+      "--version"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:34:34.881273+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:34:35.327818+00:00",
+    "status": "PASS",
+    "log": "npm-version.log"
+  },
+  {
+    "id": "docker-version",
+    "argv": [
+      "docker",
+      "version"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:34:35.328191+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:34:35.398298+00:00",
+    "status": "PASS",
+    "log": "docker-version.log"
+  },
+  {
+    "id": "compose-version",
+    "argv": [
+      "docker",
+      "compose",
+      "version"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:34:35.398736+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:34:35.522022+00:00",
+    "status": "PASS",
+    "log": "compose-version.log"
+  },
+  {
+    "id": "go-cgo",
+    "argv": [
+      "go",
+      "env",
+      "CGO_ENABLED",
+      "CC"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:34:35.522679+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:34:35.574759+00:00",
+    "status": "PASS",
+    "log": "go-cgo.log"
+  },
+  {
+    "id": "gcc-version",
+    "argv": [
+      "gcc",
+      "--version"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:34:35.575187+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:34:35.729707+00:00",
+    "status": "PASS",
+    "log": "gcc-version.log"
+  },
+  {
+    "id": "docker-before",
+    "argv": [
+      "docker",
+      "ps",
+      "--format",
+      "{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Labels}}"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:34:35.730132+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:34:35.791658+00:00",
+    "status": "PASS",
+    "log": "docker-before.log"
+  },
+  {
+    "id": "go-build",
+    "argv": [
+      "go",
+      "build",
+      "./..."
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:34:35.792103+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:34:46.464839+00:00",
+    "status": "PASS",
+    "log": "go-build.log"
+  },
+  {
+    "id": "go-vet",
+    "argv": [
+      "go",
+      "vet",
+      "./..."
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:34:46.465574+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:34:49.543571+00:00",
+    "status": "PASS",
+    "log": "go-vet.log"
+  },
+  {
+    "id": "go-tests",
+    "argv": [
+      "go",
+      "test",
+      "-v",
+      "-count=1",
+      "./..."
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:34:49.544031+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:35:09.028039+00:00",
+    "status": "PASS",
+    "log": "go-tests.log"
+  },
+  {
+    "id": "go-race",
+    "argv": [
+      "go",
+      "test",
+      "-race",
+      "-count=1",
+      "./..."
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:35:09.028478+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:35:33.217297+00:00",
+    "status": "PASS",
+    "log": "go-race.log"
+  },
+  {
+    "id": "wallet-regressions",
+    "argv": [
+      "go",
+      "test",
+      "-v",
+      "-count=1",
+      "./internal/guild",
+      "./internal/postgres",
+      "-run",
+      "^TestDailyLimit"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:35:33.218056+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:35:42.503382+00:00",
+    "status": "PASS",
+    "log": "wallet-regressions.log"
+  },
+  {
+    "id": "npm-ci",
+    "argv": [
+      "npm.cmd",
+      "--prefix",
+      "web",
+      "ci"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:35:42.504092+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:36:12.340312+00:00",
+    "status": "PASS",
+    "log": "npm-ci.log"
+  },
+  {
+    "id": "full-verifier",
+    "argv": [
+      "node",
+      "scripts/verify.mjs"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:36:12.340877+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:37:19.667485+00:00",
+    "status": "PASS",
+    "log": "full-verifier.log"
+  },
+  {
+    "id": "purchase-mutations",
+    "argv": [
+      "node",
+      "scripts/mutation-check.mjs"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:37:19.667915+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:37:35.451378+00:00",
+    "status": "PASS",
+    "log": "purchase-mutations.log"
+  },
+  {
+    "id": "wallet-mutations",
+    "argv": [
+      "node",
+      "scripts/check-daily-limit-mutations.mjs"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:37:35.451943+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:38:00.620817+00:00",
+    "status": "PASS",
+    "log": "wallet-mutations.log"
+  },
+  {
+    "id": "baseline-verifier",
+    "argv": [
+      "node",
+      "scripts/verify-transactional-baseline.mjs"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:38:00.865573+00:00",
+    "exit_code": 1,
+    "finished_at_utc": "2026-10-21T14:39:01.593351+00:00",
+    "status": "FAIL",
+    "log": "baseline-verifier.log"
+  },
+  {
+    "id": "playwright",
+    "argv": [
+      "npm.cmd",
+      "--prefix",
+      "web",
+      "run",
+      "test:e2e"
+    ],
+    "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market",
+    "started_at_utc": "2026-10-21T14:39:01.700166+00:00",
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-21T14:40:05.700809+00:00",
+    "status": "PASS",
+    "log": "playwright.log"
+  }
+]

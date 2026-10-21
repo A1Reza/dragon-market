@@ -1,0 +1,18 @@
+{
+  "incident": "Reviewer saved the additional test source under tools with .go suffix while baseline verification was in progress; go ./... discovered it outside postgres package and emitted undefined-symbol errors.",
+  "responsibility": "Reviewer-created packaging error, not an application defect.",
+  "correction": "Renamed to independent_postgres_test.go.txt; runner copies it only to retained disposable source tree internal/postgres. Re-ran exact baseline verifier.",
+  "preserved_evidence": [
+    "baseline-verifier.log",
+    "baseline-verifier/verification.json",
+    "baseline-verifier-retry.log",
+    "baseline-verifier-retry/verification.json"
+  ],
+  "source_implementation_modified": false,
+  "browser_script_incident": {
+    "observation": "First custom browser session completed purchase, replay, auction, mobile and stale-day checks; final Research Lab navigation locator timed out.",
+    "cause": "Reviewer used exact accessible name Research Lab, but navigation badge appends DEV to accessible name.",
+    "correction": "Use documented hash route /#lab for final page; preserve full first trace, screenshots and observations before rerun.",
+    "product_defect": false
+  }
+}

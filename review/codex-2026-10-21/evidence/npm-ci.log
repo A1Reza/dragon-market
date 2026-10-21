@@ -1,0 +1,9 @@
+{"id": "npm-ci", "argv": ["npm.cmd", "--prefix", "web", "ci"], "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market", "started_at_utc": "2026-10-21T14:35:42.504092+00:00"}
+npm warn Unknown user config "node-linker". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+added 217 packages, and audited 218 packages in 29s
+
+59 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities

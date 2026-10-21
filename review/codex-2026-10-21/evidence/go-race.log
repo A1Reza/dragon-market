@@ -1,0 +1,16 @@
+{"id": "go-race", "argv": ["go", "test", "-race", "-count=1", "./..."], "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market", "started_at_utc": "2026-10-21T14:35:09.028478+00:00"}
+?   	market-dragon/cmd/mock-oracle	[no test files]
+ok  	market-dragon/cmd/research-lab	1.098s
+?   	market-dragon/cmd/review	[no test files]
+?   	market-dragon/cmd/server	[no test files]
+ok  	market-dragon/internal/api	1.091s
+ok  	market-dragon/internal/auction	1.073s
+?   	market-dragon/internal/gold	[no test files]
+ok  	market-dragon/internal/guild	1.090s
+ok  	market-dragon/internal/idempotency	1.073s
+?   	market-dragon/internal/inspection	[no test files]
+ok  	market-dragon/internal/item	1.071s
+ok  	market-dragon/internal/oracle	1.083s
+ok  	market-dragon/internal/order	1.068s
+ok  	market-dragon/internal/postgres	17.075s
+ok  	market-dragon/internal/review	1.136s

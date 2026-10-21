@@ -1,0 +1,10 @@
+{
+  "started_at_utc": "2026-10-21T14:33:46.786657+00:00",
+  "reviewer": "Codex (OpenAI AI coding assistant)",
+  "target_sha": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+  "initial_git_status": "",
+  "initial_full_status_before_review_files": "empty (captured in tool output before creating review folder)",
+  "template_sha256": "4230d42ad53a60f69e6c31feff57d883a6f59014bb1f6f3b353b0a57159bc331",
+  "template_location": "C:\\Users\\anon\\Downloads\\Dragon_Market_Reviewer_Guide_and_Signoff_Form.docx",
+  "checkout_policy": "Existing local clean install, explicitly authorized by requester; no clone, pull, fetch or source edits"
+}

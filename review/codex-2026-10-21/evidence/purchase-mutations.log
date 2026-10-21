@@ -1,0 +1,17 @@
+{"id": "purchase-mutations", "argv": ["node", "scripts/mutation-check.mjs"], "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market", "started_at_utc": "2026-10-21T14:37:19.667915+00:00"}
+[
+  {
+    "mutation": "missing-audit",
+    "status": "PASS",
+    "meaning": "Persisted-effect test detected the injected defect",
+    "command": "go test -count=1 ./internal/postgres -run ^TestHTTPPurchaseIdempotencyPersistedEffects$",
+    "exit": 1
+  },
+  {
+    "mutation": "missing-buyer-debit",
+    "status": "PASS",
+    "meaning": "Persisted-effect test detected the injected defect",
+    "command": "go test -count=1 ./internal/postgres -run ^TestHTTPPurchaseIdempotencyPersistedEffects$",
+    "exit": 1
+  }
+]

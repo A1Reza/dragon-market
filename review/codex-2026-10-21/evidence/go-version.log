@@ -1,0 +1,2 @@
+{"id": "go-version", "argv": ["go", "version"], "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market", "started_at_utc": "2026-10-21T14:34:34.767028+00:00"}
+go version go1.26.0 windows/amd64

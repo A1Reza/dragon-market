@@ -1,0 +1,140 @@
+package postgres
+
+import (
+    "context"
+    "errors"
+    "os"
+    "net/http"
+    "net/http/httptest"
+    "strings"
+    "sync"
+    "testing"
+    "time"
+
+    "market-dragon/internal/gold"
+    "market-dragon/internal/guild"
+    "market-dragon/internal/order"
+    "market-dragon/internal/oracle"
+)
+
+func TestReviewerOracleFallbackAndLockedPrice(t *testing.T) {
+    _,_,orders,_,_,_:=researchFixture(t)
+    listing,err:=orders.List(context.Background(),"research-item","seller",100);if err!=nil {t.Fatal(err)}
+    mode:="valid"
+    server:=httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter,r *http.Request){
+        switch mode {
+        case "zero":w.Write([]byte(`{"base_price":0}`))
+        case "negative":w.Write([]byte(`{"base_price":-3}`))
+        case "malformed":w.Write([]byte(`{oops`))
+        case "http503":w.WriteHeader(503)
+        case "timeout":<-r.Context().Done()
+        default:w.Write([]byte(`{"base_price":250}`))
+        }
+    }));defer server.Close()
+    client:=server.Client();client.Timeout=50*time.Millisecond
+    upstream,err:=oracle.NewHTTPOracle(server.URL,client);if err!=nil {t.Fatal(err)}
+    resilient:=oracle.NewResilientOracle(upstream)
+    for _,scenario:=range []string{"valid","zero","negative","malformed","http503","timeout"} {
+        mode=scenario
+        value,err:=resilient.GetBasePrice(context.Background(),"research-item")
+        if err!=nil||value!=250 {t.Fatalf("%s fallback=%d err=%v",scenario,value,err)}
+        if err:=NewItemRepository(testDB).UpdateBasePrice(context.Background(),"research-item",value);err!=nil {t.Fatal(err)}
+        var price,orderPrice int
+        if err:=testDB.QueryRow(`SELECT base_price,(SELECT price FROM limit_orders WHERE id=$1) FROM items WHERE id='research-item'`,listing.ID).Scan(&price,&orderPrice);err!=nil {t.Fatal(err)}
+        if price!=250||orderPrice!=100 {t.Fatalf("%s base/listing=%d/%d",scenario,price,orderPrice)}
+        t.Logf("scenario=%s fallback=%d SQL base_price=%d listing_price=%d",scenario,value,price,orderPrice)
+    }
+}
+
+// These reviewer-authored tests run ONLY in a retained source copy and fresh Testcontainers.
+func TestReviewerDownMigrationRefusesAndPreserves(t *testing.T) {
+    w, _, _, _, _, _ := researchFixture(t)
+    if err := w.Spend(context.Background(), "buyer", 123); err != nil { t.Fatal(err) }
+    before := persistedResearchState(t)
+    b, err := os.ReadFile("../../migrations/down/000011_daily_accounting_v2.down.sql")
+    if err != nil { t.Fatal(err) }
+    if _, err = testDB.Exec(string(b)); err == nil || !strings.Contains(err.Error(), "cannot automatically downgrade") {
+        t.Fatalf("expected populated downgrade refusal, got %v", err)
+    }
+    var version, gold, spent int
+    if err = testDB.QueryRow(`SELECT daily_accounting_version,gold,daily_spent FROM guilds WHERE id='buyer'`).Scan(&version,&gold,&spent); err != nil { t.Fatal(err) }
+    if version != 2 || gold != 9877 || spent != 123 { t.Fatalf("data changed: %d/%d/%d", version,gold,spent) }
+    t.Logf("refused down migration; version=%d gold=%d spent=%d; before=%+v after=%+v",version,gold,spent,before,persistedResearchState(t))
+}
+
+func TestReviewerWalletRefusesV1AndPreserves(t *testing.T) {
+    researchFixture(t)
+    ctx := context.Background()
+    tx, err := testDB.BeginTx(ctx, nil)
+    if err != nil { t.Fatal(err) }; defer tx.Rollback()
+    _, err = tx.Exec(`CREATE TEMP TABLE guilds(id TEXT,gold BIGINT,reserved BIGINT,daily_limit BIGINT,daily_spent BIGINT,daily_spent_on DATE);
+       INSERT INTO guilds VALUES('legacy',1000,100,500,200,'2026-10-20')`)
+    if err != nil { t.Fatal(err) }
+    w := guild.NewWalletService(NewWalletRepository(testDB),NewTransactor(testDB))
+    _, err = w.GetGuild(withTx(ctx,tx),"legacy")
+    if err == nil || !strings.Contains(err.Error(),"daily_accounting_version") { t.Fatalf("v1 was not clearly rejected: %v",err) }
+    t.Logf("new wallet code rejects absent accounting marker: %v",err)
+}
+
+func TestReviewerEarningsPreserveAllowance(t *testing.T) {
+    w,_,_,_,_,_ := researchFixture(t)
+    ctx:=context.Background()
+    if _,err:=testDB.Exec(`UPDATE guilds SET daily_limit=500 WHERE id='buyer'`);err!=nil {t.Fatal(err)}
+    if err:=w.Spend(ctx,"buyer",500);err!=nil {t.Fatal(err)}
+    if err:=w.Earn(ctx,"buyer",1000);err!=nil {t.Fatal(err)}
+    if err:=w.Spend(ctx,"buyer",1);!errors.Is(err,guild.ErrDailyLimitReached) {t.Fatalf("earn restored allowance: %v",err)}
+    var gold,spent,rows int
+    if err:=testDB.QueryRow(`SELECT gold,daily_spent,(SELECT count(*) FROM wallet_transactions WHERE guild_id='buyer') FROM guilds WHERE id='buyer'`).Scan(&gold,&spent,&rows);err!=nil {t.Fatal(err)}
+    if gold!=10500||spent!=500||rows!=2 {t.Fatalf("gold/spent/rows=%d/%d/%d",gold,spent,rows)}
+    t.Logf("SQL gold=%d completed=%d audit rows=%d; extra spend rejected",gold,spent,rows)
+}
+
+func TestReviewerInspectorExposesStaleSpend(t *testing.T) {
+    w,_,_,_,_,_:=researchFixture(t)
+    if _,err:=testDB.Exec(`UPDATE guilds SET daily_spent=300,daily_spent_on=(NOW() AT TIME ZONE 'UTC')::date-1 WHERE id='buyer'`);err!=nil {t.Fatal(err)}
+    projected,err:=w.GetGuild(context.Background(),"buyer");if err!=nil {t.Fatal(err)}
+    snapshot,err:=NewInspector(testDB,"reviewer-copy").Snapshot(context.Background(),0);if err!=nil {t.Fatal(err)}
+    for _,g:=range snapshot.Guilds {if g.ID=="buyer" {
+        if projected.DailySpent!=0||g.DailySpent!=300 {t.Fatalf("projection=%d raw=%d",projected.DailySpent,g.DailySpent)}
+        t.Logf("API projection=%d; inspector raw=%d dated=%s; UI WalletView uses raw field as 'Spent today'",projected.DailySpent,g.DailySpent,g.SpentOn.Format("2006-01-02"))
+        return
+    }}
+    t.Fatal("missing buyer")
+}
+
+type reviewerBarrierWallet struct {
+    wallet *guild.WalletServiceImpl
+    arrived *sync.WaitGroup
+}
+func(w reviewerBarrierWallet) Spend(ctx context.Context,id string,amount gold.Amount)error {
+    if err:=w.wallet.Spend(ctx,id,amount);err!=nil {return err}
+    // Force an ordinary possible interleaving: both buyer rows locked before seller credit.
+    w.arrived.Done()
+    done:=make(chan struct{});go func(){w.arrived.Wait();close(done)}()
+    select {case <-done:return nil;case <-ctx.Done():return ctx.Err()}
+}
+func(w reviewerBarrierWallet) Earn(ctx context.Context,id string,amount gold.Amount)error {
+    return w.wallet.Earn(ctx,id,amount)
+}
+
+func TestReviewerReciprocalPurchasesDoNotDeadlock(t *testing.T) {
+    wallet,items,_,_,_,tx:=researchFixture(t)
+    _,err:=testDB.Exec(`UPDATE guilds SET daily_limit=0 WHERE id IN ('buyer','seller');
+      INSERT INTO items(id,name,type,owner_id,status,base_price) VALUES('reviewer-reverse','Reverse','rare','buyer','free',100)`)
+    if err!=nil {t.Fatal(err)}
+    normal:=order.NewOrderService(NewOrderRepository(testDB),wallet,items,tx)
+    a,err:=normal.List(context.Background(),"research-item","seller",100);if err!=nil {t.Fatal(err)}
+    b,err:=normal.List(context.Background(),"reviewer-reverse","buyer",100);if err!=nil {t.Fatal(err)}
+    barrier:=&sync.WaitGroup{};barrier.Add(2)
+    svc:=order.NewOrderService(NewOrderRepository(testDB),reviewerBarrierWallet{wallet,barrier},items,tx)
+    ctx,cancel:=context.WithTimeout(context.Background(),15*time.Second);defer cancel()
+    results:=make(chan error,2)
+    go func(){results<-svc.Buy(ctx,a.ID,"buyer")}()
+    go func(){results<-svc.Buy(ctx,b.ID,"seller")}()
+    x,y:=<-results,<-results
+    var total,audits,sold int
+    if err:=testDB.QueryRow(`SELECT (SELECT sum(gold) FROM guilds),(SELECT count(*) FROM wallet_transactions),(SELECT count(*) FROM limit_orders WHERE status='sold')`).Scan(&total,&audits,&sold);err!=nil {t.Fatal(err)}
+    t.Logf("concurrent reciprocal results=%v / %v; SQL gold total=%d audit rows=%d sold=%d; state=%+v",x,y,total,audits,sold,persistedResearchState(t))
+    if total!=30000 {t.Fatalf("MONEY CONSERVATION FAILURE total=%d",total)}
+    if x!=nil||y!=nil {t.Fatalf("valid reciprocal purchases cannot both complete: %v / %v",x,y)}
+}

@@ -1,0 +1,35 @@
+2026/10/17 18:52:38 github.com/testcontainers/testcontainers-go - Connected to docker:
+  Server Version: 29.1.5
+  API Version: 1.52
+  Operating System: Docker Desktop
+  Total Memory: 7940 MB
+  Labels:
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+  Testcontainers for Go Version: v0.43.0
+  Resolved Docker Host: npipe:////./pipe/docker_engine
+  Resolved Docker Socket Path: //var/run/docker.sock
+  Test SessionID: 68da4cb78283667c70cb4c28b82e679d6d1ba08552cdc37c567557e251018a43
+  Test ProcessID: 3b95ec71-4e45-4813-ab87-e547f530fdae
+2026/10/17 18:52:38 🐳 Creating container for image postgres:16-alpine
+2026/10/17 18:52:38 🐳 Creating container for image testcontainers/ryuk:0.14.0
+2026/10/17 18:52:38 ✅ Container created: 7d45aec5dee8
+2026/10/17 18:52:38 🐳 Starting container: 7d45aec5dee8
+2026/10/17 18:52:39 ✅ Container started: 7d45aec5dee8
+2026/10/17 18:52:39 ⏳ Waiting for container id 7d45aec5dee8 image: testcontainers/ryuk:0.14.0. Waiting for: all of: [log message "Started", port 8080/tcp to be listening]
+2026/10/17 18:52:39 Shell not found in container
+2026/10/17 18:52:39 🔔 Container is ready: 7d45aec5dee8
+2026/10/17 18:52:39 ✅ Container created: a9739626342c
+2026/10/17 18:52:39 🐳 Starting container: a9739626342c
+2026/10/17 18:52:40 ✅ Container started: a9739626342c
+2026/10/17 18:52:40 ⏳ Waiting for container id a9739626342c image: postgres:16-alpine. Waiting for: all of: [log message "database system is ready to accept connections", port 5432/tcp to be listening]
+2026/10/17 18:52:42 🔔 Container is ready: a9739626342c
+=== RUN   TestKnownIssuePriorDayReleaseReducesTodaySpending
+    known_issue_test.go:33: KNOWN-01 CONFIRMED: 800 spent today under limit 500 after release of yesterday's reservation. This test does not verify limit safety.
+--- PASS: TestKnownIssuePriorDayReleaseReducesTodaySpending (0.31s)
+PASS
+2026/10/17 18:52:43 🐳 Stopping container: a9739626342c
+2026/10/17 18:52:44 ✅ Container stopped: a9739626342c
+2026/10/17 18:52:44 🐳 Terminating container: a9739626342c
+2026/10/17 18:52:44 🚫 Container terminated: a9739626342c
+ok  	market-dragon/internal/postgres	5.980s
+\n

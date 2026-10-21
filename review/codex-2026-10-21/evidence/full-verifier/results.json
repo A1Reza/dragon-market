@@ -1,0 +1,90 @@
+{
+  "started_at": "2026-10-21T14:36:12.432Z",
+  "commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+  "platform": "win32",
+  "node": "v24.18.0",
+  "scope": "full",
+  "results": [
+    {
+      "name": "go-build",
+      "command": "go build ./...",
+      "cwd": ".",
+      "started_at": "2026-10-21T14:36:12.479Z",
+      "finished_at": "2026-10-21T14:36:13.947Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/go-build.log"
+    },
+    {
+      "name": "go-vet",
+      "command": "go vet ./...",
+      "cwd": ".",
+      "started_at": "2026-10-21T14:36:13.949Z",
+      "finished_at": "2026-10-21T14:36:14.929Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/go-vet.log"
+    },
+    {
+      "name": "go-tests",
+      "command": "go test -count=1 ./...",
+      "cwd": ".",
+      "started_at": "2026-10-21T14:36:14.929Z",
+      "finished_at": "2026-10-21T14:36:32.016Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/go-tests.log"
+    },
+    {
+      "name": "go-race",
+      "command": "go test -race -count=1 ./...",
+      "cwd": ".",
+      "started_at": "2026-10-21T14:36:32.017Z",
+      "finished_at": "2026-10-21T14:37:05.026Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/go-race.log"
+    },
+    {
+      "name": "frontend-typecheck",
+      "command": "npm run typecheck",
+      "cwd": "web",
+      "started_at": "2026-10-21T14:37:05.027Z",
+      "finished_at": "2026-10-21T14:37:09.122Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/frontend-typecheck.log"
+    },
+    {
+      "name": "frontend-lint",
+      "command": "npm run lint",
+      "cwd": "web",
+      "started_at": "2026-10-21T14:37:09.122Z",
+      "finished_at": "2026-10-21T14:37:12.908Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/frontend-lint.log"
+    },
+    {
+      "name": "frontend-test",
+      "command": "npm run test",
+      "cwd": "web",
+      "started_at": "2026-10-21T14:37:12.908Z",
+      "finished_at": "2026-10-21T14:37:15.985Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/frontend-test.log"
+    },
+    {
+      "name": "frontend-build",
+      "command": "npm run build",
+      "cwd": "web",
+      "started_at": "2026-10-21T14:37:15.985Z",
+      "finished_at": "2026-10-21T14:37:19.656Z",
+      "status": "PASS",
+      "exit": 0,
+      "artifact": "artifacts/verification/frontend-build.log"
+    }
+  ],
+  "finished_at": "2026-10-21T14:37:19.657Z"
+}

@@ -1,0 +1,1 @@
+{"id": "docker-before", "argv": ["docker", "ps", "--format", "{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Labels}}"], "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market", "started_at_utc": "2026-10-21T14:34:35.730132+00:00"}

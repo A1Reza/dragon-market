@@ -1,0 +1,15 @@
+
+> dragon-market-aethoria@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 S:/Repos/reserach-reviewer/codex-review/dragon-market/web
+
+
+ Test Files  3 passed (3)
+      Tests  15 passed (15)
+   Start at  18:07:13
+   Duration  2.29s (transform 361ms, setup 667ms, import 817ms, tests 1.15s, environment 2.89s)
+
+npm warn Unknown user config "node-linker". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+Not implemented: Window's scrollTo() method

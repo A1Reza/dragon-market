@@ -1,0 +1,2241 @@
+{
+  "reviewer": "Codex (AI)",
+  "sha": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+  "started_at_utc": "2026-10-21T14:42:49.392Z",
+  "checks": [
+    {
+      "id": "UI-01-load",
+      "status": "PASS",
+      "utc": "2026-10-21T14:42:58.433Z",
+      "details": {
+        "environment": "development",
+        "database": "dragon_research_disposable",
+        "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7"
+      }
+    },
+    {
+      "id": "UI-01-health",
+      "status": "PASS",
+      "utc": "2026-10-21T14:42:58.999Z",
+      "details": "THE AETHORIA EXCHANGE\nSystem Status\n\nAvailability is observable. Correctness requires evidence.\n\nRefresh state\nPersisted snapshot · 6:12:58 PM · dragon_research_disposable@172.17.0.2/32:5432\nUp to 200 records per collection\nService diagnostics\nCheck services\nBackend health-check\nHealthy · HTTP 200 · empty process response\nAPI base URL\n/api\nFrontend version\n0.1.0\nRunning environment\ndevelopment\nDatabase readiness\nHealthy · read-only query succeeded\nDatabase identity\ndragon_research_disposable@172.17.0.2/32:5432\nPostgreSQL version\n16.14\nBackend commit\nf4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\nMock oracle status\nUnsupported · backend does not expose oracle health\nIsolated scenario harness\nHealthy · isolated Testcontainers runner\nHuman approval\nPENDING_HUMAN_REVIEW\nAvailability and correctness answer different questions.\n\n/healthz confirms that the process can answer HTTP. A successful development snapshot confirms a database read at a point in time. Neither demonstrates transaction correctness. The Go integration tests independently inspect committed state after retries, competition and deliberately failed transactions.\n\nThis application has no production authentication. Keep it local. A guild selector changes request input; it is not an authorization boundary.\n\nCollection totals and page limits\nDRAGON MARKET\n·\nAETHORIA\nDevelopment workbench · Candidate research baseline · PENDING_HUMAN_REVIEW"
+    },
+    {
+      "id": "UI-02",
+      "status": "PASS",
+      "utc": "2026-10-21T14:42:59.218Z",
+      "details": "All three seed identities selected; visible total 100.00 G each; selector clearly labelled Development Guild Switcher"
+    },
+    {
+      "id": "UI-03",
+      "status": "PASS",
+      "utc": "2026-10-21T14:42:59.544Z",
+      "details": {
+        "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+        "name": "Codex-R1-2110-Emberglass",
+        "type": "rare",
+        "owner_id": "guild-seller",
+        "status": "free",
+        "base_price": 700
+      }
+    },
+    {
+      "id": "UI-04",
+      "status": "PASS",
+      "utc": "2026-10-21T14:42:59.891Z",
+      "details": {
+        "listing": {
+          "id": "5f1a6680-a565-410b-af1f-0659d893342f",
+          "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+          "seller_id": "guild-seller",
+          "buyer_id": null,
+          "price": 700,
+          "status": "listed",
+          "listed_at": "2026-10-21T18:12:59.787079+03:30"
+        },
+        "zero_price": "HTML range validation prevents submission"
+      }
+    },
+    {
+      "id": "UI-05",
+      "status": "PASS",
+      "utc": "2026-10-21T14:43:01.235Z",
+      "details": "{\"wallets\" : [{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21\"}, \n {\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21\"}, \n {\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21\"}], \"item\" : {\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"base_price\":700,\"status\":\"free\"}, \"audit\" : [{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T14:43:38.392736+00:00\"}, \n {\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T14:43:38.392736+00:00\"}]}"
+    },
+    {
+      "id": "UI-10",
+      "status": "PASS",
+      "utc": "2026-10-21T14:43:02.001Z",
+      "details": "Replay has no further debit, ownership transfer, ledger entries or idempotency rows; SQL total audits=2 / keys=1"
+    },
+    {
+      "id": "UI-11-raw-inspector",
+      "status": "PASS",
+      "utc": "2026-10-21T14:43:02.002Z",
+      "details": "Before/after snapshots and raw daily_spent_on retained in evidence; current-day wallet labeling tested separately"
+    },
+    {
+      "id": "TX-04",
+      "status": "PASS",
+      "utc": "2026-10-21T14:43:02.035Z",
+      "details": {
+        "soldCancel": {
+          "status": 400,
+          "data": "cannot cancel order that is not listed\n",
+          "headers": {
+            "vary": "Origin",
+            "content-type": "text/plain; charset=utf-8",
+            "x-content-type-options": "nosniff",
+            "x-request-id": "e13d6a38-cf4d-4cf5-bddb-aafc0df2da19",
+            "date": "Wed, 21 Oct 2026 14:43:02 GMT",
+            "content-length": "39",
+            "connection": "close"
+          }
+        },
+        "rebuy": {
+          "status": 400,
+          "data": "order is already sold to someone else\n",
+          "headers": {
+            "vary": "Origin",
+            "content-type": "text/plain; charset=utf-8",
+            "x-content-type-options": "nosniff",
+            "x-request-id": "b48e92bb-2108-4ed7-a7c6-b28edbfcdbb9",
+            "date": "Wed, 21 Oct 2026 14:43:02 GMT",
+            "content-length": "38",
+            "connection": "close"
+          }
+        }
+      }
+    },
+    {
+      "id": "UI-06",
+      "status": "PASS",
+      "utc": "2026-10-21T14:43:03.037Z",
+      "details": {
+        "eligible_cancel": "item free",
+        "sold_cancel": 400
+      }
+    },
+    {
+      "id": "UI-07",
+      "status": "PASS",
+      "utc": "2026-10-21T14:43:03.689Z",
+      "details": {
+        "item": {
+          "id": "0dbf5ce1-8ae4-4561-89be-fe663caedea4",
+          "name": "Codex-R1-2110-Astral-Crown",
+          "type": "legendary",
+          "owner_id": "guild-seller",
+          "status": "listed_in_auction",
+          "base_price": 700
+        },
+        "auction": {
+          "id": "42451be0-d182-4f62-a270-72abf38eb978",
+          "item_id": "0dbf5ce1-8ae4-4561-89be-fe663caedea4",
+          "seller_id": "guild-seller",
+          "ends_at": "2026-10-22T18:13:03.584588+03:30",
+          "status": "active"
+        }
+      }
+    },
+    {
+      "id": "UI-08",
+      "status": "PASS",
+      "utc": "2026-10-21T14:43:04.246Z",
+      "details": "buyer total gold 9300 unchanged; reserved 500; available 8800"
+    },
+    {
+      "id": "TX-08",
+      "status": "PASS",
+      "utc": "2026-10-21T14:43:04.653Z",
+      "details": "Same bidder raises from 500 to 525; reservation is 525, delta=25"
+    },
+    {
+      "id": "UI-12",
+      "status": "PASS",
+      "utc": "2026-10-21T14:43:04.898Z",
+      "details": "minimum bid is 552: bid does not meet minimum increment"
+    },
+    {
+      "id": "UI-09",
+      "status": "PASS",
+      "utc": "2026-10-21T14:43:05.970Z",
+      "details": "Outbid releases old hold; accepted 552 reserves new hold; active highest cancel releases it; completed spend preserved"
+    },
+    {
+      "id": "UI-12-api",
+      "status": "PASS",
+      "utc": "2026-10-21T14:43:06.009Z",
+      "details": {
+        "status": 400,
+        "data": "item invalid: base price must be positive\n",
+        "headers": {
+          "vary": "Origin",
+          "content-type": "text/plain; charset=utf-8",
+          "x-content-type-options": "nosniff",
+          "x-request-id": "c30ceaca-db64-498a-9d1f-ca767c8866d5",
+          "date": "Wed, 21 Oct 2026 14:43:06 GMT",
+          "content-length": "42",
+          "connection": "close"
+        }
+      }
+    },
+    {
+      "id": "UI-13-axe-wallet",
+      "status": "PASS",
+      "utc": "2026-10-21T14:43:06.808Z",
+      "details": {
+        "violations": [],
+        "passes": 24
+      }
+    },
+    {
+      "id": "UI-13-keyboard-mobile",
+      "status": "PASS",
+      "utc": "2026-10-21T14:43:07.435Z",
+      "details": "390x844; no horizontal overflow; Tab skip link and Enter focus main; refresh/hash route preserved"
+    },
+    {
+      "id": "UI-13-axe-mobile",
+      "status": "FAIL",
+      "utc": "2026-10-21T14:43:07.875Z",
+      "details": {
+        "violations": [
+          {
+            "id": "scrollable-region-focusable",
+            "impact": "serious",
+            "nodes": [
+              {
+                "target": [
+                  ".table-wrap"
+                ],
+                "summary": "Fix any of the following:\n  Element should have focusable content\n  Element should be focusable"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "DM-REV-CODEX-001",
+      "status": "FAIL",
+      "utc": "2026-10-21T14:43:08.910Z",
+      "details": {
+        "sql": "guild-buyer|300|2026-10-20",
+        "api": {
+          "status": 200,
+          "data": {
+            "id": "guild-buyer",
+            "gold": 9300,
+            "reserved": 0,
+            "daily_spent": 0,
+            "daily_limit": 5000,
+            "available": 9300
+          },
+          "headers": {
+            "vary": "Origin",
+            "content-type": "application/json",
+            "x-request-id": "c50055ba-3c05-4560-979b-1410bc23154b",
+            "date": "Wed, 21 Oct 2026 14:43:08 GMT",
+            "content-length": "98",
+            "connection": "close"
+          }
+        },
+        "visible": "Spent today\n3.00 G\nDaily limit\n50.00 G"
+      }
+    },
+    {
+      "id": "UI-14-local",
+      "status": "PASS",
+      "utc": "2026-10-21T14:43:09.122Z",
+      "details": "Local Research Lab uses local isolated harness; hosted controls inspected in source and executed gateway tests; hosted site not used"
+    }
+  ],
+  "network": [
+    {
+      "utc": "2026-10-21T14:42:58.331Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:42:58.3018681Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":0,\"limit_orders\":0,\"wallet_transactions\":0},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[],\"orders\":[],\"auctions\":[],\"bids\":[],\"audit\":[]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:42:58.431Z",
+      "method": "GET",
+      "url": "/dev/snapshot",
+      "status": 200,
+      "replayed": null,
+      "response": {
+        "observed_at": "2026-10-21T14:42:58.4095127Z",
+        "environment": "development",
+        "database": "dragon_research_disposable",
+        "database_version": "16.14",
+        "database_address": "172.17.0.2/32:5432",
+        "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+        "limit": 200,
+        "offset": 0,
+        "counts": {
+          "auctions": 0,
+          "bids": 0,
+          "guilds": 3,
+          "items": 0,
+          "limit_orders": 0,
+          "wallet_transactions": 0
+        },
+        "guilds": [
+          {
+            "id": "guild-bidder",
+            "gold": 10000,
+            "reserved": 0,
+            "available": 10000,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-buyer",
+            "gold": 10000,
+            "reserved": 0,
+            "available": 10000,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-seller",
+            "gold": 10000,
+            "reserved": 0,
+            "available": 10000,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          }
+        ],
+        "items": [],
+        "orders": [],
+        "auctions": [],
+        "bids": [],
+        "audit": []
+      }
+    },
+    {
+      "utc": "2026-10-21T14:42:58.808Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/healthz",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": ""
+    },
+    {
+      "utc": "2026-10-21T14:42:59.435Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:42:59.4143371Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":0,\"limit_orders\":0,\"wallet_transactions\":0},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[],\"orders\":[],\"auctions\":[],\"bids\":[],\"audit\":[]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:42:59.450Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/items",
+      "body": "{\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-seller\",\"base_price\":700}",
+      "key": null,
+      "status": 201,
+      "replayed": null,
+      "response": "{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700}\n"
+    },
+    {
+      "utc": "2026-10-21T14:42:59.472Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:42:59.4552291Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":1,\"limit_orders\":0,\"wallet_transactions\":0},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700}],\"orders\":[],\"auctions\":[],\"bids\":[],\"audit\":[]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:42:59.543Z",
+      "method": "GET",
+      "url": "/dev/snapshot",
+      "status": 200,
+      "replayed": null,
+      "response": {
+        "observed_at": "2026-10-21T14:42:59.5300962Z",
+        "environment": "development",
+        "database": "dragon_research_disposable",
+        "database_version": "16.14",
+        "database_address": "172.17.0.2/32:5432",
+        "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+        "limit": 200,
+        "offset": 0,
+        "counts": {
+          "auctions": 0,
+          "bids": 0,
+          "guilds": 3,
+          "items": 1,
+          "limit_orders": 0,
+          "wallet_transactions": 0
+        },
+        "guilds": [
+          {
+            "id": "guild-bidder",
+            "gold": 10000,
+            "reserved": 0,
+            "available": 10000,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-buyer",
+            "gold": 10000,
+            "reserved": 0,
+            "available": 10000,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-seller",
+            "gold": 10000,
+            "reserved": 0,
+            "available": 10000,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          }
+        ],
+        "items": [
+          {
+            "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+            "name": "Codex-R1-2110-Emberglass",
+            "type": "rare",
+            "owner_id": "guild-seller",
+            "status": "free",
+            "base_price": 700
+          }
+        ],
+        "orders": [],
+        "auctions": [],
+        "bids": [],
+        "audit": []
+      }
+    },
+    {
+      "utc": "2026-10-21T14:42:59.778Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:42:59.7638321Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":1,\"limit_orders\":0,\"wallet_transactions\":0},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700}],\"orders\":[],\"auctions\":[],\"bids\":[],\"audit\":[]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:42:59.795Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/orders",
+      "body": "{\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"owner_id\":\"guild-seller\",\"base_price\":700}",
+      "key": null,
+      "status": 201,
+      "replayed": null,
+      "response": "{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"name\":\"\",\"owner_id\":\"guild-seller\",\"status\":\"listed\",\"base_price\":700}\n"
+    },
+    {
+      "utc": "2026-10-21T14:42:59.813Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:42:59.7994223Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":1,\"limit_orders\":1,\"wallet_transactions\":0},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_order\",\"base_price\":700}],\"orders\":[{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"listed\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[],\"bids\":[],\"audit\":[]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:42:59.890Z",
+      "method": "GET",
+      "url": "/dev/snapshot",
+      "status": 200,
+      "replayed": null,
+      "response": {
+        "observed_at": "2026-10-21T14:42:59.8784003Z",
+        "environment": "development",
+        "database": "dragon_research_disposable",
+        "database_version": "16.14",
+        "database_address": "172.17.0.2/32:5432",
+        "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+        "limit": 200,
+        "offset": 0,
+        "counts": {
+          "auctions": 0,
+          "bids": 0,
+          "guilds": 3,
+          "items": 1,
+          "limit_orders": 1,
+          "wallet_transactions": 0
+        },
+        "guilds": [
+          {
+            "id": "guild-bidder",
+            "gold": 10000,
+            "reserved": 0,
+            "available": 10000,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-buyer",
+            "gold": 10000,
+            "reserved": 0,
+            "available": 10000,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-seller",
+            "gold": 10000,
+            "reserved": 0,
+            "available": 10000,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          }
+        ],
+        "items": [
+          {
+            "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+            "name": "Codex-R1-2110-Emberglass",
+            "type": "rare",
+            "owner_id": "guild-seller",
+            "status": "listed_in_order",
+            "base_price": 700
+          }
+        ],
+        "orders": [
+          {
+            "id": "5f1a6680-a565-410b-af1f-0659d893342f",
+            "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+            "seller_id": "guild-seller",
+            "buyer_id": null,
+            "price": 700,
+            "status": "listed",
+            "listed_at": "2026-10-21T18:12:59.787079+03:30"
+          }
+        ],
+        "auctions": [],
+        "bids": [],
+        "audit": []
+      }
+    },
+    {
+      "utc": "2026-10-21T14:43:00.057Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:00.0368823Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":1,\"limit_orders\":1,\"wallet_transactions\":0},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_order\",\"base_price\":700}],\"orders\":[{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"listed\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[],\"bids\":[],\"audit\":[]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:00.092Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/orders/5f1a6680-a565-410b-af1f-0659d893342f/buy",
+      "body": "{\"buyer_id\":\"guild-buyer\"}",
+      "key": "2528c5ca-80ff-4f2e-af12-3a156deec002",
+      "status": 204,
+      "replayed": null,
+      "response": ""
+    },
+    {
+      "utc": "2026-10-21T14:43:00.112Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:00.0973171Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":1,\"limit_orders\":1,\"wallet_transactions\":2},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[],\"bids\":[],\"audit\":[{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:00.164Z",
+      "method": "GET",
+      "url": "/dev/snapshot",
+      "status": 200,
+      "replayed": null,
+      "response": {
+        "observed_at": "2026-10-21T14:43:00.1500775Z",
+        "environment": "development",
+        "database": "dragon_research_disposable",
+        "database_version": "16.14",
+        "database_address": "172.17.0.2/32:5432",
+        "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+        "limit": 200,
+        "offset": 0,
+        "counts": {
+          "auctions": 0,
+          "bids": 0,
+          "guilds": 3,
+          "items": 1,
+          "limit_orders": 1,
+          "wallet_transactions": 2
+        },
+        "guilds": [
+          {
+            "id": "guild-bidder",
+            "gold": 10000,
+            "reserved": 0,
+            "available": 10000,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-buyer",
+            "gold": 9300,
+            "reserved": 0,
+            "available": 9300,
+            "daily_limit": 5000,
+            "daily_spent": 700,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-seller",
+            "gold": 10700,
+            "reserved": 0,
+            "available": 10700,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          }
+        ],
+        "items": [
+          {
+            "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+            "name": "Codex-R1-2110-Emberglass",
+            "type": "rare",
+            "owner_id": "guild-buyer",
+            "status": "free",
+            "base_price": 700
+          }
+        ],
+        "orders": [
+          {
+            "id": "5f1a6680-a565-410b-af1f-0659d893342f",
+            "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+            "seller_id": "guild-seller",
+            "buyer_id": "guild-buyer",
+            "price": 700,
+            "status": "sold",
+            "listed_at": "2026-10-21T18:12:59.787079+03:30"
+          }
+        ],
+        "auctions": [],
+        "bids": [],
+        "audit": [
+          {
+            "id": 2,
+            "guild_id": "guild-seller",
+            "operation": "earn",
+            "amount": 700,
+            "gold_after": 10700,
+            "reserved_after": 0,
+            "created_at": "2026-10-21T18:13:38.392736+03:30"
+          },
+          {
+            "id": 1,
+            "guild_id": "guild-buyer",
+            "operation": "spend",
+            "amount": 700,
+            "gold_after": 9300,
+            "reserved_after": 0,
+            "created_at": "2026-10-21T18:13:38.392736+03:30"
+          }
+        ]
+      }
+    },
+    {
+      "utc": "2026-10-21T14:43:01.381Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:01.3679295Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":1,\"limit_orders\":1,\"wallet_transactions\":2},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[],\"bids\":[],\"audit\":[{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:01.390Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/orders/5f1a6680-a565-410b-af1f-0659d893342f/buy",
+      "body": "{\"buyer_id\":\"guild-buyer\"}",
+      "key": "2528c5ca-80ff-4f2e-af12-3a156deec002",
+      "status": 204,
+      "replayed": "true",
+      "response": ""
+    },
+    {
+      "utc": "2026-10-21T14:43:01.407Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:01.3939939Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":1,\"limit_orders\":1,\"wallet_transactions\":2},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[],\"bids\":[],\"audit\":[{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:01.886Z",
+      "method": "GET",
+      "url": "/dev/snapshot",
+      "status": 200,
+      "replayed": null,
+      "response": {
+        "observed_at": "2026-10-21T14:43:01.8745153Z",
+        "environment": "development",
+        "database": "dragon_research_disposable",
+        "database_version": "16.14",
+        "database_address": "172.17.0.2/32:5432",
+        "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+        "limit": 200,
+        "offset": 0,
+        "counts": {
+          "auctions": 0,
+          "bids": 0,
+          "guilds": 3,
+          "items": 1,
+          "limit_orders": 1,
+          "wallet_transactions": 2
+        },
+        "guilds": [
+          {
+            "id": "guild-bidder",
+            "gold": 10000,
+            "reserved": 0,
+            "available": 10000,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-buyer",
+            "gold": 9300,
+            "reserved": 0,
+            "available": 9300,
+            "daily_limit": 5000,
+            "daily_spent": 700,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-seller",
+            "gold": 10700,
+            "reserved": 0,
+            "available": 10700,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          }
+        ],
+        "items": [
+          {
+            "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+            "name": "Codex-R1-2110-Emberglass",
+            "type": "rare",
+            "owner_id": "guild-buyer",
+            "status": "free",
+            "base_price": 700
+          }
+        ],
+        "orders": [
+          {
+            "id": "5f1a6680-a565-410b-af1f-0659d893342f",
+            "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+            "seller_id": "guild-seller",
+            "buyer_id": "guild-buyer",
+            "price": 700,
+            "status": "sold",
+            "listed_at": "2026-10-21T18:12:59.787079+03:30"
+          }
+        ],
+        "auctions": [],
+        "bids": [],
+        "audit": [
+          {
+            "id": 2,
+            "guild_id": "guild-seller",
+            "operation": "earn",
+            "amount": 700,
+            "gold_after": 10700,
+            "reserved_after": 0,
+            "created_at": "2026-10-21T18:13:38.392736+03:30"
+          },
+          {
+            "id": 1,
+            "guild_id": "guild-buyer",
+            "operation": "spend",
+            "amount": 700,
+            "gold_after": 9300,
+            "reserved_after": 0,
+            "created_at": "2026-10-21T18:13:38.392736+03:30"
+          }
+        ]
+      }
+    },
+    {
+      "utc": "2026-10-21T14:43:02.017Z",
+      "method": "DELETE",
+      "url": "/orders/5f1a6680-a565-410b-af1f-0659d893342f",
+      "body": {
+        "seller_id": "guild-seller"
+      },
+      "status": 400,
+      "replayed": null,
+      "response": "cannot cancel order that is not listed\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:02.034Z",
+      "method": "POST",
+      "url": "/orders/5f1a6680-a565-410b-af1f-0659d893342f/buy",
+      "body": {
+        "buyer_id": "guild-bidder"
+      },
+      "key": "codex-new-operation-sold",
+      "status": 400,
+      "replayed": null,
+      "response": "order is already sold to someone else\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:02.282Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:02.2653688Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":1,\"limit_orders\":1,\"wallet_transactions\":2},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[],\"bids\":[],\"audit\":[{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:02.295Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/items",
+      "body": "{\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"base_price\":700}",
+      "key": null,
+      "status": 201,
+      "replayed": null,
+      "response": "{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:02.313Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:02.2995031Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":2,\"limit_orders\":1,\"wallet_transactions\":2},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[],\"bids\":[],\"audit\":[{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:02.489Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:02.4690966Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":2,\"limit_orders\":1,\"wallet_transactions\":2},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[],\"bids\":[],\"audit\":[{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:02.504Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/orders",
+      "body": "{\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"owner_id\":\"guild-seller\",\"base_price\":700}",
+      "key": null,
+      "status": 201,
+      "replayed": null,
+      "response": "{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"name\":\"\",\"owner_id\":\"guild-seller\",\"status\":\"listed\",\"base_price\":700}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:02.524Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:02.5101555Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":2,\"limit_orders\":2,\"wallet_transactions\":2},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_order\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"listed\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[],\"bids\":[],\"audit\":[{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:02.729Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:02.7130596Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":2,\"limit_orders\":2,\"wallet_transactions\":2},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_order\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"listed\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[],\"bids\":[],\"audit\":[{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:02.748Z",
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5175/api/orders/f979e620-3349-4843-9e36-1f74cea57758",
+      "body": "{\"seller_id\":\"guild-seller\"}",
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": ""
+    },
+    {
+      "utc": "2026-10-21T14:43:02.762Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:02.7512639Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":2,\"limit_orders\":2,\"wallet_transactions\":2},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[],\"bids\":[],\"audit\":[{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:03.220Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:03.2096093Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":2,\"limit_orders\":2,\"wallet_transactions\":2},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[],\"bids\":[],\"audit\":[{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:03.232Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/items",
+      "body": "{\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"base_price\":700}",
+      "key": null,
+      "status": 201,
+      "replayed": null,
+      "response": "{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:03.251Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:03.2360075Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":2},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[],\"bids\":[],\"audit\":[{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:03.576Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:03.5546616Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":0,\"bids\":0,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":2},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[],\"bids\":[],\"audit\":[{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:03.594Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/auctions",
+      "body": "{\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\"}",
+      "key": null,
+      "status": 201,
+      "replayed": null,
+      "response": "{\"id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\",\"ends_at\":\"2026-10-22T18:13:03.5845887+03:30\",\"status\":\"active\"}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:03.623Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:03.5990669Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":1,\"bids\":0,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":2},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_auction\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[{\"id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\",\"ends_at\":\"2026-10-22T18:13:03.584588+03:30\",\"status\":\"active\"}],\"bids\":[],\"audit\":[{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:03.688Z",
+      "method": "GET",
+      "url": "/dev/snapshot",
+      "status": 200,
+      "replayed": null,
+      "response": {
+        "observed_at": "2026-10-21T14:43:03.6724286Z",
+        "environment": "development",
+        "database": "dragon_research_disposable",
+        "database_version": "16.14",
+        "database_address": "172.17.0.2/32:5432",
+        "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+        "limit": 200,
+        "offset": 0,
+        "counts": {
+          "auctions": 1,
+          "bids": 0,
+          "guilds": 3,
+          "items": 3,
+          "limit_orders": 2,
+          "wallet_transactions": 2
+        },
+        "guilds": [
+          {
+            "id": "guild-bidder",
+            "gold": 10000,
+            "reserved": 0,
+            "available": 10000,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-buyer",
+            "gold": 9300,
+            "reserved": 0,
+            "available": 9300,
+            "daily_limit": 5000,
+            "daily_spent": 700,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-seller",
+            "gold": 10700,
+            "reserved": 0,
+            "available": 10700,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          }
+        ],
+        "items": [
+          {
+            "id": "0a4670dc-4c2e-4e73-a321-134c556c4b43",
+            "name": "Codex-R1-2110-Cancel-Flask",
+            "type": "common",
+            "owner_id": "guild-seller",
+            "status": "free",
+            "base_price": 700
+          },
+          {
+            "id": "0dbf5ce1-8ae4-4561-89be-fe663caedea4",
+            "name": "Codex-R1-2110-Astral-Crown",
+            "type": "legendary",
+            "owner_id": "guild-seller",
+            "status": "listed_in_auction",
+            "base_price": 700
+          },
+          {
+            "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+            "name": "Codex-R1-2110-Emberglass",
+            "type": "rare",
+            "owner_id": "guild-buyer",
+            "status": "free",
+            "base_price": 700
+          }
+        ],
+        "orders": [
+          {
+            "id": "f979e620-3349-4843-9e36-1f74cea57758",
+            "item_id": "0a4670dc-4c2e-4e73-a321-134c556c4b43",
+            "seller_id": "guild-seller",
+            "buyer_id": null,
+            "price": 700,
+            "status": "canceled",
+            "listed_at": "2026-10-21T18:13:02.496223+03:30"
+          },
+          {
+            "id": "5f1a6680-a565-410b-af1f-0659d893342f",
+            "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+            "seller_id": "guild-seller",
+            "buyer_id": "guild-buyer",
+            "price": 700,
+            "status": "sold",
+            "listed_at": "2026-10-21T18:12:59.787079+03:30"
+          }
+        ],
+        "auctions": [
+          {
+            "id": "42451be0-d182-4f62-a270-72abf38eb978",
+            "item_id": "0dbf5ce1-8ae4-4561-89be-fe663caedea4",
+            "seller_id": "guild-seller",
+            "ends_at": "2026-10-22T18:13:03.584588+03:30",
+            "status": "active"
+          }
+        ],
+        "bids": [],
+        "audit": [
+          {
+            "id": 2,
+            "guild_id": "guild-seller",
+            "operation": "earn",
+            "amount": 700,
+            "gold_after": 10700,
+            "reserved_after": 0,
+            "created_at": "2026-10-21T18:13:38.392736+03:30"
+          },
+          {
+            "id": 1,
+            "guild_id": "guild-buyer",
+            "operation": "spend",
+            "amount": 700,
+            "gold_after": 9300,
+            "reserved_after": 0,
+            "created_at": "2026-10-21T18:13:38.392736+03:30"
+          }
+        ]
+      }
+    },
+    {
+      "utc": "2026-10-21T14:43:03.950Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:03.9296743Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":1,\"bids\":0,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":2},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_auction\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[{\"id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\",\"ends_at\":\"2026-10-22T18:13:03.584588+03:30\",\"status\":\"active\"}],\"bids\":[],\"audit\":[{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:03.973Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/auctions/42451be0-d182-4f62-a270-72abf38eb978/bids",
+      "body": "{\"bidder_id\":\"guild-buyer\",\"amount\":500}",
+      "key": "c348b9e4-8ad8-49c4-a221-e5a8afb67afd",
+      "status": 201,
+      "replayed": null,
+      "response": "{\"id\":\"508bce03-b866-45bc-bd07-c25f7fa53afc\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":500,\"placed_at\":\"2026-10-21T18:13:03.957735+03:30\",\"status\":\"active\"}"
+    },
+    {
+      "utc": "2026-10-21T14:43:03.992Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:03.976767Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":1,\"bids\":1,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":3},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":500,\"available\":8800,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_auction\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[{\"id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\",\"ends_at\":\"2026-10-22T18:13:03.584588+03:30\",\"status\":\"active\"}],\"bids\":[{\"id\":\"508bce03-b866-45bc-bd07-c25f7fa53afc\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":500,\"status\":\"active\",\"placed_at\":\"2026-10-21T18:13:03.957735+03:30\"}],\"audit\":[{\"id\":3,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":500,\"gold_after\":9300,\"reserved_after\":500,\"created_at\":\"2026-10-21T18:13:42.285105+03:30\"},{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:04.360Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:04.3422165Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":1,\"bids\":1,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":3},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":500,\"available\":8800,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_auction\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[{\"id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\",\"ends_at\":\"2026-10-22T18:13:03.584588+03:30\",\"status\":\"active\"}],\"bids\":[{\"id\":\"508bce03-b866-45bc-bd07-c25f7fa53afc\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":500,\"status\":\"active\",\"placed_at\":\"2026-10-21T18:13:03.957735+03:30\"}],\"audit\":[{\"id\":3,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":500,\"gold_after\":9300,\"reserved_after\":500,\"created_at\":\"2026-10-21T18:13:42.285105+03:30\"},{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:04.380Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/auctions/42451be0-d182-4f62-a270-72abf38eb978/bids",
+      "body": "{\"bidder_id\":\"guild-buyer\",\"amount\":525}",
+      "key": "4c7fb1dd-5bf6-43ad-bb23-36bb5d83015f",
+      "status": 201,
+      "replayed": null,
+      "response": "{\"id\":\"132469ba-3b30-4270-9a28-f9a99713c466\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":525,\"placed_at\":\"2026-10-21T18:13:04.367257+03:30\",\"status\":\"active\"}"
+    },
+    {
+      "utc": "2026-10-21T14:43:04.396Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:04.3842857Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":1,\"bids\":2,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":4},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":525,\"available\":8775,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_auction\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[{\"id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\",\"ends_at\":\"2026-10-22T18:13:03.584588+03:30\",\"status\":\"active\"}],\"bids\":[{\"id\":\"132469ba-3b30-4270-9a28-f9a99713c466\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":525,\"status\":\"active\",\"placed_at\":\"2026-10-21T18:13:04.367257+03:30\"},{\"id\":\"508bce03-b866-45bc-bd07-c25f7fa53afc\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":500,\"status\":\"outbid\",\"placed_at\":\"2026-10-21T18:13:03.957735+03:30\"}],\"audit\":[{\"id\":4,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":25,\"gold_after\":9300,\"reserved_after\":525,\"created_at\":\"2026-10-21T18:13:42.695776+03:30\"},{\"id\":3,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":500,\"gold_after\":9300,\"reserved_after\":500,\"created_at\":\"2026-10-21T18:13:42.285105+03:30\"},{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:04.769Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:04.7570072Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":1,\"bids\":2,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":4},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":525,\"available\":8775,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_auction\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[{\"id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\",\"ends_at\":\"2026-10-22T18:13:03.584588+03:30\",\"status\":\"active\"}],\"bids\":[{\"id\":\"132469ba-3b30-4270-9a28-f9a99713c466\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":525,\"status\":\"active\",\"placed_at\":\"2026-10-21T18:13:04.367257+03:30\"},{\"id\":\"508bce03-b866-45bc-bd07-c25f7fa53afc\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":500,\"status\":\"outbid\",\"placed_at\":\"2026-10-21T18:13:03.957735+03:30\"}],\"audit\":[{\"id\":4,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":25,\"gold_after\":9300,\"reserved_after\":525,\"created_at\":\"2026-10-21T18:13:42.695776+03:30\"},{\"id\":3,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":500,\"gold_after\":9300,\"reserved_after\":500,\"created_at\":\"2026-10-21T18:13:42.285105+03:30\"},{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:04.783Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/auctions/42451be0-d182-4f62-a270-72abf38eb978/bids",
+      "body": "{\"bidder_id\":\"guild-bidder\",\"amount\":526}",
+      "key": "12f322f6-657f-4171-bad5-e55fa7c18c09",
+      "status": 409,
+      "replayed": null,
+      "response": "minimum bid is 552: bid does not meet minimum increment\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:04.799Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:04.7878425Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":1,\"bids\":2,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":4},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":525,\"available\":8775,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_auction\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[{\"id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\",\"ends_at\":\"2026-10-22T18:13:03.584588+03:30\",\"status\":\"active\"}],\"bids\":[{\"id\":\"132469ba-3b30-4270-9a28-f9a99713c466\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":525,\"status\":\"active\",\"placed_at\":\"2026-10-21T18:13:04.367257+03:30\"},{\"id\":\"508bce03-b866-45bc-bd07-c25f7fa53afc\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":500,\"status\":\"outbid\",\"placed_at\":\"2026-10-21T18:13:03.957735+03:30\"}],\"audit\":[{\"id\":4,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":25,\"gold_after\":9300,\"reserved_after\":525,\"created_at\":\"2026-10-21T18:13:42.695776+03:30\"},{\"id\":3,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":500,\"gold_after\":9300,\"reserved_after\":500,\"created_at\":\"2026-10-21T18:13:42.285105+03:30\"},{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:04.949Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:04.9370652Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":1,\"bids\":2,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":4},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":525,\"available\":8775,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_auction\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[{\"id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\",\"ends_at\":\"2026-10-22T18:13:03.584588+03:30\",\"status\":\"active\"}],\"bids\":[{\"id\":\"132469ba-3b30-4270-9a28-f9a99713c466\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":525,\"status\":\"active\",\"placed_at\":\"2026-10-21T18:13:04.367257+03:30\"},{\"id\":\"508bce03-b866-45bc-bd07-c25f7fa53afc\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":500,\"status\":\"outbid\",\"placed_at\":\"2026-10-21T18:13:03.957735+03:30\"}],\"audit\":[{\"id\":4,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":25,\"gold_after\":9300,\"reserved_after\":525,\"created_at\":\"2026-10-21T18:13:42.695776+03:30\"},{\"id\":3,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":500,\"gold_after\":9300,\"reserved_after\":500,\"created_at\":\"2026-10-21T18:13:42.285105+03:30\"},{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:04.972Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/auctions/42451be0-d182-4f62-a270-72abf38eb978/bids",
+      "body": "{\"bidder_id\":\"guild-bidder\",\"amount\":552}",
+      "key": "12f322f6-657f-4171-bad5-e55fa7c18c09",
+      "status": 201,
+      "replayed": null,
+      "response": "{\"id\":\"829b666a-4eb8-466f-bf33-eb29628f034e\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-bidder\",\"amount\":552,\"placed_at\":\"2026-10-21T18:13:04.956755+03:30\",\"status\":\"active\"}"
+    },
+    {
+      "utc": "2026-10-21T14:43:04.989Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:04.9765064Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":1,\"bids\":3,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":6},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":552,\"available\":9448,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_auction\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[{\"id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\",\"ends_at\":\"2026-10-22T18:13:03.584588+03:30\",\"status\":\"active\"}],\"bids\":[{\"id\":\"829b666a-4eb8-466f-bf33-eb29628f034e\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-bidder\",\"amount\":552,\"status\":\"active\",\"placed_at\":\"2026-10-21T18:13:04.956755+03:30\"},{\"id\":\"132469ba-3b30-4270-9a28-f9a99713c466\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":525,\"status\":\"outbid\",\"placed_at\":\"2026-10-21T18:13:04.367257+03:30\"},{\"id\":\"508bce03-b866-45bc-bd07-c25f7fa53afc\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":500,\"status\":\"outbid\",\"placed_at\":\"2026-10-21T18:13:03.957735+03:30\"}],\"audit\":[{\"id\":6,\"guild_id\":\"guild-buyer\",\"operation\":\"release\",\"amount\":525,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:43.286053+03:30\"},{\"id\":5,\"guild_id\":\"guild-bidder\",\"operation\":\"reserve\",\"amount\":552,\"gold_after\":10000,\"reserved_after\":552,\"created_at\":\"2026-10-21T18:13:43.286053+03:30\"},{\"id\":4,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":25,\"gold_after\":9300,\"reserved_after\":525,\"created_at\":\"2026-10-21T18:13:42.695776+03:30\"},{\"id\":3,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":500,\"gold_after\":9300,\"reserved_after\":500,\"created_at\":\"2026-10-21T18:13:42.285105+03:30\"},{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:05.582Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:05.5711638Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":1,\"bids\":3,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":6},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":552,\"available\":9448,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_auction\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[{\"id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\",\"ends_at\":\"2026-10-22T18:13:03.584588+03:30\",\"status\":\"active\"}],\"bids\":[{\"id\":\"829b666a-4eb8-466f-bf33-eb29628f034e\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-bidder\",\"amount\":552,\"status\":\"active\",\"placed_at\":\"2026-10-21T18:13:04.956755+03:30\"},{\"id\":\"132469ba-3b30-4270-9a28-f9a99713c466\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":525,\"status\":\"outbid\",\"placed_at\":\"2026-10-21T18:13:04.367257+03:30\"},{\"id\":\"508bce03-b866-45bc-bd07-c25f7fa53afc\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":500,\"status\":\"outbid\",\"placed_at\":\"2026-10-21T18:13:03.957735+03:30\"}],\"audit\":[{\"id\":6,\"guild_id\":\"guild-buyer\",\"operation\":\"release\",\"amount\":525,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:43.286053+03:30\"},{\"id\":5,\"guild_id\":\"guild-bidder\",\"operation\":\"reserve\",\"amount\":552,\"gold_after\":10000,\"reserved_after\":552,\"created_at\":\"2026-10-21T18:13:43.286053+03:30\"},{\"id\":4,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":25,\"gold_after\":9300,\"reserved_after\":525,\"created_at\":\"2026-10-21T18:13:42.695776+03:30\"},{\"id\":3,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":500,\"gold_after\":9300,\"reserved_after\":500,\"created_at\":\"2026-10-21T18:13:42.285105+03:30\"},{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:05.600Z",
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5175/api/auctions/42451be0-d182-4f62-a270-72abf38eb978/bids/829b666a-4eb8-466f-bf33-eb29628f034e?bidder_id=guild-bidder",
+      "body": null,
+      "key": null,
+      "status": 204,
+      "replayed": null,
+      "response": ""
+    },
+    {
+      "utc": "2026-10-21T14:43:05.615Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:05.6041717Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":1,\"bids\":3,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":7},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_auction\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[{\"id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\",\"ends_at\":\"2026-10-22T18:13:03.584588+03:30\",\"status\":\"active\"}],\"bids\":[{\"id\":\"829b666a-4eb8-466f-bf33-eb29628f034e\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-bidder\",\"amount\":552,\"status\":\"cancelled\",\"placed_at\":\"2026-10-21T18:13:04.956755+03:30\"},{\"id\":\"132469ba-3b30-4270-9a28-f9a99713c466\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":525,\"status\":\"outbid\",\"placed_at\":\"2026-10-21T18:13:04.367257+03:30\"},{\"id\":\"508bce03-b866-45bc-bd07-c25f7fa53afc\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":500,\"status\":\"outbid\",\"placed_at\":\"2026-10-21T18:13:03.957735+03:30\"}],\"audit\":[{\"id\":7,\"guild_id\":\"guild-bidder\",\"operation\":\"release\",\"amount\":552,\"gold_after\":10000,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:43.918288+03:30\"},{\"id\":6,\"guild_id\":\"guild-buyer\",\"operation\":\"release\",\"amount\":525,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:43.286053+03:30\"},{\"id\":5,\"guild_id\":\"guild-bidder\",\"operation\":\"reserve\",\"amount\":552,\"gold_after\":10000,\"reserved_after\":552,\"created_at\":\"2026-10-21T18:13:43.286053+03:30\"},{\"id\":4,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":25,\"gold_after\":9300,\"reserved_after\":525,\"created_at\":\"2026-10-21T18:13:42.695776+03:30\"},{\"id\":3,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":500,\"gold_after\":9300,\"reserved_after\":500,\"created_at\":\"2026-10-21T18:13:42.285105+03:30\"},{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:05.990Z",
+      "method": "GET",
+      "url": "/dev/snapshot",
+      "status": 200,
+      "replayed": null,
+      "response": {
+        "observed_at": "2026-10-21T14:43:05.9774923Z",
+        "environment": "development",
+        "database": "dragon_research_disposable",
+        "database_version": "16.14",
+        "database_address": "172.17.0.2/32:5432",
+        "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+        "limit": 200,
+        "offset": 0,
+        "counts": {
+          "auctions": 1,
+          "bids": 3,
+          "guilds": 3,
+          "items": 3,
+          "limit_orders": 2,
+          "wallet_transactions": 7
+        },
+        "guilds": [
+          {
+            "id": "guild-bidder",
+            "gold": 10000,
+            "reserved": 0,
+            "available": 10000,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-buyer",
+            "gold": 9300,
+            "reserved": 0,
+            "available": 9300,
+            "daily_limit": 5000,
+            "daily_spent": 700,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-seller",
+            "gold": 10700,
+            "reserved": 0,
+            "available": 10700,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          }
+        ],
+        "items": [
+          {
+            "id": "0a4670dc-4c2e-4e73-a321-134c556c4b43",
+            "name": "Codex-R1-2110-Cancel-Flask",
+            "type": "common",
+            "owner_id": "guild-seller",
+            "status": "free",
+            "base_price": 700
+          },
+          {
+            "id": "0dbf5ce1-8ae4-4561-89be-fe663caedea4",
+            "name": "Codex-R1-2110-Astral-Crown",
+            "type": "legendary",
+            "owner_id": "guild-seller",
+            "status": "listed_in_auction",
+            "base_price": 700
+          },
+          {
+            "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+            "name": "Codex-R1-2110-Emberglass",
+            "type": "rare",
+            "owner_id": "guild-buyer",
+            "status": "free",
+            "base_price": 700
+          }
+        ],
+        "orders": [
+          {
+            "id": "f979e620-3349-4843-9e36-1f74cea57758",
+            "item_id": "0a4670dc-4c2e-4e73-a321-134c556c4b43",
+            "seller_id": "guild-seller",
+            "buyer_id": null,
+            "price": 700,
+            "status": "canceled",
+            "listed_at": "2026-10-21T18:13:02.496223+03:30"
+          },
+          {
+            "id": "5f1a6680-a565-410b-af1f-0659d893342f",
+            "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+            "seller_id": "guild-seller",
+            "buyer_id": "guild-buyer",
+            "price": 700,
+            "status": "sold",
+            "listed_at": "2026-10-21T18:12:59.787079+03:30"
+          }
+        ],
+        "auctions": [
+          {
+            "id": "42451be0-d182-4f62-a270-72abf38eb978",
+            "item_id": "0dbf5ce1-8ae4-4561-89be-fe663caedea4",
+            "seller_id": "guild-seller",
+            "ends_at": "2026-10-22T18:13:03.584588+03:30",
+            "status": "active"
+          }
+        ],
+        "bids": [
+          {
+            "id": "829b666a-4eb8-466f-bf33-eb29628f034e",
+            "auction_id": "42451be0-d182-4f62-a270-72abf38eb978",
+            "bidder_id": "guild-bidder",
+            "amount": 552,
+            "status": "cancelled",
+            "placed_at": "2026-10-21T18:13:04.956755+03:30"
+          },
+          {
+            "id": "132469ba-3b30-4270-9a28-f9a99713c466",
+            "auction_id": "42451be0-d182-4f62-a270-72abf38eb978",
+            "bidder_id": "guild-buyer",
+            "amount": 525,
+            "status": "outbid",
+            "placed_at": "2026-10-21T18:13:04.367257+03:30"
+          },
+          {
+            "id": "508bce03-b866-45bc-bd07-c25f7fa53afc",
+            "auction_id": "42451be0-d182-4f62-a270-72abf38eb978",
+            "bidder_id": "guild-buyer",
+            "amount": 500,
+            "status": "outbid",
+            "placed_at": "2026-10-21T18:13:03.957735+03:30"
+          }
+        ],
+        "audit": [
+          {
+            "id": 7,
+            "guild_id": "guild-bidder",
+            "operation": "release",
+            "amount": 552,
+            "gold_after": 10000,
+            "reserved_after": 0,
+            "created_at": "2026-10-21T18:13:43.918288+03:30"
+          },
+          {
+            "id": 6,
+            "guild_id": "guild-buyer",
+            "operation": "release",
+            "amount": 525,
+            "gold_after": 9300,
+            "reserved_after": 0,
+            "created_at": "2026-10-21T18:13:43.286053+03:30"
+          },
+          {
+            "id": 5,
+            "guild_id": "guild-bidder",
+            "operation": "reserve",
+            "amount": 552,
+            "gold_after": 10000,
+            "reserved_after": 552,
+            "created_at": "2026-10-21T18:13:43.286053+03:30"
+          },
+          {
+            "id": 4,
+            "guild_id": "guild-buyer",
+            "operation": "reserve",
+            "amount": 25,
+            "gold_after": 9300,
+            "reserved_after": 525,
+            "created_at": "2026-10-21T18:13:42.695776+03:30"
+          },
+          {
+            "id": 3,
+            "guild_id": "guild-buyer",
+            "operation": "reserve",
+            "amount": 500,
+            "gold_after": 9300,
+            "reserved_after": 500,
+            "created_at": "2026-10-21T18:13:42.285105+03:30"
+          },
+          {
+            "id": 2,
+            "guild_id": "guild-seller",
+            "operation": "earn",
+            "amount": 700,
+            "gold_after": 10700,
+            "reserved_after": 0,
+            "created_at": "2026-10-21T18:13:38.392736+03:30"
+          },
+          {
+            "id": 1,
+            "guild_id": "guild-buyer",
+            "operation": "spend",
+            "amount": 700,
+            "gold_after": 9300,
+            "reserved_after": 0,
+            "created_at": "2026-10-21T18:13:38.392736+03:30"
+          }
+        ]
+      }
+    },
+    {
+      "utc": "2026-10-21T14:43:06.000Z",
+      "method": "DELETE",
+      "url": "/auctions/42451be0-d182-4f62-a270-72abf38eb978/bids/829b666a-4eb8-466f-bf33-eb29628f034e?bidder_id=guild-bidder",
+      "status": 409,
+      "replayed": null,
+      "response": "bid cannot be cancelled\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:06.006Z",
+      "method": "POST",
+      "url": "/items",
+      "body": {
+        "name": "invalid",
+        "type": "rare",
+        "owner_id": "guild-seller",
+        "base_price": 0
+      },
+      "status": 400,
+      "replayed": null,
+      "response": "item invalid: base price must be positive\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:07.194Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:07.1738662Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":1,\"bids\":3,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":7},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_auction\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[{\"id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\",\"ends_at\":\"2026-10-22T18:13:03.584588+03:30\",\"status\":\"active\"}],\"bids\":[{\"id\":\"829b666a-4eb8-466f-bf33-eb29628f034e\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-bidder\",\"amount\":552,\"status\":\"cancelled\",\"placed_at\":\"2026-10-21T18:13:04.956755+03:30\"},{\"id\":\"132469ba-3b30-4270-9a28-f9a99713c466\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":525,\"status\":\"outbid\",\"placed_at\":\"2026-10-21T18:13:04.367257+03:30\"},{\"id\":\"508bce03-b866-45bc-bd07-c25f7fa53afc\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":500,\"status\":\"outbid\",\"placed_at\":\"2026-10-21T18:13:03.957735+03:30\"}],\"audit\":[{\"id\":7,\"guild_id\":\"guild-bidder\",\"operation\":\"release\",\"amount\":552,\"gold_after\":10000,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:43.918288+03:30\"},{\"id\":6,\"guild_id\":\"guild-buyer\",\"operation\":\"release\",\"amount\":525,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:43.286053+03:30\"},{\"id\":5,\"guild_id\":\"guild-bidder\",\"operation\":\"reserve\",\"amount\":552,\"gold_after\":10000,\"reserved_after\":552,\"created_at\":\"2026-10-21T18:13:43.286053+03:30\"},{\"id\":4,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":25,\"gold_after\":9300,\"reserved_after\":525,\"created_at\":\"2026-10-21T18:13:42.695776+03:30\"},{\"id\":3,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":500,\"gold_after\":9300,\"reserved_after\":500,\"created_at\":\"2026-10-21T18:13:42.285105+03:30\"},{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:08.473Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/dev/snapshot",
+      "body": null,
+      "key": null,
+      "status": 200,
+      "replayed": null,
+      "response": "{\"observed_at\":\"2026-10-21T14:43:08.418805Z\",\"environment\":\"development\",\"database\":\"dragon_research_disposable\",\"database_version\":\"16.14\",\"database_address\":\"172.17.0.2/32:5432\",\"backend_commit\":\"f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7\",\"limit\":200,\"offset\":0,\"counts\":{\"auctions\":1,\"bids\":3,\"guilds\":3,\"items\":3,\"limit_orders\":2,\"wallet_transactions\":7},\"guilds\":[{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"available\":10000,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"},{\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"available\":9300,\"daily_limit\":5000,\"daily_spent\":300,\"daily_spent_on\":\"2026-10-20T00:00:00Z\"},{\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"available\":10700,\"daily_limit\":5000,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21T00:00:00Z\"}],\"items\":[{\"id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"name\":\"Codex-R1-2110-Cancel-Flask\",\"type\":\"common\",\"owner_id\":\"guild-seller\",\"status\":\"free\",\"base_price\":700},{\"id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"name\":\"Codex-R1-2110-Astral-Crown\",\"type\":\"legendary\",\"owner_id\":\"guild-seller\",\"status\":\"listed_in_auction\",\"base_price\":700},{\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"status\":\"free\",\"base_price\":700}],\"orders\":[{\"id\":\"f979e620-3349-4843-9e36-1f74cea57758\",\"item_id\":\"0a4670dc-4c2e-4e73-a321-134c556c4b43\",\"seller_id\":\"guild-seller\",\"buyer_id\":null,\"price\":700,\"status\":\"canceled\",\"listed_at\":\"2026-10-21T18:13:02.496223+03:30\"},{\"id\":\"5f1a6680-a565-410b-af1f-0659d893342f\",\"item_id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"seller_id\":\"guild-seller\",\"buyer_id\":\"guild-buyer\",\"price\":700,\"status\":\"sold\",\"listed_at\":\"2026-10-21T18:12:59.787079+03:30\"}],\"auctions\":[{\"id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"item_id\":\"0dbf5ce1-8ae4-4561-89be-fe663caedea4\",\"seller_id\":\"guild-seller\",\"ends_at\":\"2026-10-22T18:13:03.584588+03:30\",\"status\":\"active\"}],\"bids\":[{\"id\":\"829b666a-4eb8-466f-bf33-eb29628f034e\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-bidder\",\"amount\":552,\"status\":\"cancelled\",\"placed_at\":\"2026-10-21T18:13:04.956755+03:30\"},{\"id\":\"132469ba-3b30-4270-9a28-f9a99713c466\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":525,\"status\":\"outbid\",\"placed_at\":\"2026-10-21T18:13:04.367257+03:30\"},{\"id\":\"508bce03-b866-45bc-bd07-c25f7fa53afc\",\"auction_id\":\"42451be0-d182-4f62-a270-72abf38eb978\",\"bidder_id\":\"guild-buyer\",\"amount\":500,\"status\":\"outbid\",\"placed_at\":\"2026-10-21T18:13:03.957735+03:30\"}],\"audit\":[{\"id\":7,\"guild_id\":\"guild-bidder\",\"operation\":\"release\",\"amount\":552,\"gold_after\":10000,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:43.918288+03:30\"},{\"id\":6,\"guild_id\":\"guild-buyer\",\"operation\":\"release\",\"amount\":525,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:43.286053+03:30\"},{\"id\":5,\"guild_id\":\"guild-bidder\",\"operation\":\"reserve\",\"amount\":552,\"gold_after\":10000,\"reserved_after\":552,\"created_at\":\"2026-10-21T18:13:43.286053+03:30\"},{\"id\":4,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":25,\"gold_after\":9300,\"reserved_after\":525,\"created_at\":\"2026-10-21T18:13:42.695776+03:30\"},{\"id\":3,\"guild_id\":\"guild-buyer\",\"operation\":\"reserve\",\"amount\":500,\"gold_after\":9300,\"reserved_after\":500,\"created_at\":\"2026-10-21T18:13:42.285105+03:30\"},{\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"},{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T18:13:38.392736+03:30\"}]}\n"
+    },
+    {
+      "utc": "2026-10-21T14:43:08.556Z",
+      "method": "GET",
+      "url": "/guilds/guild-buyer/wallet",
+      "status": 200,
+      "replayed": null,
+      "response": {
+        "id": "guild-buyer",
+        "gold": 9300,
+        "reserved": 0,
+        "daily_spent": 0,
+        "daily_limit": 5000,
+        "available": 9300
+      }
+    },
+    {
+      "utc": "2026-10-21T14:43:09.160Z",
+      "method": "GET",
+      "url": "/dev/snapshot",
+      "status": 200,
+      "replayed": null,
+      "response": {
+        "observed_at": "2026-10-21T14:43:09.1323749Z",
+        "environment": "development",
+        "database": "dragon_research_disposable",
+        "database_version": "16.14",
+        "database_address": "172.17.0.2/32:5432",
+        "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+        "limit": 200,
+        "offset": 0,
+        "counts": {
+          "auctions": 1,
+          "bids": 3,
+          "guilds": 3,
+          "items": 3,
+          "limit_orders": 2,
+          "wallet_transactions": 7
+        },
+        "guilds": [
+          {
+            "id": "guild-bidder",
+            "gold": 10000,
+            "reserved": 0,
+            "available": 10000,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          },
+          {
+            "id": "guild-buyer",
+            "gold": 9300,
+            "reserved": 0,
+            "available": 9300,
+            "daily_limit": 5000,
+            "daily_spent": 300,
+            "daily_spent_on": "2026-10-20T00:00:00Z"
+          },
+          {
+            "id": "guild-seller",
+            "gold": 10700,
+            "reserved": 0,
+            "available": 10700,
+            "daily_limit": 5000,
+            "daily_spent": 0,
+            "daily_spent_on": "2026-10-21T00:00:00Z"
+          }
+        ],
+        "items": [
+          {
+            "id": "0a4670dc-4c2e-4e73-a321-134c556c4b43",
+            "name": "Codex-R1-2110-Cancel-Flask",
+            "type": "common",
+            "owner_id": "guild-seller",
+            "status": "free",
+            "base_price": 700
+          },
+          {
+            "id": "0dbf5ce1-8ae4-4561-89be-fe663caedea4",
+            "name": "Codex-R1-2110-Astral-Crown",
+            "type": "legendary",
+            "owner_id": "guild-seller",
+            "status": "listed_in_auction",
+            "base_price": 700
+          },
+          {
+            "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+            "name": "Codex-R1-2110-Emberglass",
+            "type": "rare",
+            "owner_id": "guild-buyer",
+            "status": "free",
+            "base_price": 700
+          }
+        ],
+        "orders": [
+          {
+            "id": "f979e620-3349-4843-9e36-1f74cea57758",
+            "item_id": "0a4670dc-4c2e-4e73-a321-134c556c4b43",
+            "seller_id": "guild-seller",
+            "buyer_id": null,
+            "price": 700,
+            "status": "canceled",
+            "listed_at": "2026-10-21T18:13:02.496223+03:30"
+          },
+          {
+            "id": "5f1a6680-a565-410b-af1f-0659d893342f",
+            "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+            "seller_id": "guild-seller",
+            "buyer_id": "guild-buyer",
+            "price": 700,
+            "status": "sold",
+            "listed_at": "2026-10-21T18:12:59.787079+03:30"
+          }
+        ],
+        "auctions": [
+          {
+            "id": "42451be0-d182-4f62-a270-72abf38eb978",
+            "item_id": "0dbf5ce1-8ae4-4561-89be-fe663caedea4",
+            "seller_id": "guild-seller",
+            "ends_at": "2026-10-22T18:13:03.584588+03:30",
+            "status": "active"
+          }
+        ],
+        "bids": [
+          {
+            "id": "829b666a-4eb8-466f-bf33-eb29628f034e",
+            "auction_id": "42451be0-d182-4f62-a270-72abf38eb978",
+            "bidder_id": "guild-bidder",
+            "amount": 552,
+            "status": "cancelled",
+            "placed_at": "2026-10-21T18:13:04.956755+03:30"
+          },
+          {
+            "id": "132469ba-3b30-4270-9a28-f9a99713c466",
+            "auction_id": "42451be0-d182-4f62-a270-72abf38eb978",
+            "bidder_id": "guild-buyer",
+            "amount": 525,
+            "status": "outbid",
+            "placed_at": "2026-10-21T18:13:04.367257+03:30"
+          },
+          {
+            "id": "508bce03-b866-45bc-bd07-c25f7fa53afc",
+            "auction_id": "42451be0-d182-4f62-a270-72abf38eb978",
+            "bidder_id": "guild-buyer",
+            "amount": 500,
+            "status": "outbid",
+            "placed_at": "2026-10-21T18:13:03.957735+03:30"
+          }
+        ],
+        "audit": [
+          {
+            "id": 7,
+            "guild_id": "guild-bidder",
+            "operation": "release",
+            "amount": 552,
+            "gold_after": 10000,
+            "reserved_after": 0,
+            "created_at": "2026-10-21T18:13:43.918288+03:30"
+          },
+          {
+            "id": 6,
+            "guild_id": "guild-buyer",
+            "operation": "release",
+            "amount": 525,
+            "gold_after": 9300,
+            "reserved_after": 0,
+            "created_at": "2026-10-21T18:13:43.286053+03:30"
+          },
+          {
+            "id": 5,
+            "guild_id": "guild-bidder",
+            "operation": "reserve",
+            "amount": 552,
+            "gold_after": 10000,
+            "reserved_after": 552,
+            "created_at": "2026-10-21T18:13:43.286053+03:30"
+          },
+          {
+            "id": 4,
+            "guild_id": "guild-buyer",
+            "operation": "reserve",
+            "amount": 25,
+            "gold_after": 9300,
+            "reserved_after": 525,
+            "created_at": "2026-10-21T18:13:42.695776+03:30"
+          },
+          {
+            "id": 3,
+            "guild_id": "guild-buyer",
+            "operation": "reserve",
+            "amount": 500,
+            "gold_after": 9300,
+            "reserved_after": 500,
+            "created_at": "2026-10-21T18:13:42.285105+03:30"
+          },
+          {
+            "id": 2,
+            "guild_id": "guild-seller",
+            "operation": "earn",
+            "amount": 700,
+            "gold_after": 10700,
+            "reserved_after": 0,
+            "created_at": "2026-10-21T18:13:38.392736+03:30"
+          },
+          {
+            "id": 1,
+            "guild_id": "guild-buyer",
+            "operation": "spend",
+            "amount": 700,
+            "gold_after": 9300,
+            "reserved_after": 0,
+            "created_at": "2026-10-21T18:13:38.392736+03:30"
+          }
+        ]
+      }
+    }
+  ],
+  "page_errors": [],
+  "deviations": [],
+  "container": {
+    "name": "dragon-research-e2e-f8fa6e6e",
+    "label": "dragon-market.disposable",
+    "created_at": "2026-10-21T14:42:51.702Z"
+  },
+  "postgres": "PostgreSQL 16.14 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+  "browser_version": "155.0.8059.85",
+  "initial": {
+    "observed_at": "2026-10-21T14:42:58.4095127Z",
+    "environment": "development",
+    "database": "dragon_research_disposable",
+    "database_version": "16.14",
+    "database_address": "172.17.0.2/32:5432",
+    "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+    "limit": 200,
+    "offset": 0,
+    "counts": {
+      "auctions": 0,
+      "bids": 0,
+      "guilds": 3,
+      "items": 0,
+      "limit_orders": 0,
+      "wallet_transactions": 0
+    },
+    "guilds": [
+      {
+        "id": "guild-bidder",
+        "gold": 10000,
+        "reserved": 0,
+        "available": 10000,
+        "daily_limit": 5000,
+        "daily_spent": 0,
+        "daily_spent_on": "2026-10-21T00:00:00Z"
+      },
+      {
+        "id": "guild-buyer",
+        "gold": 10000,
+        "reserved": 0,
+        "available": 10000,
+        "daily_limit": 5000,
+        "daily_spent": 0,
+        "daily_spent_on": "2026-10-21T00:00:00Z"
+      },
+      {
+        "id": "guild-seller",
+        "gold": 10000,
+        "reserved": 0,
+        "available": 10000,
+        "daily_limit": 5000,
+        "daily_spent": 0,
+        "daily_spent_on": "2026-10-21T00:00:00Z"
+      }
+    ],
+    "items": [],
+    "orders": [],
+    "auctions": [],
+    "bids": [],
+    "audit": []
+  },
+  "purchase": {
+    "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+    "order_id": "5f1a6680-a565-410b-af1f-0659d893342f",
+    "seller": "guild-seller",
+    "buyer": "guild-buyer",
+    "before": {
+      "observed_at": "2026-10-21T14:42:59.8784003Z",
+      "environment": "development",
+      "database": "dragon_research_disposable",
+      "database_version": "16.14",
+      "database_address": "172.17.0.2/32:5432",
+      "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+      "limit": 200,
+      "offset": 0,
+      "counts": {
+        "auctions": 0,
+        "bids": 0,
+        "guilds": 3,
+        "items": 1,
+        "limit_orders": 1,
+        "wallet_transactions": 0
+      },
+      "guilds": [
+        {
+          "id": "guild-bidder",
+          "gold": 10000,
+          "reserved": 0,
+          "available": 10000,
+          "daily_limit": 5000,
+          "daily_spent": 0,
+          "daily_spent_on": "2026-10-21T00:00:00Z"
+        },
+        {
+          "id": "guild-buyer",
+          "gold": 10000,
+          "reserved": 0,
+          "available": 10000,
+          "daily_limit": 5000,
+          "daily_spent": 0,
+          "daily_spent_on": "2026-10-21T00:00:00Z"
+        },
+        {
+          "id": "guild-seller",
+          "gold": 10000,
+          "reserved": 0,
+          "available": 10000,
+          "daily_limit": 5000,
+          "daily_spent": 0,
+          "daily_spent_on": "2026-10-21T00:00:00Z"
+        }
+      ],
+      "items": [
+        {
+          "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+          "name": "Codex-R1-2110-Emberglass",
+          "type": "rare",
+          "owner_id": "guild-seller",
+          "status": "listed_in_order",
+          "base_price": 700
+        }
+      ],
+      "orders": [
+        {
+          "id": "5f1a6680-a565-410b-af1f-0659d893342f",
+          "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+          "seller_id": "guild-seller",
+          "buyer_id": null,
+          "price": 700,
+          "status": "listed",
+          "listed_at": "2026-10-21T18:12:59.787079+03:30"
+        }
+      ],
+      "auctions": [],
+      "bids": [],
+      "audit": []
+    },
+    "after": {
+      "observed_at": "2026-10-21T14:43:00.1500775Z",
+      "environment": "development",
+      "database": "dragon_research_disposable",
+      "database_version": "16.14",
+      "database_address": "172.17.0.2/32:5432",
+      "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+      "limit": 200,
+      "offset": 0,
+      "counts": {
+        "auctions": 0,
+        "bids": 0,
+        "guilds": 3,
+        "items": 1,
+        "limit_orders": 1,
+        "wallet_transactions": 2
+      },
+      "guilds": [
+        {
+          "id": "guild-bidder",
+          "gold": 10000,
+          "reserved": 0,
+          "available": 10000,
+          "daily_limit": 5000,
+          "daily_spent": 0,
+          "daily_spent_on": "2026-10-21T00:00:00Z"
+        },
+        {
+          "id": "guild-buyer",
+          "gold": 9300,
+          "reserved": 0,
+          "available": 9300,
+          "daily_limit": 5000,
+          "daily_spent": 700,
+          "daily_spent_on": "2026-10-21T00:00:00Z"
+        },
+        {
+          "id": "guild-seller",
+          "gold": 10700,
+          "reserved": 0,
+          "available": 10700,
+          "daily_limit": 5000,
+          "daily_spent": 0,
+          "daily_spent_on": "2026-10-21T00:00:00Z"
+        }
+      ],
+      "items": [
+        {
+          "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+          "name": "Codex-R1-2110-Emberglass",
+          "type": "rare",
+          "owner_id": "guild-buyer",
+          "status": "free",
+          "base_price": 700
+        }
+      ],
+      "orders": [
+        {
+          "id": "5f1a6680-a565-410b-af1f-0659d893342f",
+          "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+          "seller_id": "guild-seller",
+          "buyer_id": "guild-buyer",
+          "price": 700,
+          "status": "sold",
+          "listed_at": "2026-10-21T18:12:59.787079+03:30"
+        }
+      ],
+      "auctions": [],
+      "bids": [],
+      "audit": [
+        {
+          "id": 2,
+          "guild_id": "guild-seller",
+          "operation": "earn",
+          "amount": 700,
+          "gold_after": 10700,
+          "reserved_after": 0,
+          "created_at": "2026-10-21T18:13:38.392736+03:30"
+        },
+        {
+          "id": 1,
+          "guild_id": "guild-buyer",
+          "operation": "spend",
+          "amount": 700,
+          "gold_after": 9300,
+          "reserved_after": 0,
+          "created_at": "2026-10-21T18:13:38.392736+03:30"
+        }
+      ]
+    },
+    "sql_after": "{\"wallets\" : [{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21\"}, \n {\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21\"}, \n {\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21\"}], \"item\" : {\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"base_price\":700,\"status\":\"free\"}, \"audit\" : [{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T14:43:38.392736+00:00\"}, \n {\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T14:43:38.392736+00:00\"}]}",
+    "replay": {
+      "observed_at": "2026-10-21T14:43:01.8745153Z",
+      "environment": "development",
+      "database": "dragon_research_disposable",
+      "database_version": "16.14",
+      "database_address": "172.17.0.2/32:5432",
+      "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+      "limit": 200,
+      "offset": 0,
+      "counts": {
+        "auctions": 0,
+        "bids": 0,
+        "guilds": 3,
+        "items": 1,
+        "limit_orders": 1,
+        "wallet_transactions": 2
+      },
+      "guilds": [
+        {
+          "id": "guild-bidder",
+          "gold": 10000,
+          "reserved": 0,
+          "available": 10000,
+          "daily_limit": 5000,
+          "daily_spent": 0,
+          "daily_spent_on": "2026-10-21T00:00:00Z"
+        },
+        {
+          "id": "guild-buyer",
+          "gold": 9300,
+          "reserved": 0,
+          "available": 9300,
+          "daily_limit": 5000,
+          "daily_spent": 700,
+          "daily_spent_on": "2026-10-21T00:00:00Z"
+        },
+        {
+          "id": "guild-seller",
+          "gold": 10700,
+          "reserved": 0,
+          "available": 10700,
+          "daily_limit": 5000,
+          "daily_spent": 0,
+          "daily_spent_on": "2026-10-21T00:00:00Z"
+        }
+      ],
+      "items": [
+        {
+          "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+          "name": "Codex-R1-2110-Emberglass",
+          "type": "rare",
+          "owner_id": "guild-buyer",
+          "status": "free",
+          "base_price": 700
+        }
+      ],
+      "orders": [
+        {
+          "id": "5f1a6680-a565-410b-af1f-0659d893342f",
+          "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+          "seller_id": "guild-seller",
+          "buyer_id": "guild-buyer",
+          "price": 700,
+          "status": "sold",
+          "listed_at": "2026-10-21T18:12:59.787079+03:30"
+        }
+      ],
+      "auctions": [],
+      "bids": [],
+      "audit": [
+        {
+          "id": 2,
+          "guild_id": "guild-seller",
+          "operation": "earn",
+          "amount": 700,
+          "gold_after": 10700,
+          "reserved_after": 0,
+          "created_at": "2026-10-21T18:13:38.392736+03:30"
+        },
+        {
+          "id": 1,
+          "guild_id": "guild-buyer",
+          "operation": "spend",
+          "amount": 700,
+          "gold_after": 9300,
+          "reserved_after": 0,
+          "created_at": "2026-10-21T18:13:38.392736+03:30"
+        }
+      ]
+    }
+  },
+  "stale_counter": {
+    "sql": "guild-buyer|300|2026-10-20",
+    "api": {
+      "status": 200,
+      "data": {
+        "id": "guild-buyer",
+        "gold": 9300,
+        "reserved": 0,
+        "daily_spent": 0,
+        "daily_limit": 5000,
+        "available": 9300
+      },
+      "headers": {
+        "vary": "Origin",
+        "content-type": "application/json",
+        "x-request-id": "c50055ba-3c05-4560-979b-1410bc23154b",
+        "date": "Wed, 21 Oct 2026 14:43:08 GMT",
+        "content-length": "98",
+        "connection": "close"
+      }
+    },
+    "visible": "Spent today\n3.00 G\nDaily limit\n50.00 G"
+  },
+  "final": {
+    "observed_at": "2026-10-21T14:43:09.1323749Z",
+    "environment": "development",
+    "database": "dragon_research_disposable",
+    "database_version": "16.14",
+    "database_address": "172.17.0.2/32:5432",
+    "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+    "limit": 200,
+    "offset": 0,
+    "counts": {
+      "auctions": 1,
+      "bids": 3,
+      "guilds": 3,
+      "items": 3,
+      "limit_orders": 2,
+      "wallet_transactions": 7
+    },
+    "guilds": [
+      {
+        "id": "guild-bidder",
+        "gold": 10000,
+        "reserved": 0,
+        "available": 10000,
+        "daily_limit": 5000,
+        "daily_spent": 0,
+        "daily_spent_on": "2026-10-21T00:00:00Z"
+      },
+      {
+        "id": "guild-buyer",
+        "gold": 9300,
+        "reserved": 0,
+        "available": 9300,
+        "daily_limit": 5000,
+        "daily_spent": 300,
+        "daily_spent_on": "2026-10-20T00:00:00Z"
+      },
+      {
+        "id": "guild-seller",
+        "gold": 10700,
+        "reserved": 0,
+        "available": 10700,
+        "daily_limit": 5000,
+        "daily_spent": 0,
+        "daily_spent_on": "2026-10-21T00:00:00Z"
+      }
+    ],
+    "items": [
+      {
+        "id": "0a4670dc-4c2e-4e73-a321-134c556c4b43",
+        "name": "Codex-R1-2110-Cancel-Flask",
+        "type": "common",
+        "owner_id": "guild-seller",
+        "status": "free",
+        "base_price": 700
+      },
+      {
+        "id": "0dbf5ce1-8ae4-4561-89be-fe663caedea4",
+        "name": "Codex-R1-2110-Astral-Crown",
+        "type": "legendary",
+        "owner_id": "guild-seller",
+        "status": "listed_in_auction",
+        "base_price": 700
+      },
+      {
+        "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+        "name": "Codex-R1-2110-Emberglass",
+        "type": "rare",
+        "owner_id": "guild-buyer",
+        "status": "free",
+        "base_price": 700
+      }
+    ],
+    "orders": [
+      {
+        "id": "f979e620-3349-4843-9e36-1f74cea57758",
+        "item_id": "0a4670dc-4c2e-4e73-a321-134c556c4b43",
+        "seller_id": "guild-seller",
+        "buyer_id": null,
+        "price": 700,
+        "status": "canceled",
+        "listed_at": "2026-10-21T18:13:02.496223+03:30"
+      },
+      {
+        "id": "5f1a6680-a565-410b-af1f-0659d893342f",
+        "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+        "seller_id": "guild-seller",
+        "buyer_id": "guild-buyer",
+        "price": 700,
+        "status": "sold",
+        "listed_at": "2026-10-21T18:12:59.787079+03:30"
+      }
+    ],
+    "auctions": [
+      {
+        "id": "42451be0-d182-4f62-a270-72abf38eb978",
+        "item_id": "0dbf5ce1-8ae4-4561-89be-fe663caedea4",
+        "seller_id": "guild-seller",
+        "ends_at": "2026-10-22T18:13:03.584588+03:30",
+        "status": "active"
+      }
+    ],
+    "bids": [
+      {
+        "id": "829b666a-4eb8-466f-bf33-eb29628f034e",
+        "auction_id": "42451be0-d182-4f62-a270-72abf38eb978",
+        "bidder_id": "guild-bidder",
+        "amount": 552,
+        "status": "cancelled",
+        "placed_at": "2026-10-21T18:13:04.956755+03:30"
+      },
+      {
+        "id": "132469ba-3b30-4270-9a28-f9a99713c466",
+        "auction_id": "42451be0-d182-4f62-a270-72abf38eb978",
+        "bidder_id": "guild-buyer",
+        "amount": 525,
+        "status": "outbid",
+        "placed_at": "2026-10-21T18:13:04.367257+03:30"
+      },
+      {
+        "id": "508bce03-b866-45bc-bd07-c25f7fa53afc",
+        "auction_id": "42451be0-d182-4f62-a270-72abf38eb978",
+        "bidder_id": "guild-buyer",
+        "amount": 500,
+        "status": "outbid",
+        "placed_at": "2026-10-21T18:13:03.957735+03:30"
+      }
+    ],
+    "audit": [
+      {
+        "id": 7,
+        "guild_id": "guild-bidder",
+        "operation": "release",
+        "amount": 552,
+        "gold_after": 10000,
+        "reserved_after": 0,
+        "created_at": "2026-10-21T18:13:43.918288+03:30"
+      },
+      {
+        "id": 6,
+        "guild_id": "guild-buyer",
+        "operation": "release",
+        "amount": 525,
+        "gold_after": 9300,
+        "reserved_after": 0,
+        "created_at": "2026-10-21T18:13:43.286053+03:30"
+      },
+      {
+        "id": 5,
+        "guild_id": "guild-bidder",
+        "operation": "reserve",
+        "amount": 552,
+        "gold_after": 10000,
+        "reserved_after": 552,
+        "created_at": "2026-10-21T18:13:43.286053+03:30"
+      },
+      {
+        "id": 4,
+        "guild_id": "guild-buyer",
+        "operation": "reserve",
+        "amount": 25,
+        "gold_after": 9300,
+        "reserved_after": 525,
+        "created_at": "2026-10-21T18:13:42.695776+03:30"
+      },
+      {
+        "id": 3,
+        "guild_id": "guild-buyer",
+        "operation": "reserve",
+        "amount": 500,
+        "gold_after": 9300,
+        "reserved_after": 500,
+        "created_at": "2026-10-21T18:13:42.285105+03:30"
+      },
+      {
+        "id": 2,
+        "guild_id": "guild-seller",
+        "operation": "earn",
+        "amount": 700,
+        "gold_after": 10700,
+        "reserved_after": 0,
+        "created_at": "2026-10-21T18:13:38.392736+03:30"
+      },
+      {
+        "id": 1,
+        "guild_id": "guild-buyer",
+        "operation": "spend",
+        "amount": 700,
+        "gold_after": 9300,
+        "reserved_after": 0,
+        "created_at": "2026-10-21T18:13:38.392736+03:30"
+      }
+    ]
+  },
+  "completed": true,
+  "finished_at_utc": "2026-10-21T14:43:12.485Z"
+}

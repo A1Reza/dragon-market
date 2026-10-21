@@ -1,0 +1,41 @@
+{
+  "independent_human_review": "NOT_PERFORMED",
+  "results": [
+    {
+      "name": "release-erases-completed-spending",
+      "detected": true,
+      "exit": 1,
+      "command": "go test -v -count=1 ./internal/postgres -run ^TestDailyLimitMixedAgeHoldsAndSettlement$",
+      "file": "internal/guild/service.go",
+      "mutated_source_sha256": "e50830902db786600bdd00261e30931732120f578d6fcadea234bbee728a658b",
+      "log": "mutation-release-erases-completed-spending.log",
+      "failure": [
+        "    daily_limit_test.go:88: persisted gold/spent/reserved=9900/0/300 want=9900/100/300"
+      ]
+    },
+    {
+      "name": "capacity-ignores-carried-holds",
+      "detected": true,
+      "exit": 1,
+      "command": "go test -v -count=1 ./internal/postgres -run ^TestDailyLimitMixedAgeHoldsAndSettlement$",
+      "file": "internal/guild/service.go",
+      "mutated_source_sha256": "a5eca642ca92867079ddeb68f3eb20e182851e0b0469ef173ede0210b0c35641",
+      "log": "mutation-capacity-ignores-carried-holds.log",
+      "failure": [
+        "    daily_limit_test.go:97: over-limit reserve error=<nil>"
+      ]
+    },
+    {
+      "name": "settlement-omits-completed-debit",
+      "detected": true,
+      "exit": 1,
+      "command": "go test -v -count=1 ./internal/postgres -run ^TestDailyLimitMixedAgeHoldsAndSettlement$",
+      "file": "internal/guild/service.go",
+      "mutated_source_sha256": "ba9f4938ec676700af1095ab9035d8b769a3ed1a79245df896320d6fc772e496",
+      "log": "mutation-settlement-omits-completed-debit.log",
+      "failure": [
+        "    daily_limit_test.go:92: persisted gold/spent/reserved=9700/100/100 want=9700/300/100"
+      ]
+    }
+  ]
+}

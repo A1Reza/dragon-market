@@ -1,0 +1,19 @@
+{
+  "started_at_utc": "2026-10-21T14:49:58.074460+00:00",
+  "argv": [
+    "go",
+    "test",
+    "-v",
+    "-count=1",
+    "./internal/postgres",
+    "-run",
+    "^TestReviewer"
+  ],
+  "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market\\artifacts\\codex-review-independent-source",
+  "source_sha": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+  "deviation": "Exact source copied; only reviewer_independent_test.go added; original application unchanged; real fresh Testcontainers.",
+  "exit_code": 1,
+  "finished_at_utc": "2026-10-21T14:50:08.465892+00:00",
+  "reviewer_test_source_sha256": "f3589ec33d53641993dc3881b0ddf85f6259a3ef7eb93592e1a72b1ee2d0581f",
+  "interpreted_outcome": "5 PASS, 1 FAIL: replicated reciprocal-purchase deadlock; nonzero exit is a reproduced finding, not infrastructure failure."
+}

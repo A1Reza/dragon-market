@@ -1,0 +1,15 @@
+?   	market-dragon/cmd/mock-oracle	[no test files]
+ok  	market-dragon/cmd/research-lab	0.036s
+?   	market-dragon/cmd/review	[no test files]
+?   	market-dragon/cmd/server	[no test files]
+ok  	market-dragon/internal/api	0.053s
+ok  	market-dragon/internal/auction	0.054s
+?   	market-dragon/internal/gold	[no test files]
+ok  	market-dragon/internal/guild	0.047s
+ok  	market-dragon/internal/idempotency	0.052s
+?   	market-dragon/internal/inspection	[no test files]
+ok  	market-dragon/internal/item	0.048s
+ok  	market-dragon/internal/oracle	0.069s
+ok  	market-dragon/internal/order	0.052s
+ok  	market-dragon/internal/postgres	15.269s
+ok  	market-dragon/internal/review	0.095s

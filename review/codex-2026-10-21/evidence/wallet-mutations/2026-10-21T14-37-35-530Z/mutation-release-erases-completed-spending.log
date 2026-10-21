@@ -1,0 +1,35 @@
+2026/10/21 18:07:37 github.com/testcontainers/testcontainers-go - Connected to docker: 
+  Server Version: 29.1.5
+  API Version: 1.52
+  Operating System: Docker Desktop
+  Total Memory: 7940 MB
+  Labels:
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+  Testcontainers for Go Version: v0.43.0
+  Resolved Docker Host: npipe:////./pipe/docker_engine
+  Resolved Docker Socket Path: //var/run/docker.sock
+  Test SessionID: b1a7b23b37446dc2be0e104f7fa1ff3892513600de206821099c8dc23abd1fa9
+  Test ProcessID: 1063678a-03ab-4b39-a8d4-50f5303b6146
+2026/10/21 18:07:37 🐳 Creating container for image postgres:16-alpine
+2026/10/21 18:07:37 🐳 Creating container for image testcontainers/ryuk:0.14.0
+2026/10/21 18:07:38 ✅ Container created: 65a4396347cc
+2026/10/21 18:07:38 🐳 Starting container: 65a4396347cc
+2026/10/21 18:07:38 ✅ Container started: 65a4396347cc
+2026/10/21 18:07:38 ⏳ Waiting for container id 65a4396347cc image: testcontainers/ryuk:0.14.0. Waiting for: all of: [log message "Started", port 8080/tcp to be listening]
+2026/10/21 18:07:39 Shell not found in container
+2026/10/21 18:07:39 🔔 Container is ready: 65a4396347cc
+2026/10/21 18:07:39 ✅ Container created: d7b5a4c1c06e
+2026/10/21 18:07:39 🐳 Starting container: d7b5a4c1c06e
+2026/10/21 18:07:39 ✅ Container started: d7b5a4c1c06e
+2026/10/21 18:07:39 ⏳ Waiting for container id d7b5a4c1c06e image: postgres:16-alpine. Waiting for: all of: [log message "database system is ready to accept connections", port 5432/tcp to be listening]
+2026/10/21 18:07:42 🔔 Container is ready: d7b5a4c1c06e
+=== RUN   TestDailyLimitMixedAgeHoldsAndSettlement
+    daily_limit_test.go:88: persisted gold/spent/reserved=9900/0/300 want=9900/100/300
+--- FAIL: TestDailyLimitMixedAgeHoldsAndSettlement (0.33s)
+FAIL
+2026/10/21 18:07:43 🐳 Stopping container: d7b5a4c1c06e
+2026/10/21 18:07:43 ✅ Container stopped: d7b5a4c1c06e
+2026/10/21 18:07:43 🐳 Terminating container: d7b5a4c1c06e
+2026/10/21 18:07:43 🚫 Container terminated: d7b5a4c1c06e
+FAIL	market-dragon/internal/postgres	6.419s
+FAIL

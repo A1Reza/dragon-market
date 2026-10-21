@@ -1,0 +1,258 @@
+{
+  "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+  "order_id": "5f1a6680-a565-410b-af1f-0659d893342f",
+  "seller": "guild-seller",
+  "buyer": "guild-buyer",
+  "before": {
+    "observed_at": "2026-10-21T14:42:59.8784003Z",
+    "environment": "development",
+    "database": "dragon_research_disposable",
+    "database_version": "16.14",
+    "database_address": "172.17.0.2/32:5432",
+    "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+    "limit": 200,
+    "offset": 0,
+    "counts": {
+      "auctions": 0,
+      "bids": 0,
+      "guilds": 3,
+      "items": 1,
+      "limit_orders": 1,
+      "wallet_transactions": 0
+    },
+    "guilds": [
+      {
+        "id": "guild-bidder",
+        "gold": 10000,
+        "reserved": 0,
+        "available": 10000,
+        "daily_limit": 5000,
+        "daily_spent": 0,
+        "daily_spent_on": "2026-10-21T00:00:00Z"
+      },
+      {
+        "id": "guild-buyer",
+        "gold": 10000,
+        "reserved": 0,
+        "available": 10000,
+        "daily_limit": 5000,
+        "daily_spent": 0,
+        "daily_spent_on": "2026-10-21T00:00:00Z"
+      },
+      {
+        "id": "guild-seller",
+        "gold": 10000,
+        "reserved": 0,
+        "available": 10000,
+        "daily_limit": 5000,
+        "daily_spent": 0,
+        "daily_spent_on": "2026-10-21T00:00:00Z"
+      }
+    ],
+    "items": [
+      {
+        "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+        "name": "Codex-R1-2110-Emberglass",
+        "type": "rare",
+        "owner_id": "guild-seller",
+        "status": "listed_in_order",
+        "base_price": 700
+      }
+    ],
+    "orders": [
+      {
+        "id": "5f1a6680-a565-410b-af1f-0659d893342f",
+        "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+        "seller_id": "guild-seller",
+        "buyer_id": null,
+        "price": 700,
+        "status": "listed",
+        "listed_at": "2026-10-21T18:12:59.787079+03:30"
+      }
+    ],
+    "auctions": [],
+    "bids": [],
+    "audit": []
+  },
+  "after": {
+    "observed_at": "2026-10-21T14:43:00.1500775Z",
+    "environment": "development",
+    "database": "dragon_research_disposable",
+    "database_version": "16.14",
+    "database_address": "172.17.0.2/32:5432",
+    "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+    "limit": 200,
+    "offset": 0,
+    "counts": {
+      "auctions": 0,
+      "bids": 0,
+      "guilds": 3,
+      "items": 1,
+      "limit_orders": 1,
+      "wallet_transactions": 2
+    },
+    "guilds": [
+      {
+        "id": "guild-bidder",
+        "gold": 10000,
+        "reserved": 0,
+        "available": 10000,
+        "daily_limit": 5000,
+        "daily_spent": 0,
+        "daily_spent_on": "2026-10-21T00:00:00Z"
+      },
+      {
+        "id": "guild-buyer",
+        "gold": 9300,
+        "reserved": 0,
+        "available": 9300,
+        "daily_limit": 5000,
+        "daily_spent": 700,
+        "daily_spent_on": "2026-10-21T00:00:00Z"
+      },
+      {
+        "id": "guild-seller",
+        "gold": 10700,
+        "reserved": 0,
+        "available": 10700,
+        "daily_limit": 5000,
+        "daily_spent": 0,
+        "daily_spent_on": "2026-10-21T00:00:00Z"
+      }
+    ],
+    "items": [
+      {
+        "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+        "name": "Codex-R1-2110-Emberglass",
+        "type": "rare",
+        "owner_id": "guild-buyer",
+        "status": "free",
+        "base_price": 700
+      }
+    ],
+    "orders": [
+      {
+        "id": "5f1a6680-a565-410b-af1f-0659d893342f",
+        "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+        "seller_id": "guild-seller",
+        "buyer_id": "guild-buyer",
+        "price": 700,
+        "status": "sold",
+        "listed_at": "2026-10-21T18:12:59.787079+03:30"
+      }
+    ],
+    "auctions": [],
+    "bids": [],
+    "audit": [
+      {
+        "id": 2,
+        "guild_id": "guild-seller",
+        "operation": "earn",
+        "amount": 700,
+        "gold_after": 10700,
+        "reserved_after": 0,
+        "created_at": "2026-10-21T18:13:38.392736+03:30"
+      },
+      {
+        "id": 1,
+        "guild_id": "guild-buyer",
+        "operation": "spend",
+        "amount": 700,
+        "gold_after": 9300,
+        "reserved_after": 0,
+        "created_at": "2026-10-21T18:13:38.392736+03:30"
+      }
+    ]
+  },
+  "sql_after": "{\"wallets\" : [{\"id\":\"guild-bidder\",\"gold\":10000,\"reserved\":0,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21\"}, \n {\"id\":\"guild-buyer\",\"gold\":9300,\"reserved\":0,\"daily_spent\":700,\"daily_spent_on\":\"2026-10-21\"}, \n {\"id\":\"guild-seller\",\"gold\":10700,\"reserved\":0,\"daily_spent\":0,\"daily_spent_on\":\"2026-10-21\"}], \"item\" : {\"id\":\"bd3c9cf4-3acc-40c7-b64f-842c3e02ca84\",\"name\":\"Codex-R1-2110-Emberglass\",\"type\":\"rare\",\"owner_id\":\"guild-buyer\",\"base_price\":700,\"status\":\"free\"}, \"audit\" : [{\"id\":1,\"guild_id\":\"guild-buyer\",\"operation\":\"spend\",\"amount\":700,\"gold_after\":9300,\"reserved_after\":0,\"created_at\":\"2026-10-21T14:43:38.392736+00:00\"}, \n {\"id\":2,\"guild_id\":\"guild-seller\",\"operation\":\"earn\",\"amount\":700,\"gold_after\":10700,\"reserved_after\":0,\"created_at\":\"2026-10-21T14:43:38.392736+00:00\"}]}",
+  "replay": {
+    "observed_at": "2026-10-21T14:43:01.8745153Z",
+    "environment": "development",
+    "database": "dragon_research_disposable",
+    "database_version": "16.14",
+    "database_address": "172.17.0.2/32:5432",
+    "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+    "limit": 200,
+    "offset": 0,
+    "counts": {
+      "auctions": 0,
+      "bids": 0,
+      "guilds": 3,
+      "items": 1,
+      "limit_orders": 1,
+      "wallet_transactions": 2
+    },
+    "guilds": [
+      {
+        "id": "guild-bidder",
+        "gold": 10000,
+        "reserved": 0,
+        "available": 10000,
+        "daily_limit": 5000,
+        "daily_spent": 0,
+        "daily_spent_on": "2026-10-21T00:00:00Z"
+      },
+      {
+        "id": "guild-buyer",
+        "gold": 9300,
+        "reserved": 0,
+        "available": 9300,
+        "daily_limit": 5000,
+        "daily_spent": 700,
+        "daily_spent_on": "2026-10-21T00:00:00Z"
+      },
+      {
+        "id": "guild-seller",
+        "gold": 10700,
+        "reserved": 0,
+        "available": 10700,
+        "daily_limit": 5000,
+        "daily_spent": 0,
+        "daily_spent_on": "2026-10-21T00:00:00Z"
+      }
+    ],
+    "items": [
+      {
+        "id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+        "name": "Codex-R1-2110-Emberglass",
+        "type": "rare",
+        "owner_id": "guild-buyer",
+        "status": "free",
+        "base_price": 700
+      }
+    ],
+    "orders": [
+      {
+        "id": "5f1a6680-a565-410b-af1f-0659d893342f",
+        "item_id": "bd3c9cf4-3acc-40c7-b64f-842c3e02ca84",
+        "seller_id": "guild-seller",
+        "buyer_id": "guild-buyer",
+        "price": 700,
+        "status": "sold",
+        "listed_at": "2026-10-21T18:12:59.787079+03:30"
+      }
+    ],
+    "auctions": [],
+    "bids": [],
+    "audit": [
+      {
+        "id": 2,
+        "guild_id": "guild-seller",
+        "operation": "earn",
+        "amount": 700,
+        "gold_after": 10700,
+        "reserved_after": 0,
+        "created_at": "2026-10-21T18:13:38.392736+03:30"
+      },
+      {
+        "id": 1,
+        "guild_id": "guild-buyer",
+        "operation": "spend",
+        "amount": 700,
+        "gold_after": 9300,
+        "reserved_after": 0,
+        "created_at": "2026-10-21T18:13:38.392736+03:30"
+      }
+    ]
+  }
+}

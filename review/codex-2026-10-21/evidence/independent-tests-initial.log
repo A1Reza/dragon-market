@@ -1,0 +1,49 @@
+{"started_at_utc": "2026-10-21T14:37:02.555294+00:00", "argv": ["go", "test", "-v", "-count=1", "./internal/postgres", "-run", "^TestReviewer"], "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market\\artifacts\\codex-review-independent-source", "source_sha": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7", "deviation": "Exact source copied; only reviewer_independent_test.go added; original application unchanged; real fresh Testcontainers."}
+2026/10/21 18:07:04 github.com/testcontainers/testcontainers-go - Connected to docker: 
+  Server Version: 29.1.5
+  API Version: 1.52
+  Operating System: Docker Desktop
+  Total Memory: 7940 MB
+  Labels:
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+  Testcontainers for Go Version: v0.43.0
+  Resolved Docker Host: npipe:////./pipe/docker_engine
+  Resolved Docker Socket Path: //var/run/docker.sock
+  Test SessionID: 44b6c11701e8de6e3929eb63bacc3961643d8c196ea509027f500e4a68af9c36
+  Test ProcessID: 398b1b58-e3bd-45a1-ac78-6438468be40f
+2026/10/21 18:07:05 🐳 Creating container for image postgres:16-alpine
+2026/10/21 18:07:05 🐳 Creating container for image testcontainers/ryuk:0.14.0
+2026/10/21 18:07:05 ✅ Container created: 2df5471f5353
+2026/10/21 18:07:05 🐳 Starting container: 2df5471f5353
+2026/10/21 18:07:06 ✅ Container started: 2df5471f5353
+2026/10/21 18:07:06 ⏳ Waiting for container id 2df5471f5353 image: testcontainers/ryuk:0.14.0. Waiting for: all of: [log message "Started", port 8080/tcp to be listening]
+2026/10/21 18:07:06 Shell not found in container
+2026/10/21 18:07:06 🔔 Container is ready: 2df5471f5353
+2026/10/21 18:07:06 ✅ Container created: b92295b6d7b7
+2026/10/21 18:07:06 🐳 Starting container: b92295b6d7b7
+2026/10/21 18:07:07 ✅ Container started: b92295b6d7b7
+2026/10/21 18:07:07 ⏳ Waiting for container id b92295b6d7b7 image: postgres:16-alpine. Waiting for: all of: [log message "database system is ready to accept connections", port 5432/tcp to be listening]
+2026/10/21 18:07:09 🔔 Container is ready: b92295b6d7b7
+=== RUN   TestReviewerDownMigrationRefusesAndPreserves
+    reviewer_independent_test.go:30: refused down migration; version=2 gold=9877 spent=123; before=map[auctions:[] audit:[{ID:1 GuildID:buyer Operation:spend Amount:123 GoldAfter:9877 ReservedAfter:0 CreatedAt:2026-10-21 18:07:48.285542 +0330 +0330}] bids:[] guilds:[{ID:buyer Gold:9877 Reserved:0 Available:9877 DailyLimit:5000 DailySpent:123 SpentOn:2026-10-21 00:00:00 +0000 UTC} {ID:other Gold:10000 Reserved:0 Available:10000 DailyLimit:5000 DailySpent:0 SpentOn:2026-10-21 00:00:00 +0000 UTC} {ID:seller Gold:10000 Reserved:0 Available:10000 DailyLimit:5000 DailySpent:0 SpentOn:2026-10-21 00:00:00 +0000 UTC}] items:[{ID:research-item Name:Research Wand Type:rare OwnerID:seller Status:free BasePrice:100}] orders:[]] after=map[auctions:[] audit:[{ID:1 GuildID:buyer Operation:spend Amount:123 GoldAfter:9877 ReservedAfter:0 CreatedAt:2026-10-21 18:07:48.285542 +0330 +0330}] bids:[] guilds:[{ID:buyer Gold:9877 Reserved:0 Available:9877 DailyLimit:5000 DailySpent:123 SpentOn:2026-10-21 00:00:00 +0000 UTC} {ID:other Gold:10000 Reserved:0 Available:10000 DailyLimit:5000 DailySpent:0 SpentOn:2026-10-21 00:00:00 +0000 UTC} {ID:seller Gold:10000 Reserved:0 Available:10000 DailyLimit:5000 DailySpent:0 SpentOn:2026-10-21 00:00:00 +0000 UTC}] items:[{ID:research-item Name:Research Wand Type:rare OwnerID:seller Status:free BasePrice:100}] orders:[]]
+--- PASS: TestReviewerDownMigrationRefusesAndPreserves (0.34s)
+=== RUN   TestReviewerWalletRefusesV1AndPreserves
+    reviewer_independent_test.go:44: new wallet code rejects absent accounting marker: ERROR: column "daily_accounting_version" does not exist (SQLSTATE 42703)
+--- PASS: TestReviewerWalletRefusesV1AndPreserves (0.28s)
+=== RUN   TestReviewerEarningsPreserveAllowance
+    reviewer_independent_test.go:57: SQL gold=10500 completed=500 audit rows=2; extra spend rejected
+--- PASS: TestReviewerEarningsPreserveAllowance (0.32s)
+=== RUN   TestReviewerInspectorExposesStaleSpend
+    reviewer_independent_test.go:67: API projection=0; inspector raw=300 dated=2026-10-20; UI WalletView uses raw field as 'Spent today'
+--- PASS: TestReviewerInspectorExposesStaleSpend (0.33s)
+=== RUN   TestReviewerReciprocalPurchasesDoNotDeadlock
+    reviewer_independent_test.go:105: concurrent reciprocal results=ERROR: deadlock detected (SQLSTATE 40P01) / <nil>; SQL gold total=30000 audit rows=2 sold=1; state=map[auctions:[] audit:[{ID:6 GuildID:buyer Operation:earn Amount:100 GoldAfter:10100 ReservedAfter:0 CreatedAt:2026-10-21 18:07:49.465058 +0330 +0330} {ID:4 GuildID:seller Operation:spend Amount:100 GoldAfter:9900 ReservedAfter:0 CreatedAt:2026-10-21 18:07:49.465058 +0330 +0330}] bids:[] guilds:[{ID:buyer Gold:10100 Reserved:0 Available:10100 DailyLimit:0 DailySpent:0 SpentOn:2026-10-21 00:00:00 +0000 UTC} {ID:other Gold:10000 Reserved:0 Available:10000 DailyLimit:5000 DailySpent:0 SpentOn:2026-10-21 00:00:00 +0000 UTC} {ID:seller Gold:9900 Reserved:0 Available:9900 DailyLimit:0 DailySpent:100 SpentOn:2026-10-21 00:00:00 +0000 UTC}] items:[{ID:research-item Name:Research Wand Type:rare OwnerID:seller Status:listed_in_order BasePrice:100} {ID:reviewer-reverse Name:Reverse Type:rare OwnerID:seller Status:free BasePrice:100}] orders:[{ID:70bebe87-ffbe-4f4d-82ba-f067563eb951 ItemID:reviewer-reverse SellerID:buyer BuyerID:0xf3f73a01c00 Price:100 Status:sold ListedAt:2026-10-21 18:07:11.822686 +0330 +0330} {ID:94e6d95a-a1e4-4624-a03d-3d51499a4957 ItemID:research-item SellerID:seller BuyerID:<nil> Price:100 Status:listed ListedAt:2026-10-21 18:07:11.815035 +0330 +0330}]]
+    reviewer_independent_test.go:107: valid reciprocal purchases cannot both complete: ERROR: deadlock detected (SQLSTATE 40P01) / <nil>
+--- FAIL: TestReviewerReciprocalPurchasesDoNotDeadlock (1.51s)
+FAIL
+2026/10/21 18:07:13 🐳 Stopping container: b92295b6d7b7
+2026/10/21 18:07:13 ✅ Container stopped: b92295b6d7b7
+2026/10/21 18:07:13 🐳 Terminating container: b92295b6d7b7
+2026/10/21 18:07:13 🚫 Container terminated: b92295b6d7b7
+FAIL	market-dragon/internal/postgres	9.183s
+FAIL

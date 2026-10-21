@@ -1,0 +1,401 @@
+
+internal/guild/service.go
+
+70: 	return s
+71: }
+72: 
+73: func (s *WalletServiceImpl) resetDailySpend(g *Guild) {
+74: 	today := s.now().UTC().Truncate(24 * time.Hour)
+75: 	if g.SpentOn.IsZero() {
+76: 		g.SpentOn = today
+77: 		return
+78: 	}
+79: 	if g.SpentOn.UTC().Truncate(24*time.Hour) != today {
+80: 		g.DailySpent = 0
+81: 		g.SpentOn = today
+82: 	}
+83: }
+84: 
+85: func (s *WalletServiceImpl) save(ctx context.Context, g *Guild, operation string, amount gold.Amount) error {
+86: 	if err := s.guildRepository.Update(ctx, g); err != nil {
+87: 		return err
+88: 	}
+89: 	if recorder, ok := s.guildRepository.(transactionRecorder); ok {
+90: 		return recorder.RecordWalletTransaction(ctx, g.ID, operation, amount, g)
+91: 	}
+92: 	return nil
+93: }
+94: 
+95: // All holds consume capacity on every day until released or settled. Subtract
+96: // from the limit rather than adding amounts that could overflow int64.
+97: func checkDailyCapacity(g *Guild, amount gold.Amount) error {
+98: 	if g.DailyLimit > 0 && (g.DailySpent > g.DailyLimit ||
+99: 		g.Reserved > g.DailyLimit-g.DailySpent ||
+100: 		amount > g.DailyLimit-g.DailySpent-g.Reserved) {
+101: 		return ErrDailyLimitReached
+102: 	}
+103: 	return nil
+104: }
+105: 
+106: func (s *WalletServiceImpl) Reserve(ctx context.Context, id string, amount gold.Amount) error {
+107: 	if amount <= 0 {
+108: 		return ErrInvalidAmount
+150: 		}
+151: 		if amount > g.Gold {
+152: 			return ErrInsufficientBalance
+153: 		}
+154: 		if g.DailySpent > math.MaxInt64-amount {
+155: 			return ErrAmountOverflow
+156: 		}
+157: 		// Settlement exchanges an existing hold for completed spending. Total
+158: 		// daily usage stays constant, including for holds from previous days.
+159: 		g.DailySpent += amount
+160: 		g.Reserved -= amount
+161: 		g.Gold -= amount
+162: 		return s.save(ctx, g, "deduct", amount)
+163: 	})
+164: }
+165: 
+166: func (s *WalletServiceImpl) Release(ctx context.Context, id string, amount gold.Amount) error {
+167: 	if amount <= 0 {
+168: 		return ErrInvalidAmount
+169: 	}
+170: 	return s.tx.RunInTransaction(ctx, func(ctx context.Context) error {
+171: 		repo := s.guildRepository
+172: 		g, err := repo.Get(ctx, id)
+173: 		if errors.Is(err, ErrGuildNotFound) {
+174: 			return fmt.Errorf("guild %s does not exist: %w", id, err)
+175: 		}
+176: 		if err != nil {
+177: 			return err
+178: 		}
+179: 		s.resetDailySpend(g)
+180: 
+181: 		enoughReserve := g.Reserved >= amount
+182: 		if !enoughReserve {
+183: 			return fmt.Errorf("%w: have %v, need %v", ErrInsufficientReserve, g.Reserved, amount)
+184: 		}
+185: 
+186: 		g.Reserved -= amount
+187: 		return s.save(ctx, g, "release", amount)
+188: 	})
+189: }
+190: 
+191: func (s *WalletServiceImpl) Earn(ctx context.Context, id string, amount gold.Amount) error {
+192: 	if amount <= 0 {
+193: 		return ErrInvalidAmount
+194: 	}
+195: 	return s.tx.RunInTransaction(ctx, func(ctx context.Context) error {
+196: 		repo := s.guildRepository
+197: 		g, err := repo.Get(ctx, id)
+198: 		if errors.Is(err, ErrGuildNotFound) {
+199: 			return fmt.Errorf("guild %s does not exist: %w", id, err)
+
+internal/postgres/guild_repo.go
+
+55: }
+56: 
+57: func (r *Repository) Get(ctx context.Context, id string) (*guild.Guild, error) {
+58: 	q := r.guildConn(ctx)
+59: 	row := q.QueryRowContext(ctx, `SELECT id, gold, reserved, daily_limit, daily_spent, daily_spent_on FROM guilds WHERE id = $1 AND daily_accounting_version = 2 FOR UPDATE`, id)
+60: 
+61: 	var g guild.Guild
+62: 	err := row.Scan(&g.ID, &g.Gold, &g.Reserved, &g.DailyLimit, &g.DailySpent, &g.SpentOn)
+63: 	if errors.Is(err, sql.ErrNoRows) {
+64: 		return nil, guild.ErrGuildNotFound
+65: 	}
+66: 	if err != nil {
+67: 		return nil, err
+68: 	}
+69: 
+70: 	return &g, nil
+71: }
+72: 
+73: func (r *Repository) Update(ctx context.Context, val *guild.Guild) error {
+74: 	q := r.guildConn(ctx)
+75: 	_, err := q.ExecContext(ctx,
+76: 		`UPDATE guilds SET gold = $1, reserved = $2, daily_limit = $3, daily_spent = $4, daily_spent_on = $5
+77: 		      WHERE id = $6`, val.Gold, val.Reserved, val.DailyLimit, val.DailySpent, val.SpentOn, val.ID)
+78: 
+79: 	return err
+80: }
+81: 
+82: func (r *Repository) guildConn(ctx context.Context) querier {
+83: 	if tx := getTx(ctx); tx != nil {
+84: 		return tx
+
+internal/postgres/tx.go
+
+33: func (t *Transactor) RunInTransaction(
+34: 	ctx context.Context,
+35: 	fn func(context.Context) error,
+36: ) error {
+37: 	if getTx(ctx) != nil {
+38: 		return fn(ctx)
+39: 	}
+40: 
+41: 	tx, err := t.db.BeginTx(ctx, nil)
+42: 	if err != nil {
+43: 		return err
+44: 	}
+45: 
+46: 	txCtx := withTx(ctx, tx)
+47: 
+48: 	if err := fn(txCtx); err != nil {
+49: 		_ = tx.Rollback()
+50: 		return err
+51: 	}
+52: 
+53: 	return tx.Commit()
+54: }
+
+internal/order/service.go
+
+92: 
+93: func (s *OrderServiceImpl) Buy(ctx context.Context, orderID, buyerID string) error {
+94: 	return s.tx.RunInTransaction(ctx, func(ctx context.Context) error {
+95: 		o, err := s.repo.GetByID(ctx, orderID)
+96: 		if err != nil {
+97: 			return err
+98: 		}
+99: 
+100: 		it, err := s.itemSvc.GetItemForUpdate(ctx, o.ItemID)
+101: 		if err != nil {
+102: 			return err
+103: 		}
+104: 
+105: 		o, err = s.repo.GetByIDForUpdate(ctx, orderID)
+106: 		if err != nil {
+107: 			return err
+108: 		}
+109: 
+110: 		if o.ItemID != it.ID {
+111: 			return fmt.Errorf("order item changed unexpectedly")
+112: 		}
+113: 		if o.Status == Sold {
+114: 			return ErrOrderAlreadySold
+115: 		}
+116: 		if o.Status != Listed {
+117: 			return ErrOrderNotListed
+118: 		}
+119: 		if o.SellerID == buyerID {
+120: 			return ErrCannotBuyOwnOrder
+121: 		}
+122: 		if it.OwnerID != o.SellerID {
+123: 			return ErrOrderItemNotOwnedBySeller
+124: 		}
+125: 		if it.Status != item.ListedInOrder {
+126: 			return ErrOrderItemNotAvailable
+127: 		}
+128: 
+129: 		o.BuyerID = &buyerID
+130: 		o.Status = Sold
+131: 
+132: 		if err = s.walletSvc.Spend(ctx, buyerID, o.Price); err != nil {
+133: 			return err
+134: 		}
+135: 		if err = s.walletSvc.Earn(ctx, o.SellerID, o.Price); err != nil {
+136: 			return err
+137: 		}
+138: 		if err = s.itemSvc.TransferOwnership(ctx, o.ItemID, o.SellerID, buyerID); err != nil {
+139: 			return err
+140: 		}
+141: 
+142: 		if err := s.repo.Update(ctx, o); err != nil {
+143: 			return err
+144: 		}
+145: 
+146: 		return s.repo.CancelOtherListed(ctx, o.ItemID, o.ID)
+147: 	})
+148: }
+
+internal/api/order_handler.go
+
+179: 	if errors.Is(err, order.ErrOrderNotListed) {
+180: 		http.Error(w, "order is already not listed for sale", http.StatusBadRequest)
+181: 		return
+182: 	}
+183: 	if writeDomainError(w, err) {
+184: 		return
+185: 	}
+186: 	if err != nil {
+187: 		http.Error(w, "failed to buy order", http.StatusInternalServerError)
+188: 		slog.Error("failed to buy order", "error", err)
+189: 		return
+190: 	}
+191: 	if result.Replayed {
+192: 		w.Header().Set("Idempotency-Replayed", "true")
+193: 	}
+194: 	w.WriteHeader(result.StatusCode)
+195: }
+196: 
+
+internal/postgres/inspection.go
+
+39: 		sql  string
+40: 		scan func(*sql.Rows) error
+41: 	}{
+42: 		{`SELECT id,gold,reserved,gold-reserved,daily_limit,daily_spent,daily_spent_on FROM guilds ORDER BY id LIMIT 200 OFFSET $1`, func(r *sql.Rows) error {
+43: 			var v inspection.Wallet
+44: 			err := r.Scan(&v.ID, &v.Gold, &v.Reserved, &v.Available, &v.DailyLimit, &v.DailySpent, &v.SpentOn)
+45: 			out.Guilds = append(out.Guilds, v)
+46: 			return err
+47: 		}},
+48: 		{`SELECT id,name,type,owner_id,status,base_price FROM items ORDER BY id LIMIT 200 OFFSET $1`, func(r *sql.Rows) error {
+49: 			var v inspection.Item
+
+web/src/components.tsx
+
+45: }
+46: export function WalletView({ wallet }: { wallet: Wallet }) {
+47:   const percentage = wallet.gold ? (wallet.reserved / wallet.gold) * 100 : 0;
+48:   return (
+49:     <section className="wallet-card" aria-label="Guild treasury">
+50:       <div className="eyebrow">
+51:         <Shield size={15} /> Guild treasury
+52:       </div>
+53:       <div className="balance" data-testid="wallet-total">
+54:         <Money value={wallet.gold} />
+55:       </div>
+56:       <p>Total gold = available + reserved</p>
+57:       <div
+58:         className="balance-bar"
+59:         role="img"
+60:         aria-label={`${gold(wallet.available)} available, ${gold(wallet.reserved)} reserved`}
+61:       >
+62:         <i style={{ width: `${100 - percentage}%` }} />
+63:         <b style={{ width: `${percentage}%` }} />
+64:       </div>
+65:       <div className="split">
+66:         <span>
+67:           <i className="dot green" />
+68:           Available
+69:           <strong>
+70:             <Money value={wallet.available} />
+71:           </strong>
+72:         </span>
+73:         <span>
+74:           <i className="dot amber" />
+75:           Reserved
+76:           <strong>
+77:             <Money value={wallet.reserved} />
+78:           </strong>
+79:         </span>
+80:       </div>
+81:       <div className="wallet-foot">
+82:         <span>
+83:           Spent today <b>{gold(wallet.daily_spent)} G</b>
+84:         </span>
+85:         <span>
+86:           Daily limit{" "}
+87:           <b>
+88:             {wallet.daily_limit ? `${gold(wallet.daily_limit)} G` : "Unlimited"}
+89:           </b>
+90:         </span>
+91:       </div>
+92:       <small>
+93:         The daily limit covers spending today plus all reserved gold. Spending
+94:         resets at midnight UTC; reservations remain until released or settled.
+95:       </small>
+96:     </section>
+97:   );
+98: }
+99: export function Artifact({
+
+web/src/App.tsx
+
+130:         setError(e instanceof Error ? e.message : "Cannot reach backend");
+131:     } finally {
+132:       if (!controller.signal.aborted) setLoading(false);
+133:     }
+134:   }, []);
+135:   useEffect(() => {
+136:     void refresh();
+137:     return () => activeRead.current?.abort();
+138:   }, [refresh]);
+1177: 
+1178: function AuditTable({ data, guild }: { data?: Snapshot; guild?: string }) {
+1179:   const rows = data?.audit.filter((a) => !guild || a.guild_id === guild) || [];
+1180:   return rows.length ? (
+1181:     <div className="table-wrap">
+1182:       <table>
+1183:         <thead>
+1184:           <tr>
+1185:             <th>Audit ID / UTC time</th>
+1186:             <th>Guild / operation</th>
+1187:             <th>Amount</th>
+1188:             <th>Total after</th>
+1189:             <th>Reserved after</th>
+1190:           </tr>
+1191:         </thead>
+1192:         <tbody>
+1193:           {rows.map((a) => (
+1194:             <tr key={a.id}>
+1195:               <td>
+1196:                 #{a.id}
+1197:                 <small>{a.created_at}</small>
+1198:               </td>
+1199:               <td>
+1200:                 {a.guild_id}
+1201:                 <small>{a.operation}</small>
+1202:               </td>
+1203:               <td>
+1204:                 <Money value={a.amount} />
+1205:               </td>
+1206:               <td>
+1207:                 <Money value={a.gold_after} />
+1208:               </td>
+1209:               <td>
+1210:                 <Money value={a.reserved_after} />
+1211:               </td>
+1212:             </tr>
+1213:           ))}
+1214:         </tbody>
+1215:       </table>
+1216:     </div>
+1217:   ) : (
+1218:     <Empty title="No audit rows on this page">
+1219:       Successful wallet mutations append records inside their transaction.
+1220:     </Empty>
+1328:                     <span>
+1329:                       Available: {gold(before.available)} →{" "}
+1330:                       {after ? gold(after.available) : "Unavailable"} G
+1331:                     </span>
+1332:                     <span>
+1333:                       Completed spending: {gold(before.daily_spent)} →{" "}
+1334:                       {after ? gold(after.daily_spent) : "Unavailable"} G
+1335:                     </span>
+1336:                   </div>
+1337:                 );
+1338:               })}
+
+migrations/up/000011_daily_accounting_v2.up.sql
+
+1: -- The old combined counter cannot recover completed spending after KNOWN-01.
+2: -- This experimental baseline supports fresh databases. Existing databases need
+3: -- an independently reconciled conversion, with old audit evidence preserved.
+4: DO $$
+5: BEGIN
+6:     IF EXISTS (SELECT 1 FROM guilds) THEN
+7:         RAISE EXCEPTION 'daily accounting v2 requires an empty guilds table; reconcile legacy spending independently before conversion';
+8:     END IF;
+9: END $$;
+10: 
+11: ALTER TABLE guilds
+12:     ADD COLUMN daily_accounting_version SMALLINT NOT NULL DEFAULT 2
+13:         CHECK (daily_accounting_version = 2);
+14: 
+15: COMMENT ON COLUMN guilds.daily_spent IS
+16:     'Accounting v2: completed spend and deduct debits on daily_spent_on (UTC); excludes outstanding reserved gold';
+
+migrations/down/000011_daily_accounting_v2.down.sql
+
+1: DO $$
+2: BEGIN
+3:     IF EXISTS (SELECT 1 FROM guilds) THEN
+4:         RAISE EXCEPTION 'cannot automatically downgrade nonempty accounting v2 wallets';
+5:     END IF;
+6: END $$;
+7: 
+8: ALTER TABLE guilds DROP COLUMN daily_accounting_version;
+9: COMMENT ON COLUMN guilds.daily_spent IS NULL;

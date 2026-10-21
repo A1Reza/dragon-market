@@ -1,0 +1,6 @@
+{
+  "utc": "2026-10-21T14:50:50.286933+00:00",
+  "running_containers_after_review": [],
+  "running_containers_before_review": [],
+  "scope": "All review-owned stacks and Testcontainers stopped; no Compose/shared volume created, reset, or deleted. E2E cleanup verified lease name and disposable label."
+}

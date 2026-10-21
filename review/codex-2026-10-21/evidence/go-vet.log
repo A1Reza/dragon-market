@@ -1,0 +1,1 @@
+{"id": "go-vet", "argv": ["go", "vet", "./..."], "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market", "started_at_utc": "2026-10-21T14:34:46.465574+00:00"}

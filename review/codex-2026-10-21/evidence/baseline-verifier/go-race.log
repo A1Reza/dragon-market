@@ -1,0 +1,29 @@
+?   	market-dragon/cmd/mock-oracle	[no test files]
+ok  	market-dragon/cmd/research-lab	1.057s
+?   	market-dragon/cmd/review	[no test files]
+?   	market-dragon/cmd/server	[no test files]
+ok  	market-dragon/internal/api	1.084s
+ok  	market-dragon/internal/auction	1.083s
+?   	market-dragon/internal/gold	[no test files]
+ok  	market-dragon/internal/guild	1.068s
+ok  	market-dragon/internal/idempotency	1.068s
+?   	market-dragon/internal/inspection	[no test files]
+ok  	market-dragon/internal/item	1.068s
+ok  	market-dragon/internal/oracle	1.063s
+ok  	market-dragon/internal/order	1.048s
+ok  	market-dragon/internal/postgres	27.652s
+ok  	market-dragon/internal/review	1.152s
+FAIL	market-dragon/review/codex-2026-10-21/tools [build failed]
+FAIL
+# market-dragon/review/codex-2026-10-21/tools [market-dragon/review/codex-2026-10-21/tools.test]
+review\codex-2026-10-21\tools\independent_postgres_test.go:19:25: undefined: researchFixture
+review\codex-2026-10-21\tools\independent_postgres_test.go:21:15: undefined: persistedResearchState
+review\codex-2026-10-21\tools\independent_postgres_test.go:24:17: undefined: testDB
+review\codex-2026-10-21\tools\independent_postgres_test.go:28:14: undefined: testDB
+review\codex-2026-10-21\tools\independent_postgres_test.go:30:114: undefined: persistedResearchState
+review\codex-2026-10-21\tools\independent_postgres_test.go:34:5: undefined: researchFixture
+review\codex-2026-10-21\tools\independent_postgres_test.go:36:16: undefined: testDB
+review\codex-2026-10-21\tools\independent_postgres_test.go:41:33: undefined: NewWalletRepository
+review\codex-2026-10-21\tools\independent_postgres_test.go:41:53: undefined: testDB
+review\codex-2026-10-21\tools\independent_postgres_test.go:41:61: undefined: NewTransactor
+review\codex-2026-10-21\tools\independent_postgres_test.go:41:61: too many errors

@@ -1,0 +1,3 @@
+# market-dragon/review/codex-2026-10-21/tools
+# [market-dragon/review/codex-2026-10-21/tools]
+vet.exe: review\codex-2026-10-21\tools\independent_postgres_test.go:19:25: undefined: researchFixture

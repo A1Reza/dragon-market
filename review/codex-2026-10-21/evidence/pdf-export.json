@@ -1,0 +1,13 @@
+{
+  "utc": "2026-10-21T14:57:54.131055+00:00",
+  "renderer": "ReportLab 5.0.1",
+  "source": "Dragon_Market_Reviewer_Guide_and_Signoff_Form_COMPLETED_CODEX.docx",
+  "pdf": "Dragon_Market_Reviewer_Guide_and_Signoff_Form_COMPLETED_CODEX.pdf",
+  "pages": 23,
+  "all_68_activity_ids_present": true,
+  "signature_text_present": true,
+  "layout": "Complete DOCX content reflowed for PDF; not exact Word pagination.",
+  "word_export": "Word COM fixed-format export did not complete and held the generated document read-only. Only the known review-created Word process (28232) and its export PowerShell were stopped. No Word PDF was represented as successful.",
+  "rendering_attempts": "First regeneration met the Word file lock; corrected by stopping that review-owned instance. First ReportLab layout rejected a tall screenshot; image dimensions were bounded to the page frame and the complete render passed.",
+  "optional_renderer_download": "pymupdf 63 MB download stalled and was stopped; pypdfium2 used for visual inspection instead."
+}

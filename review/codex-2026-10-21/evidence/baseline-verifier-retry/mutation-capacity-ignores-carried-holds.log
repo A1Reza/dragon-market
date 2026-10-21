@@ -1,0 +1,36 @@
+2026/10/17 18:59:49 github.com/testcontainers/testcontainers-go - Connected to docker:
+  Server Version: 29.1.5
+  API Version: 1.52
+  Operating System: Docker Desktop
+  Total Memory: 7940 MB
+  Labels:
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+  Testcontainers for Go Version: v0.43.0
+  Resolved Docker Host: npipe:////./pipe/docker_engine
+  Resolved Docker Socket Path: //var/run/docker.sock
+  Test SessionID: 9b5140b9c13899b6fb0c9c9545c8dd414facd81ef1bc8249864989dcc258b0b2
+  Test ProcessID: 94590490-965e-4f95-aa3f-2d9b91ac0309
+2026/10/17 18:59:49 🐳 Creating container for image postgres:16-alpine
+2026/10/17 18:59:49 🐳 Creating container for image testcontainers/ryuk:0.14.0
+2026/10/17 18:59:49 ✅ Container created: 8c2f4e0a715d
+2026/10/17 18:59:49 🐳 Starting container: 8c2f4e0a715d
+2026/10/17 18:59:50 ✅ Container started: 8c2f4e0a715d
+2026/10/17 18:59:50 ⏳ Waiting for container id 8c2f4e0a715d image: testcontainers/ryuk:0.14.0. Waiting for: all of: [log message "Started", port 8080/tcp to be listening]
+2026/10/17 18:59:50 Shell not found in container
+2026/10/17 18:59:50 🔔 Container is ready: 8c2f4e0a715d
+2026/10/17 18:59:50 ✅ Container created: d2144e1ea146
+2026/10/17 18:59:50 🐳 Starting container: d2144e1ea146
+2026/10/17 18:59:51 ✅ Container started: d2144e1ea146
+2026/10/17 18:59:51 ⏳ Waiting for container id d2144e1ea146 image: postgres:16-alpine. Waiting for: all of: [log message "database system is ready to accept connections", port 5432/tcp to be listening]
+2026/10/17 18:59:54 🔔 Container is ready: d2144e1ea146
+=== RUN   TestDailyLimitMixedAgeHoldsAndSettlemen
+    daily_limit_test.go:97: over-limit reserve error=<nil>
+--- FAIL: TestDailyLimitMixedAgeHoldsAndSettlement (0.38s)
+FAIL
+2026/10/17 18:59:54 🐳 Stopping container: d2144e1ea146
+2026/10/17 18:59:55 ✅ Container stopped: d2144e1ea146
+2026/10/17 18:59:55 🐳 Terminating container: d2144e1ea146
+2026/10/17 18:59:55 🚫 Container terminated: d2144e1ea146
+FAIL	market-dragon/internal/postgres	6.515s
+FAIL
+\n

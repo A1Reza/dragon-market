@@ -1,0 +1,27 @@
+{"id": "playwright", "argv": ["npm.cmd", "--prefix", "web", "run", "test:e2e"], "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market", "started_at_utc": "2026-10-21T14:39:01.700166+00:00"}
+npm warn Unknown user config "node-linker". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> dragon-market-aethoria@0.1.0 test:e2e
+> playwright test
+
+[WebServer] 2026/10/21 18:09:11 INFO server started address=127.0.0.1:8085
+[WebServer] 2026/10/21 18:09:11 isolated research runner on http://127.0.0.1:8087 (fresh Testcontainers only)
+[WebServer] (node:23332) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:18872) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+(node:29732) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests\marketplace.spec.ts:53:1 › real purchase, explicit replay, auctions, cancellation and persisted SQL effects (7.4s)
+  ✓  2 [chromium] › tests\marketplace.spec.ts:183:1 › guild creation and listing cancellation are real mutations (2.5s)
+  ✓  3 [chromium] › tests\marketplace.spec.ts:219:1 › mobile navigation, keyboard focus and refresh-safe routes (1.7s)
+  ✓  4 [chromium] › tests\marketplace.spec.ts:256:1 › Research Lab A/B/D/E uses real endpoints and displays expected rejection (3.7s)
+  ✓  5 [chromium] › tests\marketplace.spec.ts:327:3 › Research Lab Competing buyers executes isolated PostgreSQL assertions (11.2s)
+  ✓  6 [chromium] › tests\marketplace.spec.ts:327:3 › Research Lab Failure & rollback executes isolated PostgreSQL assertions (9.7s)
+  ✓  7 [chromium] › tests\marketplace.spec.ts:327:3 › Research Lab Auction settlement executes isolated PostgreSQL assertions (13.8s)
+dragon-research-e2e-cbdc1206
+
+  7 passed (1.0m)

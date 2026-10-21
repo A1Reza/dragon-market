@@ -1,0 +1,37 @@
+2026/10/17 18:53:40 github.com/testcontainers/testcontainers-go - Connected to docker:
+  Server Version: 29.1.5
+  API Version: 1.52
+  Operating System: Docker Desktop
+  Total Memory: 7940 MB
+  Labels:
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+  Testcontainers for Go Version: v0.43.0
+  Resolved Docker Host: npipe:////./pipe/docker_engine
+  Resolved Docker Socket Path: //var/run/docker.sock
+  Test SessionID: 9d1c8873cd9632f6beb76e64d8c52ca04ce96df46990ad50930f82b8e70f6d53
+  Test ProcessID: c5784b63-53b5-4540-938f-994c4863c2ea
+2026/10/17 18:53:40 🐳 Creating container for image postgres:16-alpine
+2026/10/17 18:53:41 🐳 Creating container for image testcontainers/ryuk:0.14.0
+2026/10/17 18:53:41 ✅ Container created: 9b04272f524e
+2026/10/17 18:53:41 🐳 Starting container: 9b04272f524e
+2026/10/17 18:53:41 ✅ Container started: 9b04272f524e
+2026/10/17 18:53:41 ⏳ Waiting for container id 9b04272f524e image: testcontainers/ryuk:0.14.0. Waiting for: all of: [log message "Started", port 8080/tcp to be listening]
+2026/10/17 18:53:42 Shell not found in container
+2026/10/17 18:53:42 🔔 Container is ready: 9b04272f524e
+2026/10/17 18:53:42 ✅ Container created: 458c61b33950
+2026/10/17 18:53:42 🐳 Starting container: 458c61b33950
+2026/10/17 18:53:42 ✅ Container started: 458c61b33950
+2026/10/17 18:53:42 ⏳ Waiting for container id 458c61b33950 image: postgres:16-alpine. Waiting for: all of: [log message "database system is ready to accept connections", port 5432/tcp to be listening]
+2026/10/17 18:53:45 🔔 Container is ready: 458c61b33950
+=== RUN   TestDailyLimitPriorDayReleaseCannotEraseSpending
+    daily_limit_test.go:42: first purchase error=<nil>; final purchase error=<nil>; persisted debits=800 gold=9200 completed=500 reserved=0 audit rows=3
+    daily_limit_test.go:44: daily limit bypass or failed operation persisted an effec
+--- FAIL: TestDailyLimitPriorDayReleaseCannotEraseSpending (0.31s)
+FAIL
+2026/10/17 18:53:45 🐳 Stopping container: 458c61b33950
+2026/10/17 18:53:46 ✅ Container stopped: 458c61b33950
+2026/10/17 18:53:46 🐳 Terminating container: 458c61b33950
+2026/10/17 18:53:46 🚫 Container terminated: 458c61b33950
+FAIL	market-dragon/internal/postgres	5.673s
+FAIL
+\n

@@ -1,0 +1,52 @@
+{
+  "observed_at": "2026-10-21T14:42:58.4095127Z",
+  "environment": "development",
+  "database": "dragon_research_disposable",
+  "database_version": "16.14",
+  "database_address": "172.17.0.2/32:5432",
+  "backend_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+  "limit": 200,
+  "offset": 0,
+  "counts": {
+    "auctions": 0,
+    "bids": 0,
+    "guilds": 3,
+    "items": 0,
+    "limit_orders": 0,
+    "wallet_transactions": 0
+  },
+  "guilds": [
+    {
+      "id": "guild-bidder",
+      "gold": 10000,
+      "reserved": 0,
+      "available": 10000,
+      "daily_limit": 5000,
+      "daily_spent": 0,
+      "daily_spent_on": "2026-10-21T00:00:00Z"
+    },
+    {
+      "id": "guild-buyer",
+      "gold": 10000,
+      "reserved": 0,
+      "available": 10000,
+      "daily_limit": 5000,
+      "daily_spent": 0,
+      "daily_spent_on": "2026-10-21T00:00:00Z"
+    },
+    {
+      "id": "guild-seller",
+      "gold": 10000,
+      "reserved": 0,
+      "available": 10000,
+      "daily_limit": 5000,
+      "daily_spent": 0,
+      "daily_spent_on": "2026-10-21T00:00:00Z"
+    }
+  ],
+  "items": [],
+  "orders": [],
+  "auctions": [],
+  "bids": [],
+  "audit": []
+}

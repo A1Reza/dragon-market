@@ -1,0 +1,13 @@
+{
+  "utc": "2026-10-21T14:57:54.430342+00:00",
+  "inspected_pages": [
+    1,
+    4,
+    16,
+    18,
+    23
+  ],
+  "method": "Rendered PDF pages through pypdfium2; viewed cover, automated checklist, reviewer sign-off, detailed findings and final image/signature page.",
+  "observations": "Readable tables and selected statuses; typed signature/decision present; screenshots fit page bounds; no clipping observed on inspected pages. All 68 IDs also checked by text extraction.",
+  "scope": "Sampled visual inspection of the reflowed PDF; editable Word file structurally validated with python-docx."
+}

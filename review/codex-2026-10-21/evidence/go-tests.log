@@ -1,0 +1,317 @@
+{"id": "go-tests", "argv": ["go", "test", "-v", "-count=1", "./..."], "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market", "started_at_utc": "2026-10-21T14:34:49.544031+00:00"}
+?   	market-dragon/cmd/mock-oracle	[no test files]
+=== RUN   TestReportReassemblesSplitGoTestOutput
+--- PASS: TestReportReassemblesSplitGoTestOutput (0.00s)
+=== RUN   TestRunnerRejectsUnsafeRequests
+--- PASS: TestRunnerRejectsUnsafeRequests (0.00s)
+PASS
+ok  	market-dragon/cmd/research-lab	0.046s
+?   	market-dragon/cmd/review	[no test files]
+?   	market-dragon/cmd/server	[no test files]
+=== RUN   TestDevelopmentInspectionRestrictions
+--- PASS: TestDevelopmentInspectionRestrictions (0.00s)
+=== RUN   TestOrderCreationReturnsPersistedFields
+--- PASS: TestOrderCreationReturnsPersistedFields (0.00s)
+=== RUN   TestRouter_MissingReferencedItemReturns404
+=== RUN   TestRouter_MissingReferencedItemReturns404/order
+=== RUN   TestRouter_MissingReferencedItemReturns404/auction
+--- PASS: TestRouter_MissingReferencedItemReturns404 (0.00s)
+    --- PASS: TestRouter_MissingReferencedItemReturns404/order (0.00s)
+    --- PASS: TestRouter_MissingReferencedItemReturns404/auction (0.00s)
+=== RUN   TestRouter_HealthAndAuctionRoutes
+--- PASS: TestRouter_HealthAndAuctionRoutes (0.00s)
+=== RUN   TestRouter_OrderCancelUsesPathID
+--- PASS: TestRouter_OrderCancelUsesPathID (0.00s)
+PASS
+ok  	market-dragon/internal/api	0.053s
+=== RUN   TestBidIncrementRejectsUnrepresentableNextBid
+--- PASS: TestBidIncrementRejectsUnrepresentableNextBid (0.00s)
+=== RUN   TestService_StartAuction
+--- PASS: TestService_StartAuction (0.00s)
+=== RUN   TestService_PlaceBid_ReplacesTopAndExtendsDeadline
+--- PASS: TestService_PlaceBid_ReplacesTopAndExtendsDeadline (0.00s)
+=== RUN   TestService_PlaceBid_RejectsLowIncrement
+--- PASS: TestService_PlaceBid_RejectsLowIncrement (0.00s)
+=== RUN   TestService_CancelBid_CancelsHighestAndReleasesReservation
+--- PASS: TestService_CancelBid_CancelsHighestAndReleasesReservation (0.00s)
+=== RUN   TestService_EndAuction_SettlesWinner
+--- PASS: TestService_EndAuction_SettlesWinner (0.00s)
+=== RUN   TestService_EndAuction_WithoutBidsReleasesItem
+--- PASS: TestService_EndAuction_WithoutBidsReleasesItem (0.00s)
+PASS
+ok  	market-dragon/internal/auction	0.040s
+?   	market-dragon/internal/gold	[no test files]
+=== RUN   TestDailyLimitUTCProjectionAndCarry
+--- PASS: TestDailyLimitUTCProjectionAndCarry (0.00s)
+=== RUN   TestDailyLimitAndAccountingOverflow
+=== RUN   TestDailyLimitAndAccountingOverflow/reserve_limit_overflow
+=== RUN   TestDailyLimitAndAccountingOverflow/spend_limit_overflow
+=== RUN   TestDailyLimitAndAccountingOverflow/exact_capacity
+=== RUN   TestDailyLimitAndAccountingOverflow/unlimited_spend_range
+=== RUN   TestDailyLimitAndAccountingOverflow/unlimited_settlement_range
+=== RUN   TestDailyLimitAndAccountingOverflow/earn_range
+--- PASS: TestDailyLimitAndAccountingOverflow (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/reserve_limit_overflow (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/spend_limit_overflow (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/exact_capacity (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/unlimited_spend_range (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/unlimited_settlement_range (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/earn_range (0.00s)
+=== RUN   TestWallet_Service_Reserve_ResetsSpentOnNewDay
+--- PASS: TestWallet_Service_Reserve_ResetsSpentOnNewDay (0.00s)
+=== RUN   TestWalletService_CreateGuild
+--- PASS: TestWalletService_CreateGuild (0.00s)
+=== RUN   TestWalletService_CreateGuild_RejectsInvalidValues
+--- PASS: TestWalletService_CreateGuild_RejectsInvalidValues (0.00s)
+=== RUN   TestWallet_Service_Reserve_Success
+--- PASS: TestWallet_Service_Reserve_Success (0.00s)
+=== RUN   TestWallet_Service_Reserve_Insufficient
+--- PASS: TestWallet_Service_Reserve_Insufficient (0.00s)
+=== RUN   TestWallet_Service_Reserve_DailyLimitReached
+--- PASS: TestWallet_Service_Reserve_DailyLimitReached (0.00s)
+=== RUN   TestWallet_Service_Reserve_DailySpentUnchanged
+--- PASS: TestWallet_Service_Reserve_DailySpentUnchanged (0.00s)
+=== RUN   TestWallet_Service_Reserve_ZeroLimitMeansUnlimited
+--- PASS: TestWallet_Service_Reserve_ZeroLimitMeansUnlimited (0.00s)
+=== RUN   TestWallet_Service_Deduct_Success
+--- PASS: TestWallet_Service_Deduct_Success (0.00s)
+=== RUN   TestWallet_Service_Deduct_Fail
+--- PASS: TestWallet_Service_Deduct_Fail (0.00s)
+=== RUN   TestWallet_Service_Release_Success
+--- PASS: TestWallet_Service_Release_Success (0.00s)
+=== RUN   TestWallet_Service_Release_Insufficient
+--- PASS: TestWallet_Service_Release_Insufficient (0.00s)
+=== RUN   TestWallet_Service_Release_DailySpentUnchanged
+--- PASS: TestWallet_Service_Release_DailySpentUnchanged (0.00s)
+PASS
+ok  	market-dragon/internal/guild	0.038s
+=== RUN   TestHash_Deterministic
+--- PASS: TestHash_Deterministic (0.00s)
+=== RUN   TestHash_DifferentInput
+--- PASS: TestHash_DifferentInput (0.00s)
+=== RUN   TestHash_PreservesPartBoundaries
+--- PASS: TestHash_PreservesPartBoundaries (0.00s)
+=== RUN   TestIdempotencyService_Execute_NewRequest
+--- PASS: TestIdempotencyService_Execute_NewRequest (0.00s)
+=== RUN   TestIdempotencyService_Execute_ReplaysCompletedRequest
+--- PASS: TestIdempotencyService_Execute_ReplaysCompletedRequest (0.00s)
+=== RUN   TestIdempotencyService_Execute_IncompleteRetry
+--- PASS: TestIdempotencyService_Execute_IncompleteRetry (0.00s)
+=== RUN   TestIdempotencyService_Execute_OperationFailureDoesNotComplete
+--- PASS: TestIdempotencyService_Execute_OperationFailureDoesNotComplete (0.00s)
+=== RUN   TestIdempotencyService_Execute_PropagatesRepositoryErrors
+=== RUN   TestIdempotencyService_Execute_PropagatesRepositoryErrors/claim
+=== RUN   TestIdempotencyService_Execute_PropagatesRepositoryErrors/complete
+--- PASS: TestIdempotencyService_Execute_PropagatesRepositoryErrors (0.00s)
+    --- PASS: TestIdempotencyService_Execute_PropagatesRepositoryErrors/claim (0.00s)
+    --- PASS: TestIdempotencyService_Execute_PropagatesRepositoryErrors/complete (0.00s)
+PASS
+ok  	market-dragon/internal/idempotency	0.037s
+?   	market-dragon/internal/inspection	[no test files]
+=== RUN   TestItemService_Create
+--- PASS: TestItemService_Create (0.00s)
+=== RUN   TestItemService_Create_OwnerNotFound
+--- PASS: TestItemService_Create_OwnerNotFound (0.00s)
+=== RUN   TestItemService_Create_OwnerLookupFailure
+--- PASS: TestItemService_Create_OwnerLookupFailure (0.00s)
+=== RUN   TestService_Get_Success
+--- PASS: TestService_Get_Success (0.00s)
+=== RUN   TestService_ListFree
+--- PASS: TestService_ListFree (0.00s)
+PASS
+ok  	market-dragon/internal/item	0.038s
+=== RUN   TestHTTPOracleRejectsTrailingPayload
+=== RUN   TestHTTPOracleRejectsTrailingPayload/{"base_price":100}_garbage
+=== RUN   TestHTTPOracleRejectsTrailingPayload/{"base_price":100}_{"base_price":0}
+--- PASS: TestHTTPOracleRejectsTrailingPayload (0.01s)
+    --- PASS: TestHTTPOracleRejectsTrailingPayload/{"base_price":100}_garbage (0.01s)
+    --- PASS: TestHTTPOracleRejectsTrailingPayload/{"base_price":100}_{"base_price":0} (0.00s)
+=== RUN   TestHTTPOracle_ValidatesResponse
+--- PASS: TestHTTPOracle_ValidatesResponse (0.00s)
+=== RUN   TestResilientOracle_KeepsLastValidPrice
+--- PASS: TestResilientOracle_KeepsLastValidPrice (0.00s)
+=== RUN   TestUpdater_RefreshesImmediatelyAndPeriodically
+--- PASS: TestUpdater_RefreshesImmediatelyAndPeriodically (0.00s)
+PASS
+ok  	market-dragon/internal/oracle	0.059s
+=== RUN   TestListRejectsLegendaryWithoutMutatingItem
+--- PASS: TestListRejectsLegendaryWithoutMutatingItem (0.00s)
+=== RUN   TestService_List_Success
+--- PASS: TestService_List_Success (0.00s)
+=== RUN   TestService_List_InvalidPrice
+--- PASS: TestService_List_InvalidPrice (0.00s)
+=== RUN   TestService_List_NotOwner
+--- PASS: TestService_List_NotOwner (0.00s)
+=== RUN   TestService_List_ItemListedInAuction
+--- PASS: TestService_List_ItemListedInAuction (0.00s)
+=== RUN   TestService_Buy_Success
+--- PASS: TestService_Buy_Success (0.00s)
+=== RUN   TestService_Buy_InsufficientGold
+--- PASS: TestService_Buy_InsufficientGold (0.00s)
+=== RUN   TestService_Buy_DailyLimitReached
+--- PASS: TestService_Buy_DailyLimitReached (0.00s)
+=== RUN   TestService_Buy_DailyLimitZeroMeansUnlimited
+--- PASS: TestService_Buy_DailyLimitZeroMeansUnlimited (0.00s)
+=== RUN   TestService_Buy_AlreadySold
+--- PASS: TestService_Buy_AlreadySold (0.00s)
+=== RUN   TestService_Buy_CanceledOrderNotBuyable
+--- PASS: TestService_Buy_CanceledOrderNotBuyable (0.00s)
+=== RUN   TestService_Buy_CannotBuyOwnListing
+--- PASS: TestService_Buy_CannotBuyOwnListing (0.00s)
+=== RUN   TestService_Cancel_Success
+--- PASS: TestService_Cancel_Success (0.00s)
+=== RUN   TestService_Cancel_WrongSeller
+--- PASS: TestService_Cancel_WrongSeller (0.00s)
+=== RUN   TestService_Cancel_AlreadySold
+--- PASS: TestService_Cancel_AlreadySold (0.00s)
+PASS
+ok  	market-dragon/internal/order	0.046s
+2026/10/21 18:04:52 github.com/testcontainers/testcontainers-go - Connected to docker: 
+  Server Version: 29.1.5
+  API Version: 1.52
+  Operating System: Docker Desktop
+  Total Memory: 7940 MB
+  Labels:
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+  Testcontainers for Go Version: v0.43.0
+  Resolved Docker Host: npipe:////./pipe/docker_engine
+  Resolved Docker Socket Path: //var/run/docker.sock
+  Test SessionID: 6b0d4a5120002bed06a05e7c6a2a69df1901228782a1bb068afa941005cdbad5
+  Test ProcessID: 64f19c8d-b528-432d-8a85-b244e2c306f9
+2026/10/21 18:04:52 🐳 Creating container for image postgres:16-alpine
+2026/10/21 18:04:52 🐳 Creating container for image testcontainers/ryuk:0.14.0
+2026/10/21 18:04:52 ✅ Container created: 0abe413e67f0
+2026/10/21 18:04:52 🐳 Starting container: 0abe413e67f0
+2026/10/21 18:04:53 ✅ Container started: 0abe413e67f0
+2026/10/21 18:04:53 ⏳ Waiting for container id 0abe413e67f0 image: testcontainers/ryuk:0.14.0. Waiting for: all of: [log message "Started", port 8080/tcp to be listening]
+2026/10/21 18:04:53 Shell not found in container
+2026/10/21 18:04:53 🔔 Container is ready: 0abe413e67f0
+2026/10/21 18:04:53 ✅ Container created: 69812b9fa662
+2026/10/21 18:04:53 🐳 Starting container: 69812b9fa662
+2026/10/21 18:04:54 ✅ Container started: 69812b9fa662
+2026/10/21 18:04:54 ⏳ Waiting for container id 69812b9fa662 image: postgres:16-alpine. Waiting for: all of: [log message "database system is ready to accept connections", port 5432/tcp to be listening]
+2026/10/21 18:04:57 🔔 Container is ready: 69812b9fa662
+=== RUN   TestAuctionRepository_Lifecycle
+--- PASS: TestAuctionRepository_Lifecycle (0.25s)
+=== RUN   TestConcurrentBuy_OnlyOneBuyerGetsItem
+--- PASS: TestConcurrentBuy_OnlyOneBuyerGetsItem (0.36s)
+=== RUN   TestConcurrentBids_LeavesSingleHighestReservation
+--- PASS: TestConcurrentBids_LeavesSingleHighestReservation (0.33s)
+=== RUN   TestConcurrentAuctionStart_OnlyOneSucceeds
+--- PASS: TestConcurrentAuctionStart_OnlyOneSucceeds (0.29s)
+=== RUN   TestDailyLimitPriorDayReleaseCannotEraseSpending
+    daily_limit_test.go:47: first purchase error=daily spending limit reached; final purchase error=daily spending limit reached; persisted debits=300 gold=9700 completed=300 reserved=0 audit rows=2
+--- PASS: TestDailyLimitPriorDayReleaseCannotEraseSpending (0.34s)
+=== RUN   TestDailyLimitMixedAgeHoldsAndSettlement
+--- PASS: TestDailyLimitMixedAgeHoldsAndSettlement (0.37s)
+=== RUN   TestDailyLimitConcurrentReserveAndSpend
+--- PASS: TestDailyLimitConcurrentReserveAndSpend (0.35s)
+=== RUN   TestDailyLimitAuditFailureRollsBackDayAndSettlement
+--- PASS: TestDailyLimitAuditFailureRollsBackDayAndSettlement (0.31s)
+=== RUN   TestDailyLimitAuctionRolloverCancelAndSettle
+--- PASS: TestDailyLimitAuctionRolloverCancelAndSettle (0.41s)
+=== RUN   TestDailyLimitMigrationRejectsLegacyData
+=== RUN   TestDailyLimitMigrationRejectsLegacyData/empty
+=== RUN   TestDailyLimitMigrationRejectsLegacyData/legacy
+--- PASS: TestDailyLimitMigrationRejectsLegacyData (0.02s)
+    --- PASS: TestDailyLimitMigrationRejectsLegacyData/empty (0.01s)
+    --- PASS: TestDailyLimitMigrationRejectsLegacyData/legacy (0.01s)
+=== RUN   TestGuildRepository_GetAndUpdate
+--- PASS: TestGuildRepository_GetAndUpdate (0.11s)
+=== RUN   TestGuildRepository_GuildExists
+--- PASS: TestGuildRepository_GuildExists (0.10s)
+=== RUN   TestGuildRepository_Create
+--- PASS: TestGuildRepository_Create (0.13s)
+=== RUN   TestIdempotencyRepository_Claim_NewAndMatchingKey
+--- PASS: TestIdempotencyRepository_Claim_NewAndMatchingKey (0.03s)
+=== RUN   TestIdempotencyRepository_Claim_Conflict
+=== RUN   TestIdempotencyRepository_Claim_Conflict/different_hash
+=== RUN   TestIdempotencyRepository_Claim_Conflict/different_operation
+--- PASS: TestIdempotencyRepository_Claim_Conflict (0.03s)
+    --- PASS: TestIdempotencyRepository_Claim_Conflict/different_hash (0.00s)
+    --- PASS: TestIdempotencyRepository_Claim_Conflict/different_operation (0.00s)
+=== RUN   TestIdempotencyRepository_Complete_ReplaysOriginalResult
+--- PASS: TestIdempotencyRepository_Complete_ReplaysOriginalResult (0.03s)
+=== RUN   TestIdempotencyRepository_Claim_RollbackMakesKeyClaimable
+--- PASS: TestIdempotencyRepository_Claim_RollbackMakesKeyClaimable (0.02s)
+=== RUN   TestInspectionSnapshotIsBoundedAndConsistent
+--- PASS: TestInspectionSnapshotIsBoundedAndConsistent (0.30s)
+=== RUN   TestItemRepository_GetByID
+--- PASS: TestItemRepository_GetByID (0.18s)
+=== RUN   TestItemRepository_ListFree
+--- PASS: TestItemRepository_ListFree (0.17s)
+=== RUN   TestItemRepository_GetAndUpdate
+--- PASS: TestItemRepository_GetAndUpdate (0.18s)
+=== RUN   TestOrderRepository_CreateGetUpdate
+--- PASS: TestOrderRepository_CreateGetUpdate (0.21s)
+=== RUN   TestResearchCompetingBuyers
+    research_test.go:132: RESEARCH_REPORT {"after":{"requests":[{"Buyer":"buyer","Status":204},{"Buyer":"other","Status":400}],"state":{"auctions":[],"audit":[{"id":33,"guild_id":"seller","operation":"earn","amount":100,"gold_after":10100,"reserved_after":0,"created_at":"2026-10-21T18:05:41.52074+03:30"},{"id":32,"guild_id":"buyer","operation":"spend","amount":100,"gold_after":9900,"reserved_after":0,"created_at":"2026-10-21T18:05:41.52074+03:30"}],"bids":[],"guilds":[{"id":"buyer","gold":9900,"reserved":0,"available":9900,"daily_limit":5000,"daily_spent":100,"daily_spent_on":"2026-10-21T00:00:00Z"},{"id":"other","gold":10000,"reserved":0,"available":10000,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"},{"id":"seller","gold":10100,"reserved":0,"available":10100,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"}],"items":[{"id":"research-item","name":"Research Wand","type":"rare","owner_id":"buyer","status":"free","base_price":100}],"orders":[{"id":"1efa0eda-8680-4442-987e-aeec72f72be2","item_id":"research-item","seller_id":"seller","buyer_id":"buyer","price":100,"status":"sold","listed_at":"2026-10-21T18:05:03.174028+03:30"}]}},"assertions":["Exactly one HTTP purchase succeeds","Winner owns item and order","Seller receives exactly 100; winner pays exactly 100; loser unchanged","Exactly two committed financial audit rows"],"before":{"auctions":[],"audit":[],"bids":[],"guilds":[{"id":"buyer","gold":10000,"reserved":0,"available":10000,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"},{"id":"other","gold":10000,"reserved":0,"available":10000,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"},{"id":"seller","gold":10000,"reserved":0,"available":10000,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"}],"items":[{"id":"research-item","name":"Research Wand","type":"rare","owner_id":"seller","status":"listed_in_order","base_price":100}],"orders":[{"id":"1efa0eda-8680-4442-987e-aeec72f72be2","item_id":"research-item","seller_id":"seller","buyer_id":null,"price":100,"status":"listed","listed_at":"2026-10-21T18:05:03.174028+03:30"}]},"scenario":"competing-buyers","source":"independent PostgreSQL reads after operations finish"}
+--- PASS: TestResearchCompetingBuyers (0.37s)
+=== RUN   TestHTTPPurchaseIdempotencyPersistedEffects
+--- PASS: TestHTTPPurchaseIdempotencyPersistedEffects (0.40s)
+=== RUN   TestConcurrentIdenticalPurchaseKeyOnePersistedEffect
+--- PASS: TestConcurrentIdenticalPurchaseKeyOnePersistedEffect (0.33s)
+=== RUN   TestHTTPBidReplayReservesOnce
+--- PASS: TestHTTPBidReplayReservesOnce (0.35s)
+=== RUN   TestWorkerAloneSettlesExpiredAuction
+--- PASS: TestWorkerAloneSettlesExpiredAuction (0.33s)
+=== RUN   TestResearchRollback
+    research_test.go:343: RESEARCH_REPORT {"after":{"auctions":[],"audit":[],"bids":[],"guilds":[{"id":"buyer","gold":10000,"reserved":0,"available":10000,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"},{"id":"other","gold":10000,"reserved":0,"available":10000,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"},{"id":"seller","gold":10000,"reserved":0,"available":10000,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"}],"items":[{"id":"research-item","name":"Research Wand","type":"rare","owner_id":"seller","status":"listed_in_order","base_price":100}],"orders":[{"id":"18b88406-5ca4-4e28-a7ab-ee6602be31da","item_id":"research-item","seller_id":"seller","buyer_id":null,"price":100,"status":"listed","listed_at":"2026-10-21T18:05:04.933518+03:30"}]},"assertions":["Failure occurs after spend, earn and ownership transfer","All wallet, item, order, bid, auction and audit rows unchanged","Idempotency claim rolled back; same key remains usable"],"before":{"auctions":[],"audit":[],"bids":[],"guilds":[{"id":"buyer","gold":10000,"reserved":0,"available":10000,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"},{"id":"other","gold":10000,"reserved":0,"available":10000,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"},{"id":"seller","gold":10000,"reserved":0,"available":10000,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"}],"items":[{"id":"research-item","name":"Research Wand","type":"rare","owner_id":"seller","status":"listed_in_order","base_price":100}],"orders":[{"id":"18b88406-5ca4-4e28-a7ab-ee6602be31da","item_id":"research-item","seller_id":"seller","buyer_id":null,"price":100,"status":"listed","listed_at":"2026-10-21T18:05:04.933518+03:30"}]},"scenario":"rollback","source":"independent PostgreSQL reads after operations finish"}
+--- PASS: TestResearchRollback (0.37s)
+=== RUN   TestResearchSettlement
+    research_test.go:432: RESEARCH_REPORT {"after":{"auctions":[{"id":"a4328dc3-bbb9-4b65-a140-5156c60bd187","item_id":"research-item","seller_id":"seller","ends_at":"2026-10-22T18:05:05.321335+03:30","status":"ended"}],"audit":[{"id":48,"guild_id":"seller","operation":"earn","amount":100,"gold_after":10100,"reserved_after":0,"created_at":"2026-10-21T18:05:43.68039+03:30"},{"id":47,"guild_id":"buyer","operation":"deduct","amount":100,"gold_after":9900,"reserved_after":0,"created_at":"2026-10-21T18:05:43.68039+03:30"},{"id":46,"guild_id":"buyer","operation":"reserve","amount":100,"gold_after":10000,"reserved_after":100,"created_at":"2026-10-21T18:05:43.65482+03:30"}],"bids":[{"id":"eb660fd0-6137-420a-980e-05004496bd7f","auction_id":"a4328dc3-bbb9-4b65-a140-5156c60bd187","bidder_id":"buyer","amount":100,"status":"winning","placed_at":"2026-10-21T18:05:05.321335+03:30"}],"guilds":[{"id":"buyer","gold":9900,"reserved":0,"available":9900,"daily_limit":5000,"daily_spent":100,"daily_spent_on":"2026-10-21T00:00:00Z"},{"id":"other","gold":10000,"reserved":0,"available":10000,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"},{"id":"seller","gold":10100,"reserved":0,"available":10100,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"}],"items":[{"id":"research-item","name":"Research Wand","type":"legendary","owner_id":"buyer","status":"free","base_price":100}],"orders":[]},"assertions":["Real worker races a second settlement driver","Winner charged once; seller paid once; item transferred once","No reservation remains; exactly reserve/deduct/earn audit rows","Repeated expired-auction batch is a no-op"],"before":{"auctions":[{"id":"a4328dc3-bbb9-4b65-a140-5156c60bd187","item_id":"research-item","seller_id":"seller","ends_at":"2026-10-22T18:05:05.321335+03:30","status":"active"}],"audit":[{"id":46,"guild_id":"buyer","operation":"reserve","amount":100,"gold_after":10000,"reserved_after":100,"created_at":"2026-10-21T18:05:43.65482+03:30"}],"bids":[{"id":"eb660fd0-6137-420a-980e-05004496bd7f","auction_id":"a4328dc3-bbb9-4b65-a140-5156c60bd187","bidder_id":"buyer","amount":100,"status":"active","placed_at":"2026-10-21T18:05:05.321335+03:30"}],"guilds":[{"id":"buyer","gold":10000,"reserved":100,"available":9900,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"},{"id":"other","gold":10000,"reserved":0,"available":10000,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"},{"id":"seller","gold":10000,"reserved":0,"available":10000,"daily_limit":5000,"daily_spent":0,"daily_spent_on":"2026-10-21T00:00:00Z"}],"items":[{"id":"research-item","name":"Research Wand","type":"legendary","owner_id":"seller","status":"listed_in_auction","base_price":100}],"orders":[]},"scenario":"settlement","source":"independent PostgreSQL reads after operations finish"}
+--- PASS: TestResearchSettlement (0.37s)
+=== RUN   TestWalletBoundedOperationSequences
+--- PASS: TestWalletBoundedOperationSequences (1.27s)
+=== RUN   TestReviewDatabaseInitializationSafety
+--- PASS: TestReviewDatabaseInitializationSafety (1.13s)
+=== RUN   TestReviewLegacyAccountingIsRefusedWithoutDataLoss
+--- PASS: TestReviewLegacyAccountingIsRefusedWithoutDataLoss (0.39s)
+PASS
+2026/10/21 18:05:08 🐳 Stopping container: 69812b9fa662
+2026/10/21 18:05:08 ✅ Container stopped: 69812b9fa662
+2026/10/21 18:05:08 🐳 Terminating container: 69812b9fa662
+2026/10/21 18:05:08 🚫 Container terminated: 69812b9fa662
+ok  	market-dragon/internal/postgres	16.636s
+=== RUN   TestGatewayAccessAndIsolation
+=== RUN   TestGatewayAccessAndIsolation/public_availability
+=== RUN   TestGatewayAccessAndIsolation/UI_gated
+=== RUN   TestGatewayAccessAndIsolation/assets_gated
+=== RUN   TestGatewayAccessAndIsolation/snapshot_gated
+=== RUN   TestGatewayAccessAndIsolation/mutation_gated
+=== RUN   TestGatewayAccessAndIsolation/identity_gated
+=== RUN   TestGatewayAccessAndIsolation/UI_available
+=== RUN   TestGatewayAccessAndIsolation/identity_available
+=== RUN   TestGatewayAccessAndIsolation/authenticated_snapshot
+=== RUN   TestGatewayAccessAndIsolation/same_origin_mutation
+=== RUN   TestGatewayAccessAndIsolation/CSRF_absent_origin
+=== RUN   TestGatewayAccessAndIsolation/CSRF_other_origin
+=== RUN   TestGatewayAccessAndIsolation/cross-site_read
+=== RUN   TestGatewayAccessAndIsolation/no_harness
+=== RUN   TestGatewayAccessAndIsolation/no_API_harness
+=== RUN   TestGatewayAccessAndIsolation/no_arbitrary_diagnostics
+=== RUN   TestGatewayAccessAndIsolation/no_directory_listing
+=== RUN   TestGatewayAccessAndIsolation/no_traversal
+--- PASS: TestGatewayAccessAndIsolation (0.07s)
+    --- PASS: TestGatewayAccessAndIsolation/public_availability (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/UI_gated (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/assets_gated (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/snapshot_gated (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/mutation_gated (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/identity_gated (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/UI_available (0.07s)
+    --- PASS: TestGatewayAccessAndIsolation/identity_available (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/authenticated_snapshot (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/same_origin_mutation (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/CSRF_absent_origin (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/CSRF_other_origin (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/cross-site_read (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/no_harness (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/no_API_harness (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/no_arbitrary_diagnostics (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/no_directory_listing (0.00s)
+    --- PASS: TestGatewayAccessAndIsolation/no_traversal (0.00s)
+=== RUN   TestGatewayRefusesUnsafeConfiguration
+--- PASS: TestGatewayRefusesUnsafeConfiguration (0.00s)
+PASS
+ok  	market-dragon/internal/review	0.103s

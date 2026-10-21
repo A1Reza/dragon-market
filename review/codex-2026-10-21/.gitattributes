@@ -1,0 +1,8 @@
+# Preserve the signed review package's exact bytes and SHA-256 checksums.
+* -text whitespace=cr-at-eol
+*.docx binary
+*.pdf binary
+*.png binary
+*.zip binary
+# Raw command output deliberately retains its original whitespace.
+evidence/** whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol

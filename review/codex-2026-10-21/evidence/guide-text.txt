@@ -1,0 +1,572 @@
+INDEPENDENT REVIEW PACKAGE
+Dragon MarketTransactional Correctness &Research Baseline Review
+Reviewer instructions • hands-on test plan • evidence log • approval form
+
+Target repository
+github.com/houtanrocky/dragon-market
+Exact reviewed revision
+f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7
+Review status
+PENDING INDEPENDENT HUMAN APPROVAL
+Pack prepared
+18 October 2026  |  Reviewer copy 1.0
+Intended use
+Independent assessment before MSc coding-agent experiments
+
+IMPORTANT  This is an editable checklist and sign-off document, not a claim that Dragon Market is bug-free. Mark every test with the result you personally observed; never approve based only on the coding agent’s previous test report.
+
+For invited reviewers
+Please review only the areas within your expertise. Functional/UI reviewers can assess visible workflows; Go/PostgreSQL reviewers should evaluate invariants, SQL effects and concurrency; reproducibility reviewers can independently rebuild and inspect evidence. Record the scope of your review and sign Section 11.
+You may fill this Word document electronically or print it. In a result cell, tick one status: P = PASS; F = FAIL; B = BLOCKED; NR = NOT RUN; N/A = NOT APPLICABLE. Do not leave required sections ambiguous.
+Review outcomes
+APPROVE: no unresolved material issues within the reviewed scope. CONDITIONAL: specific unresolved minor items are listed. REJECT / CHANGES REQUIRED: material correctness or reproducibility concerns. A reviewer’s signature attests only to the checks they performed; the researcher makes the final baseline-freeze decision.
+
+1. Assignment, safety and evidence rules
+Reviewer details — complete before testing
+Reviewer name
+Houtan Rocky____________________________________________________
+Contact / affiliation
+Houtanrocky.com____________________________________________________
+Review date (UTC)
+10/19/2026____________________________________________________
+Role(s)
+☐ UI / functional   ☐ Go/backend   ☐ PostgreSQL   ☐ Reproducibility   ☐ Accessibility
+Testing scope
+☐ Local clean checkout   ☐ Existing local install   ☐ Hosted review URL   ☐ Source-only
+Independent of author?
+☐ Yes   ☐ No (describe relationship): __________________________
+
+Rules
+•  Never use a production database, real financial information, or shared user records. Use the local dev database or the isolated test harness.
+•  Do not use docker compose down -v, reset unknown volumes, replay SQL migrations on a populated database, or bypass migration-11 safeguards.
+•  Do not push fixes directly while reviewing. Report a finding with an exact reproduction; proposed patches should use separate branches.
+•  Do not share passwords, database URLs, bearer tokens, full environment dumps, or private test oracles in screenshots or reports.
+•  For every failure, preserve the exact SHA, command/request, expected rule, actual observation, logs or sanitized screenshot, and issue ID.
+•  Make no approval claim for tests you did not execute. Automated PASS is useful evidence but not proof of the rule’s correctness.
+•  The web UI includes a Development Guild Switcher, not authentication; it is for local/demo testing only.
+SCOPE CONTROL  The primary manual-review application is the local workbench. A hosted review site is optional and may run a different SHA. If using one, record its displayed deployed SHA and do not treat it as a review of f4ba211 unless they match.
+
+Evidence naming convention
+Use e.g. R2-WAL-04-2026-10-18.txt, R1-UI-03.png, or a GitHub issue link. Keep evidence in a private folder until scrubbed. Document the Git SHA and UTC timestamp with each artifact.
+2. Clean checkout and first-time setup
+Prerequisites
+Install Git, Go 1.25 or newer, Docker Desktop/Engine with Linux containers running, Node.js 24 LTS and npm. For Go race tests on Windows, a supported C compiler/CGO toolchain is required. Playwright/Chromium is needed for browser E2E tests.
+Check installed tools (PowerShell or Bash)
+git --version
+go version
+node --version
+npm --version
+docker version
+docker compose version
+
+Get the exact tested revision
+Run in a NEW folder (not inside your existing working copy)
+git clone https://github.com/houtanrocky/dragon-market.git
+cd dragon-market
+git switch --detach f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7
+git rev-parse HEAD
+git status --short
+
+The SHA printed by git rev-parse HEAD must exactly equal f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7, and git status --short should be empty before testing. Detached HEAD is intentional for review; it prevents accidental branch updates.
+3. Start the application and run automated checks
+Launch the interactive workbench
+From the cloned dragon-market directory
+npm --prefix web ci
+node scripts/workbench.mjs
+
+Open http://127.0.0.1:5173 in your browser. The documented workbench uses PostgreSQL on 15432, Go API 8080, mock oracle 8090, optional lab runner 8082, and Vite 5173. These ports must be available. Keep the command running while performing browser checks.
+On a fresh initialized database, seed guilds are guild-seller, guild-buyer, guild-bidder. Their raw balances are 10,000 integer units (= 100.00 display G), and daily limits are 5,000 units (= 50.00 G). Do not confuse raw integer amounts with displayed G.
+FRESH DATABASE  The workbench command does not guarantee an unused Docker volume if this computer previously ran Dragon Market. Confirm that migration 11 is present and the database is dedicated to review. The safest independent database exercises use Testcontainers/E2E, not deletion of an unknown Compose volume.
+
+Baseline automated verification — record each outcome
+Run with Docker engine active; save raw outputs
+go build ./...
+go test -count=1 ./...
+go test -race -count=1 ./...
+go vet ./...
+node scripts/verify.mjs
+node scripts/mutation-check.mjs
+
+Focused wallet regression and fault-injection evidence
+go test -v -count=1 ./internal/guild ./internal/postgres -run '^TestDailyLimit'
+node scripts/verify-transactional-baseline.mjs
+node scripts/check-daily-limit-mutations.mjs
+
+Browser end-to-end checks (isolated disposable DB)
+npm --prefix web exec -- playwright install chromium
+npm --prefix web run test:e2e
+
+If Chromium installation is blocked and Chrome is installed, consult the README for PLAYWRIGHT_CHANNEL=chrome. Browser E2E uses disposable test containers and different ports; do not point it at the shared workbench database.
+The focused verifier writes into its evidence folder; copy existing evidence elsewhere before rerunning. Mutation checks operate on disposable source copies, not the reviewed code. Record all FAILED, BLOCKED and NOT RUN statuses honestly.
+3A. Automated execution log
+Tick a status only after you personally observe the command output. Add evidence filename or issue ID in the right cell.
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+AUTO-01  Git SHA and clean tree
+Expected / inspect: Printed exact target SHA; review checkout initially clean.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+AUTO-02  Go build and vet
+Expected / inspect: Build and vet complete with exit code 0.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+AUTO-03  Uncached Go tests
+Expected / inspect: All relevant unit, integration, and repository tests exit 0; no Testcontainers failures hidden.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+AUTO-04  Race-enabled suite
+Expected / inspect: Race detector exits 0; record Windows CGO failures separately as BLOCKED.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+AUTO-05  Full verify.mjs
+Expected / inspect: Complete verification reports successful backend and frontend checks; save results.json.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+AUTO-06  Baseline wallet regression
+Expected / inspect: Daily-limit targeted tests and transactional verifier pass with real database.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+AUTO-07  Fault mutation checks
+Expected / inspect: All deliberate daily-limit wallet faults are detected as business assertion failures, not compile failures.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+AUTO-08  Playwright end-to-end
+Expected / inspect: Real browser suite passes on a disposable database; collect trace/screenshot report.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+
+4. Manual browser review — functional testers
+Choose a unique suffix for entities (e.g., R1-1810) to avoid mixing your results with another reviewer. Use the seeded guilds. Capture initial wallet and ownership values before changing anything. Perform UI tasks through real endpoints, not screenshots from a previous run.
+4A. UI, market and accessibility
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+UI-01  Start and health
+Expected / inspect: Workbench loads; System Status clearly displays actual environment, backend reachability and errors.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+UI-02  Identity selector
+Expected / inspect: Switch between guild-seller, guild-buyer and guild-bidder; wallet changes to selected guild. No claim of true authentication.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+UI-03  Create item
+Expected / inspect: Create a common/rare item under seller; it appears with correct ID, owner, item type and price.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+UI-04  Create fixed-price order
+Expected / inspect: List an eligible common/rare item; order becomes available to buyer. Invalid items/prices are rejected.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+UI-05  Purchase and ownership
+Expected / inspect: Buy as another guild; final owner changes once; balances update consistently and order cannot be re-sold.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+UI-06  Cancel order
+Expected / inspect: An eligible order cancels; a bought or otherwise ineligible order cannot be cancelled incorrectly.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+UI-07  Create auction
+Expected / inspect: Create a legendary item auction; verify the displayed base price, deadline and starting state.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+UI-08  Bid and wallet reservations
+Expected / inspect: Bid as buyer/bidder; accepted bid changes reserved and available balance; total gold stays unchanged.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+UI-09  Outbid/cancel behavior
+Expected / inspect: Place a higher valid bid; old bidder hold releases; cancel only eligible active highest bid.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+UI-10  Request replay
+Expected / inspect: Repeat an eligible financial request with the same Idempotency-Key; inspect persisted effect, not just response text.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+UI-11  Transaction Inspector
+Expected / inspect: Compare pre/post snapshots and IDs. Identify which values are raw persisted fields vs current-day projection.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+UI-12  Errors and validation
+Expected / inspect: Try invalid amount, malformed data or forbidden transition. UI shows clear backend error without a misleading success message.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+UI-13  Accessibility/responsiveness
+Expected / inspect: Keyboard Tab/focus, visible labels, appropriate contrast, mobile viewport, refresh and navigation work.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+UI-14  Safety boundaries
+Expected / inspect: Research Lab labels C/F/G local-only where applicable; no unrestricted remote reset, SQL, or hidden test routes.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+
+4B. Record a complete purchase example
+Item and order IDs
+____________________________________________________
+Seller / buyer guilds
+____________________________________________________
+Initial wallet snapshots
+____________________________________________________
+Final wallet snapshots
+____________________________________________________
+Ownership before / after
+____________________________________________________
+Same-key replay outcome
+____________________________________________________
+Screenshot / API evidence
+____________________________________________________
+
+5. Business invariant correctness — expert code review
+CRITICAL RULE  The key rule selected by the project is: S(d) + R <= L, where S(d) is completed spending on the current UTC day, R is all outstanding holds regardless of age, and L is the positive daily limit. A zero limit means unlimited. The accounting rule is a specification to critically assess, not something reviewers must automatically agree with.
+
+Wallet transition expectations
+Operation
+Completed spend S
+Reserved R
+Reserve a
+unchanged
++a
+Release a
+unchanged
+−a
+Spend a
++a
+unchanged
+Settle/Deduct a
++a
+−a
+Earn a
+unchanged
+unchanged
+UTC date rollover
+reset to 0
+unchanged
+Also verify: total gold changes only for actual debits/earnings; available gold = gold − reserved; reserves and spend require adequate capacity; settlement converts an existing hold to spending without double-counting.
+5A. Wallet semantics and edge cases
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+WAL-01  Policy acceptance
+Expected / inspect: Independently assess whether completed UTC-day spending plus every outstanding historical reservation is the intended limit rule.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+WAL-02  Reservation capacity
+Expected / inspect: New hold accepted only if funds and S + R + new hold fit positive L; rejection has zero persisted changes.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+WAL-03  Release after old hold
+Expected / inspect: Release reduces R without changing already completed S; yesterday’s hold release must never erase today’s spending.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+WAL-04  Old hold at UTC rollover
+Expected / inspect: At midnight UTC S resets; existing R stays. A hold of 500 with limit 500 leaves no capacity for another spend of 300 before release.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+WAL-05  Spend 300 then reject 500
+Expected / inspect: After the above hold is released and 300 is spent today, a further 500 must fail under limit 500; only 300 debit persists.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+WAL-06  Settle old reserved amount
+Expected / inspect: Converting reserved a to completed spending a preserves S+R and changes total gold exactly once.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+WAL-07  Cancel same-day bid
+Expected / inspect: Cancellation frees reservation headroom without refunding completed debits from same day.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+WAL-08  Earnings do not reset allowance
+Expected / inspect: An earn increases gold but does not reduce S(d) or restore daily spending allowance.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+WAL-09  Exact limit and zero limit
+Expected / inspect: S+R exactly L is accepted where otherwise valid; > L rejected. L=0 uses documented unlimited rule.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+WAL-10  Integer bounds and invalid amounts
+Expected / inspect: Negative, zero, insufficient funds/reserves and integer overflow cannot corrupt stored accounting.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+WAL-11  Projection and raw audit fields
+Expected / inspect: GET wallet projects current UTC spend without mutating history; diagnostic raw daily_spent must be interpreted with daily_spent_on.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+WAL-12  Independently inspect ledger
+Expected / inspect: Compare transaction/audit rows and wallet state with the expected arithmetic; do not rely only on UI or service response.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+
+6. Transaction, order and auction correctness
+6A. Financial and concurrency semantics
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+TX-01  Double-purchase prevention
+Expected / inspect: Two concurrent buyers cannot both purchase one listing; only one owner and intended persisted money effects remain.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TX-02  Purchase atomicity
+Expected / inspect: If purchase fails during transaction, ownership, balances and relevant audit records all roll back.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TX-03  Same idempotency key
+Expected / inspect: Replaying completed buy/bid returns original logical result; no duplicated debit, hold, item transfer or ledger rows.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TX-04  Different keys/new operation
+Expected / inspect: New key means a distinct attempt and must still enforce item/order and wallet validity.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TX-05  Auction unique activation
+Expected / inspect: A legendary item cannot have two simultaneously active auctions when the rule forbids it.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TX-06  Bid minimum increment
+Expected / inspect: Bids below required 5% step are rejected; acceptable amounts respect integer rounding defined by implementation.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TX-07  Outbid release atomicity
+Expected / inspect: Old bidder reservation releases and new bidder reservation applies in same consistent transaction.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TX-08  Same bidder raises bid
+Expected / inspect: Delta amount is reserved correctly; no duplicate full reservation.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TX-09  Highest-bid cancellation
+Expected / inspect: Only active highest bid can be cancelled where allowed; release affects correct wallet and bid state.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TX-10  Deadline extension
+Expected / inspect: A valid bid in final five minutes extends deadline by five minutes under documented rules.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TX-11  Settlement idempotence
+Expected / inspect: Simultaneous/repeated settlement cannot duplicate transfer or debit; winning hold converts to spend exactly once.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TX-12  Concurrent reserve/spend
+Expected / inspect: Competing operations on one wallet cannot collectively exceed its allowed capacity.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TX-13  Audit insertion rollback
+Expected / inspect: Force a controlled audit-write failure in isolated tests; date/accounting/ownership changes must roll back.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TX-14  Locking and nested transaction use
+Expected / inspect: Read SQL paths: FOR UPDATE and reuse of outer transaction protect correctness; no lock-order hazards introduced.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+
+Required expert commentary
+Transaction boundary / locking issues observed  [Click here to type or write by hand]
+_________________________________________________________________________________________
+_________________________________________________________________________________________
+
+Invariant counterexamples or missing concurrency interleavings  [Click here to type or write by hand]
+_________________________________________________________________________________________
+_________________________________________________________________________________________
+
+7. Schema, migration and reproducibility safety
+7A. PostgreSQL and environment
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+DB-01  New database migrations
+Expected / inspect: Fresh PostgreSQL receives migrations 1–11 in order and seed after migrations, and starts successfully.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+DB-02  Legacy populated schema refusal
+Expected / inspect: Migration 11 refuses populated legacy guild data rather than silently reinterpreting mixed counters; original data unchanged.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+DB-03  Unsafe downgrade refusal
+Expected / inspect: Down migration refuses populated wallets; no silent data loss or inconsistent legacy rollback.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+DB-04  New code against v1 schema
+Expected / inspect: Wallet service fails clearly if daily_accounting_version=2 schema is absent; no silent fallback.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+DB-05  Historical evidence preserved
+Expected / inspect: Original defect logs and prior candidate reports remain accessible; newer PASS does not rewrite historical FAIL.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+DB-06  No destructive test cleanup
+Expected / inspect: Automated test harness only deletes its positively identified disposable containers; Compose data remains intact.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+DB-07  Local UTC dates
+Expected / inspect: Test local midnight that is not UTC midnight and UTC day rollover; recorded daily_spent_on matches chosen model.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+DB-08  Price-oracle fallback
+Expected / inspect: Bad/zero/negative/malformed/timeout oracle responses preserve last known good value; fixed order price stays fixed.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+DB-09  Go/frontend separability
+Expected / inspect: Go backend can build/test without Node and UI does not implement separate monetary business logic.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+DB-10  Reproduction evidence
+Expected / inspect: Log OS, Go/PostgreSQL/Node/Docker versions, test commands, SHA, exits, timestamps and any discrepancy.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+DB-11  Review deployment identity (if used)
+Expected / inspect: Actual displayed deployed SHA and review DB name recorded; do not assume hosted URL runs f4ba211.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+DB-12  Scope of security controls
+Expected / inspect: Guild switcher is not authentication; debug routes and Research Lab prohibited on untrusted public instances.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+
+Important migration warning
+Migration 11 is deliberately a fresh-data boundary. A populated older database may already contain irrecoverable ambiguity in its old spending/reservation counter. Reviewers must NOT “fix” tests by clearing or transforming such data. Flag it for a separate reviewed reconciliation.
+8. Independent review of research task packages
+This optional-but-recommended specialist section concerns the separate agent-invariant-preservation repository. Baseline approval and task/oracle approval are TWO DIFFERENT decisions. The research manifest currently distinguishes operational target f4ba211 from task starting commit 58913f2; changes to either must be justified and evaluated independently.
+Open a SEPARATE checkout for the research repository
+git clone https://github.com/houtanrocky/agent-invariant-preservation.git
+cd agent-invariant-preservation
+git rev-parse HEAD
+
+Do not place hidden reference patches or private evaluation tests inside the workspace later supplied to LLM agents. For private task/oracle review, the study owner should provide the exact task package and controlled access to references. A public repository alone may not include confidential oracles.
+8A. T001 and T002 review
+REVIEW ACTIVITY & ACCEPTANCE EVIDENCE
+REVIEWER RESULT
+TASK-01  T001 identity
+Expected / inspect: Record exact starting SHA and task ID: retry-safe purchase service outcome. Confirm requirement not already implemented as specified.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TASK-02  T001 human reference
+Expected / inspect: Independent reviewer checks that reference patch implements requested behavior and preserves pre-existing purchase, wallet, audit and ownership rules.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TASK-03  T001 hidden oracle
+Expected / inspect: Confirm baseline fails new feature test for the intended reason, reference passes, and faulty implementation is rejected.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TASK-04  T002 identity
+Expected / inspect: Record exact starting SHA and task ID: retry-safe bid cancellation. Confirm precise semantics and allowed cancellation state.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TASK-05  T002 human reference
+Expected / inspect: Review bid cancellation reference for reservation release, concurrency, idempotency and audit behavior.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TASK-06  T002 hidden oracle
+Expected / inspect: Confirm baseline/reference/faulty-variant behavior as in TASK-03; test is not coupled to implementation details.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TASK-07  Prompt fairness
+Expected / inspect: A and B have same underlying requirements, repo snapshot, tools and budgets; only presentation of invariant guidance differs.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+TASK-08  Leakage and provenance
+Expected / inspect: Tests/references excluded from agent workspace; source hashes, SHA, versions, evidence, and reviewer findings recorded.
+☐ P   ☐ F☐ B   ☐ NR☐ N/AEvidence/issue:____________
+
+9. Evidence, exception and issue reporting
+Record PASS only with inspectable evidence: command output, committed test, SQL snapshot, trace/screenshot, or code-review note with file:line. A reported bug that reproduces is useful research evidence; never change the expected result to make it disappear.
+9A. Reviewer execution record
+Review checkout SHA
+____________________________________________________
+Git status before tests
+☐ Clean   ☐ Not clean (details): __________________________
+OS / version
+____________________________________________________
+Go / Node / npm
+____________________________________________________
+PostgreSQL / Docker
+____________________________________________________
+Database used
+☐ Isolated Testcontainers   ☐ Dedicated local   ☐ Hosted review
+Workbench URL / SHA
+____________________________________________________
+UTC start / end
+____________________________________________________
+Raw log folder / link
+____________________________________________________
+
+9B. Finding template — duplicate this for each issue
+Finding ID
+DM-REV-________
+Severity
+☐ Critical   ☐ High   ☐ Medium   ☐ Low   ☐ Observation
+Failed test ID(s)
+____________________________________________________
+Affected revision
+____________________________________________________
+How to reproduce
+____________________________________________________
+Expected behavior
+____________________________________________________
+Observed behavior
+____________________________________________________
+Code / DB evidence
+____________________________________________________
+Sanitized screenshot/log
+____________________________________________________
+Suggested action
+____________________________________________________
+Re-test status
+☐ Open   ☐ Fixed + verified   ☐ Accepted risk   ☐ Cannot reproduce
+
+Detailed reproduction steps and SQL/state evidence  [Click here to type or write by hand]
+_________________________________________________________________________________________
+_________________________________________________________________________________________
+_________________________________________________________________________________________
+
+9C. Reviewer’s concerns about test adequacy
+What important behavior might the current tests miss?  [Click here to type or write by hand]
+_________________________________________________________________________________________
+_________________________________________________________________________________________
+_________________________________________________________________________________________
+
+10. Section-level results and coverage summary
+Each section owner records the number of checks actually performed. Not performing a section is acceptable if outside expertise; it does not count as approval of that section.
+Section
+Checks
+P
+F
+B / NR / N/A
+3A — Automated execution
+8
+______
+______
+________________
+4A — UI and marketplace
+14
+______
+______
+________________
+5A — Wallet accounting
+12
+______
+______
+________________
+6A — Transaction/concurrency
+14
+______
+______
+________________
+7A — Schema/migrations
+12
+______
+______
+________________
+8A — Research tasks
+8
+______
+______
+________________
+
+Stop / escalation rules
+•  Any reproducible financial invariant violation, duplicate charge/ownership transfer, unsafe migration, or unsafe deletion is a BLOCKER for baseline approval.
+•  Any test that passes because it characterizes the old bug instead of asserting safe behavior is NOT proof of correctness.
+•  A passing CI pipeline alone is insufficient to approve business semantics and hidden test oracles.
+•  If a fix changes source code, start a NEW approval review for the new full commit SHA; prior sign-off does not automatically transfer.
+•  If important checks are BLOCKED or NOT RUN, restrict the scope of approval explicitly; do not imply complete coverage.
+Review decision interpretation
+Approve scoped baseline
+All material checks in claimed scope reviewed; no unresolved material correctness issue.
+Approve with conditions
+Only explicitly listed conditions remain; baseline must not be frozen until critical conditions clear.
+Changes required
+Material defect, inadequate oracle, migration risk, or inability to reproduce the intended behavior.
+Unable to assess
+Not enough access, evidence, background or working environment to make a decision.
+
+
+11. Reviewer declaration and sign-off
+I confirm that the responses in this document describe the checks I personally performed on the exact revision recorded below. I have identified unperformed checks and disclosed known unresolved findings. My signature does not imply formal verification or that the software is defect-free.
+Full name
+____________________________________________________
+Affiliation / role
+____________________________________________________
+Reviewed source SHA
+____________________________________________________
+Review date (UTC)
+____________________________________________________
+Evidence archive location
+____________________________________________________
+Issues / findings raised
+____________________________________________________
+Tests personally executed
+____________________________________________________
+
+My review decision
+☐ APPROVE — within my explicitly documented scope
+☐ CONDITIONAL APPROVAL — with conditions listed below
+☐ REJECT / CHANGES REQUIRED — material concerns remain
+☐ UNABLE TO ASSESS — no correctness decision offered
+Conditions, exclusions, open issues, and reasons for decision  [Click here to type or write by hand]
+_________________________________________________________________________________________
+_________________________________________________________________________________________
+_________________________________________________________________________________________
+
+Reviewer signature: ____________________________________________    UTC date: __________________
+Signature may be typed as an acknowledgement if the recipient accepts electronic sign-off. Do not enter another person’s name or tick approvals on their behalf.
+Separate researcher / baseline-owner acceptance (NOT reviewer-owned)
+Final baseline approval is reserved for the research owner after reconciling independent findings. Reviewers should leave this block blank.
+Owner decision
+☐ PENDING   ☐ APPROVED   ☐ CHANGES REQUESTED
+Approved SHA
+____________________________________________________
+Review evidence IDs
+____________________________________________________
+Pin update / branch
+____________________________________________________
+Owner signature / date
+____________________________________________________
+
+
+Appendix A — Optional quick-review route for less technical friends
+If you cannot install Go or Docker, you can still provide valuable UI feedback. You must NOT sign off on concurrency, migrations, wallet invariants or API/database correctness without examining relevant evidence.
+1.  Ask the project owner for the real hosted review URL and access details via a private channel; do not use a guessed link.
+2.  On System Status, record the deployed SHA and environment. It may not equal the intended f4ba211 baseline.
+3.  Create a uniquely named rare item and fixed-price listing (if the review site is configured for safe disposable use).
+4.  Switch development guilds and complete the purchase; record before/after screen values and errors.
+5.  Attempt invalid input and repeat a transaction with the same idempotency key if the UI supports it.
+6.  Create a legendary auction, place bids and observe reservations and eligible cancellations.
+7.  Check keyboard focus, mobile behavior, navigation, error messages and page refresh.
+8.  Fill UI-01 through UI-14, mark all non-reviewed technical tests NOT RUN, and sign only for UI/functional scope.
+HOSTED REVIEW LIMITATION  Online Lab C/F/G require the LOCAL harness. The hosted review is not an acceptable substitute for independent SQL, race, fault injection or migration checks. Shared reviewer state may be affected by other participants.
+
+Appendix B — Reference documents and exact source links
+•  Dragon Market repository: https://github.com/houtanrocky/dragon-market
+•  Target source commit: https://github.com/houtanrocky/dragon-market/commit/f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7
+•  Project README at target commit: https://github.com/houtanrocky/dragon-market/blob/f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7/README.md
+•  Independent human review checklist: https://github.com/houtanrocky/dragon-market/blob/f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7/docs/transactional-correctness-baseline/HUMAN_REVIEW.md
+•  Accounting model and reproduction: https://github.com/houtanrocky/dragon-market/blob/f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7/docs/transactional-correctness-baseline/README.md
+•  Research repository: https://github.com/houtanrocky/agent-invariant-preservation
+•  Baseline review manifest: https://github.com/houtanrocky/agent-invariant-preservation/blob/main/benchmark/manifests/baseline-review.json
+•  Workbench reproduction guide (may evolve on master): https://github.com/houtanrocky/dragon-market/blob/master/docs/research-readiness/reproduction-guide.md
+•  Hosted review protocol (may evolve on master): https://github.com/houtanrocky/dragon-market/blob/master/docs/research-readiness/human-review-deployment.md
+Version control note: files pinned to f4ba211 describe the chosen review revision. Master-branch docs are convenient references only; re-check them if the project changes. This pack contains instructions and blank fields, not pre-filled reviewer evidence.

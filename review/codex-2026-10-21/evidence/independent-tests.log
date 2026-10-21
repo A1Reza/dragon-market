@@ -1,0 +1,57 @@
+{"started_at_utc": "2026-10-21T14:49:58.074460+00:00", "argv": ["go", "test", "-v", "-count=1", "./internal/postgres", "-run", "^TestReviewer"], "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market\\artifacts\\codex-review-independent-source", "source_sha": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7", "deviation": "Exact source copied; only reviewer_independent_test.go added; original application unchanged; real fresh Testcontainers."}
+2026/10/21 18:19:59 github.com/testcontainers/testcontainers-go - Connected to docker: 
+  Server Version: 29.1.5
+  API Version: 1.52
+  Operating System: Docker Desktop
+  Total Memory: 7940 MB
+  Labels:
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+  Testcontainers for Go Version: v0.43.0
+  Resolved Docker Host: npipe:////./pipe/docker_engine
+  Resolved Docker Socket Path: //var/run/docker.sock
+  Test SessionID: 3dcb5ee61989e1d7d62b40ee6634f3f6d745ad91fc88f51d2f943b0b7471f42d
+  Test ProcessID: bdf63474-a018-4a84-a034-8765809033d8
+2026/10/21 18:19:59 🐳 Creating container for image postgres:16-alpine
+2026/10/21 18:19:59 🐳 Creating container for image testcontainers/ryuk:0.14.0
+2026/10/21 18:19:59 ✅ Container created: 98d1d2720d34
+2026/10/21 18:19:59 🐳 Starting container: 98d1d2720d34
+2026/10/21 18:20:00 ✅ Container started: 98d1d2720d34
+2026/10/21 18:20:00 ⏳ Waiting for container id 98d1d2720d34 image: testcontainers/ryuk:0.14.0. Waiting for: all of: [log message "Started", port 8080/tcp to be listening]
+2026/10/21 18:20:00 Shell not found in container
+2026/10/21 18:20:00 🔔 Container is ready: 98d1d2720d34
+2026/10/21 18:20:00 ✅ Container created: 49e453cde6ca
+2026/10/21 18:20:00 🐳 Starting container: 49e453cde6ca
+2026/10/21 18:20:01 ✅ Container started: 49e453cde6ca
+2026/10/21 18:20:01 ⏳ Waiting for container id 49e453cde6ca image: postgres:16-alpine. Waiting for: all of: [log message "database system is ready to accept connections", port 5432/tcp to be listening]
+2026/10/21 18:20:04 🔔 Container is ready: 49e453cde6ca
+=== RUN   TestReviewerOracleFallbackAndLockedPrice
+    reviewer_independent_test.go:45: scenario=valid fallback=250 SQL base_price=250 listing_price=100
+    reviewer_independent_test.go:45: scenario=zero fallback=250 SQL base_price=250 listing_price=100
+    reviewer_independent_test.go:45: scenario=negative fallback=250 SQL base_price=250 listing_price=100
+    reviewer_independent_test.go:45: scenario=malformed fallback=250 SQL base_price=250 listing_price=100
+    reviewer_independent_test.go:45: scenario=http503 fallback=250 SQL base_price=250 listing_price=100
+    reviewer_independent_test.go:45: scenario=timeout fallback=250 SQL base_price=250 listing_price=100
+--- PASS: TestReviewerOracleFallbackAndLockedPrice (0.39s)
+=== RUN   TestReviewerDownMigrationRefusesAndPreserves
+    reviewer_independent_test.go:62: refused down migration; version=2 gold=9877 spent=123; before=map[auctions:[] audit:[{ID:1 GuildID:buyer Operation:spend Amount:123 GoldAfter:9877 ReservedAfter:0 CreatedAt:2026-10-21 18:20:41.873361 +0330 +0330}] bids:[] guilds:[{ID:buyer Gold:9877 Reserved:0 Available:9877 DailyLimit:5000 DailySpent:123 SpentOn:2026-10-21 00:00:00 +0000 UTC} {ID:other Gold:10000 Reserved:0 Available:10000 DailyLimit:5000 DailySpent:0 SpentOn:2026-10-21 00:00:00 +0000 UTC} {ID:seller Gold:10000 Reserved:0 Available:10000 DailyLimit:5000 DailySpent:0 SpentOn:2026-10-21 00:00:00 +0000 UTC}] items:[{ID:research-item Name:Research Wand Type:rare OwnerID:seller Status:free BasePrice:100}] orders:[]] after=map[auctions:[] audit:[{ID:1 GuildID:buyer Operation:spend Amount:123 GoldAfter:9877 ReservedAfter:0 CreatedAt:2026-10-21 18:20:41.873361 +0330 +0330}] bids:[] guilds:[{ID:buyer Gold:9877 Reserved:0 Available:9877 DailyLimit:5000 DailySpent:123 SpentOn:2026-10-21 00:00:00 +0000 UTC} {ID:other Gold:10000 Reserved:0 Available:10000 DailyLimit:5000 DailySpent:0 SpentOn:2026-10-21 00:00:00 +0000 UTC} {ID:seller Gold:10000 Reserved:0 Available:10000 DailyLimit:5000 DailySpent:0 SpentOn:2026-10-21 00:00:00 +0000 UTC}] items:[{ID:research-item Name:Research Wand Type:rare OwnerID:seller Status:free BasePrice:100}] orders:[]]
+--- PASS: TestReviewerDownMigrationRefusesAndPreserves (0.34s)
+=== RUN   TestReviewerWalletRefusesV1AndPreserves
+    reviewer_independent_test.go:76: new wallet code rejects absent accounting marker: ERROR: column "daily_accounting_version" does not exist (SQLSTATE 42703)
+--- PASS: TestReviewerWalletRefusesV1AndPreserves (0.28s)
+=== RUN   TestReviewerEarningsPreserveAllowance
+    reviewer_independent_test.go:89: SQL gold=10500 completed=500 audit rows=2; extra spend rejected
+--- PASS: TestReviewerEarningsPreserveAllowance (0.31s)
+=== RUN   TestReviewerInspectorExposesStaleSpend
+    reviewer_independent_test.go:99: API projection=0; inspector raw=300 dated=2026-10-20; UI WalletView uses raw field as 'Spent today'
+--- PASS: TestReviewerInspectorExposesStaleSpend (0.32s)
+=== RUN   TestReviewerReciprocalPurchasesDoNotDeadlock
+    reviewer_independent_test.go:137: concurrent reciprocal results=ERROR: deadlock detected (SQLSTATE 40P01) / <nil>; SQL gold total=30000 audit rows=2 sold=1; state=map[auctions:[] audit:[{ID:6 GuildID:buyer Operation:earn Amount:100 GoldAfter:10100 ReservedAfter:0 CreatedAt:2026-10-21 18:20:43.002422 +0330 +0330} {ID:4 GuildID:seller Operation:spend Amount:100 GoldAfter:9900 ReservedAfter:0 CreatedAt:2026-10-21 18:20:43.002422 +0330 +0330}] bids:[] guilds:[{ID:buyer Gold:10100 Reserved:0 Available:10100 DailyLimit:0 DailySpent:0 SpentOn:2026-10-21 00:00:00 +0000 UTC} {ID:other Gold:10000 Reserved:0 Available:10000 DailyLimit:5000 DailySpent:0 SpentOn:2026-10-21 00:00:00 +0000 UTC} {ID:seller Gold:9900 Reserved:0 Available:9900 DailyLimit:0 DailySpent:100 SpentOn:2026-10-21 00:00:00 +0000 UTC}] items:[{ID:research-item Name:Research Wand Type:rare OwnerID:seller Status:listed_in_order BasePrice:100} {ID:reviewer-reverse Name:Reverse Type:rare OwnerID:seller Status:free BasePrice:100}] orders:[{ID:3e7d0af0-6ea7-43f5-9ae5-692cf56783d4 ItemID:reviewer-reverse SellerID:buyer BuyerID:0x2d4c7619afb0 Price:100 Status:sold ListedAt:2026-10-21 18:20:06.271006 +0330 +0330} {ID:e57bb053-69ce-4e98-a7c8-83375e49659c ItemID:research-item SellerID:seller BuyerID:<nil> Price:100 Status:listed ListedAt:2026-10-21 18:20:06.264482 +0330 +0330}]]
+    reviewer_independent_test.go:139: valid reciprocal purchases cannot both complete: ERROR: deadlock detected (SQLSTATE 40P01) / <nil>
+--- FAIL: TestReviewerReciprocalPurchasesDoNotDeadlock (1.48s)
+FAIL
+2026/10/21 18:20:07 🐳 Stopping container: 49e453cde6ca
+2026/10/21 18:20:08 ✅ Container stopped: 49e453cde6ca
+2026/10/21 18:20:08 🐳 Terminating container: 49e453cde6ca
+2026/10/21 18:20:08 🚫 Container terminated: 49e453cde6ca
+FAIL	market-dragon/internal/postgres	8.950s
+FAIL

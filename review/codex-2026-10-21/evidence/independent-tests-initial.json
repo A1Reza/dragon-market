@@ -1,0 +1,17 @@
+{
+  "started_at_utc": "2026-10-21T14:37:02.555294+00:00",
+  "argv": [
+    "go",
+    "test",
+    "-v",
+    "-count=1",
+    "./internal/postgres",
+    "-run",
+    "^TestReviewer"
+  ],
+  "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market\\artifacts\\codex-review-independent-source",
+  "source_sha": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+  "deviation": "Exact source copied; only reviewer_independent_test.go added; original application unchanged; real fresh Testcontainers.",
+  "exit_code": 1,
+  "finished_at_utc": "2026-10-21T14:37:14.220204+00:00"
+}

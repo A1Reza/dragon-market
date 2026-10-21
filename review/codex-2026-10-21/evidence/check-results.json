@@ -1,0 +1,411 @@
+{
+  "sha": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
+  "reviewer": "/s/ Codex (OpenAI AI coding assistant)",
+  "signed_at_utc": "2026-10-21T14:56:36+00:00",
+  "checks": {
+    "AUTO-01": {
+      "status": "P",
+      "evidence": "E01",
+      "observation": "Exact target SHA; initially clean existing checkout. No clone/pull; requester-authorized deviation."
+    },
+    "AUTO-02": {
+      "status": "P",
+      "evidence": "E03",
+      "observation": "Original Go build and vet exit 0."
+    },
+    "AUTO-03": {
+      "status": "P",
+      "evidence": "E03",
+      "observation": "Uncached verbose suite exit 0; real PostgreSQL Testcontainers; no skipped tests observed."
+    },
+    "AUTO-04": {
+      "status": "P",
+      "evidence": "E03",
+      "observation": "Windows CGO race suite exit 0; GCC 16.1.0 available."
+    },
+    "AUTO-05": {
+      "status": "P",
+      "evidence": "E04",
+      "observation": "Full verifier exit 0: build/vet/tests/race plus frontend typecheck/lint/15 tests/build."
+    },
+    "AUTO-06": {
+      "status": "P",
+      "evidence": "E05, E12",
+      "observation": "Focused daily-limit tests and final baseline verifier pass. First verifier attempt failed due to reviewer file packaging; preserved and corrected."
+    },
+    "AUTO-07": {
+      "status": "P",
+      "evidence": "E06",
+      "observation": "All three daily-limit mutants rejected by named SQL-backed assertion; two purchase mutants also detected."
+    },
+    "AUTO-08": {
+      "status": "P",
+      "evidence": "E07",
+      "observation": "All 7 existing browser tests passed with installed Chrome and isolated disposable DB."
+    },
+    "UI-01": {
+      "status": "P",
+      "evidence": "E08",
+      "observation": "System Status shows development, exact SHA, PostgreSQL identity, successful read and HTTP health."
+    },
+    "UI-02": {
+      "status": "P",
+      "evidence": "E08",
+      "observation": "Switched all three seeded guilds; initial visible 100.00 G; explicitly not authentication."
+    },
+    "UI-03": {
+      "status": "P",
+      "evidence": "E08",
+      "observation": "Created uniquely named rare item; owner/type/700-unit price verified in real snapshot."
+    },
+    "UI-04": {
+      "status": "P",
+      "evidence": "E08",
+      "observation": "Listed for 700; zero price blocked by native range validation; invalid API price rejected."
+    },
+    "UI-05": {
+      "status": "P",
+      "evidence": "E08",
+      "observation": "Buyer 10000→9300, seller 10000→10700; owner transferred once; sold rebuy rejected."
+    },
+    "UI-06": {
+      "status": "P",
+      "evidence": "E08",
+      "observation": "Common-item listing cancelled to free; sold listing cancellation rejected (400)."
+    },
+    "UI-07": {
+      "status": "P",
+      "evidence": "E08",
+      "observation": "Legendary 700-unit base item; active auction, backend deadline approximately 24 hours ahead."
+    },
+    "UI-08": {
+      "status": "P",
+      "evidence": "E08",
+      "observation": "500 bid reserves 500; total gold unchanged; available gold decreases by hold."
+    },
+    "UI-09": {
+      "status": "P",
+      "evidence": "E08",
+      "observation": "Raise 500→525 uses delta 25; bidder 552 outbids; old hold released; highest cancellation succeeds; repeated cancellation 409."
+    },
+    "UI-10": {
+      "status": "P",
+      "evidence": "E08",
+      "observation": "Same-key replay: 204 plus replay header; unchanged ownership/balances; exactly 2 audit rows and 1 idempotency record."
+    },
+    "UI-11": {
+      "status": "P",
+      "evidence": "E08, E09, E11",
+      "observation": "Inspected raw persisted pre/post values and date; distinguished them from GET-wallet projection. DM-REV-CODEX-001 documents wrong Wallet display."
+    },
+    "UI-12": {
+      "status": "P",
+      "evidence": "E08",
+      "observation": "526 rejected below required 552 with visible error; zero base price HTTP 400; no false success."
+    },
+    "UI-13": {
+      "status": "F",
+      "evidence": "E10; DM-REV-CODEX-003",
+      "observation": "Mobile audit scroller lacks keyboard focus (axe serious). Desktop scan, skip link, route refresh and page-width checks passed."
+    },
+    "UI-14": {
+      "status": "P",
+      "evidence": "E07, E08, E11",
+      "observation": "Local harness executes C/F/G in isolated DBs; hosted gateway tests reject harness/arbitrary debug routes. No live hosted site assessed."
+    },
+    "WAL-01": {
+      "status": "P",
+      "evidence": "E05, E11",
+      "observation": "Supplied S(current UTC day)+all holds≤positive L is coherent under valid starting state, fixed limits and reliable UTC clock; L=0 unlimited. Human intent confirmation remains owner-owned."
+    },
+    "WAL-02": {
+      "status": "P",
+      "evidence": "E03, E05",
+      "observation": "Funds/capacity checks and row locks enforce reserve allowance; failed operations have no committed effect."
+    },
+    "WAL-03": {
+      "status": "P",
+      "evidence": "E05, E06",
+      "observation": "Old hold release reduces reserved only; mixed-age test and mutation rejection preserve completed spending."
+    },
+    "WAL-04": {
+      "status": "P",
+      "evidence": "E05",
+      "observation": "500 hold at 500 limit rejects 300 spend before release; Tehran midnight does not reset UTC allowance."
+    },
+    "WAL-05": {
+      "status": "P",
+      "evidence": "E05",
+      "observation": "After release, 300 debit persists; next 500 rejected; SQL gold=9700/reserved=0/completed=300/audits=2."
+    },
+    "WAL-06": {
+      "status": "P",
+      "evidence": "E05",
+      "observation": "Old settlement exchanges reserved for spending; SQL gold debited once; repeated settlement rejected."
+    },
+    "WAL-07": {
+      "status": "P",
+      "evidence": "E05, E08",
+      "observation": "Cancellation/outbid restores reservation capacity while completed 700-unit purchase remains charged."
+    },
+    "WAL-08": {
+      "status": "P",
+      "evidence": "E09",
+      "observation": "Independent SQL test: spend 500, earn 1000, next spend 1 rejected; gold=10500/spent=500/audits=2."
+    },
+    "WAL-09": {
+      "status": "P",
+      "evidence": "E03, E05",
+      "observation": "Exact boundary accepted; over-cap rejected; zero-limit behavior and integer limits exercised."
+    },
+    "WAL-10": {
+      "status": "P",
+      "evidence": "E03, E05",
+      "observation": "Positive amounts, insufficient funds/reserve and int64 overflow checked in domain suites."
+    },
+    "WAL-11": {
+      "status": "P",
+      "evidence": "E05, E09, E11",
+      "observation": "GET wallet projects prior-day counter to 0 without write; raw inspector retains 300 and prior date. UI defect separately reported."
+    },
+    "WAL-12": {
+      "status": "P",
+      "evidence": "E08, E09",
+      "observation": "Independently queried PostgreSQL wallet/item/audit rows and debit totals; no reliance on UI responses alone."
+    },
+    "TX-01": {
+      "status": "P",
+      "evidence": "E03, E07",
+      "observation": "Concurrent-buy and Research Lab tests: single winner, intended owner and committed ledger effects."
+    },
+    "TX-02": {
+      "status": "P",
+      "evidence": "E03, E07",
+      "observation": "Controlled late failure after debit/earn/transfer rolls back every persisted effect and idempotency claim."
+    },
+    "TX-03": {
+      "status": "P",
+      "evidence": "E03, E08",
+      "observation": "Buy/bid replay suites inspect SQL; UI exact purchase replay produces no extra ledger entries."
+    },
+    "TX-04": {
+      "status": "P",
+      "evidence": "E03, E08",
+      "observation": "New-key attempt on sold order rejected; changed same-key payload covered by existing SQL-backed test."
+    },
+    "TX-05": {
+      "status": "P",
+      "evidence": "E03",
+      "observation": "Concurrent auction starts yield one active auction; partial unique index and item transition reviewed."
+    },
+    "TX-06": {
+      "status": "P",
+      "evidence": "E03, E08",
+      "observation": "ceil(current/20) minimum increment reviewed; 525→552 boundary and 526 rejection observed; overflow test passes."
+    },
+    "TX-07": {
+      "status": "P",
+      "evidence": "E03, E08",
+      "observation": "Outbid release and new hold within outer transaction; concurrent-bid SQL test leaves one active highest reservation."
+    },
+    "TX-08": {
+      "status": "P",
+      "evidence": "E05, E08",
+      "observation": "Same-bidder delta reserve confirmed: total reservation 525, not 1025."
+    },
+    "TX-09": {
+      "status": "P",
+      "evidence": "E03, E08",
+      "observation": "Only eligible active highest cancellation releases correct wallet; repeated invalid cancellation 409."
+    },
+    "TX-10": {
+      "status": "P",
+      "evidence": "E03, E11",
+      "observation": "Controlled-clock auction test verifies final-five-minute extension; default config is 5-minute window/extension."
+    },
+    "TX-11": {
+      "status": "P",
+      "evidence": "E03, E05, E07",
+      "observation": "Worker plus concurrent settlement driver and repeat batch produce one debit/credit/ownership transfer."
+    },
+    "TX-12": {
+      "status": "P",
+      "evidence": "E05",
+      "observation": "12 competing reserve/spend operations accept exactly 5×100 under limit 500; SQL usage=500."
+    },
+    "TX-13": {
+      "status": "P",
+      "evidence": "E03, E05",
+      "observation": "Injected audit failure rolls back accounting and stored day; purchase late-failure test rolls back ownership."
+    },
+    "TX-14": {
+      "status": "F",
+      "evidence": "E09, E11; DM-REV-CODEX-002",
+      "observation": "Nested transactions reuse outer transaction, but buyer-then-seller wallet locks deadlock reciprocal purchases (40P01); one rolls back. No automatic retry."
+    },
+    "DB-01": {
+      "status": "P",
+      "evidence": "E03, E07, E08",
+      "observation": "Fresh Testcontainers/E2E apply migrations 1–11 before seeding; v2 wallets and successful API startup observed."
+    },
+    "DB-02": {
+      "status": "P",
+      "evidence": "E03, E05",
+      "observation": "Legacy initialization and focused migration tests reject populated v1 without changed balances/counters/ledger."
+    },
+    "DB-03": {
+      "status": "P",
+      "evidence": "E09",
+      "observation": "Reviewer ran down migration on populated v2; explicit refusal; marker=2/gold=9877/spent=123 preserved."
+    },
+    "DB-04": {
+      "status": "P",
+      "evidence": "E09",
+      "observation": "Reviewer temp v1 schema: new wallet read rejects absent daily_accounting_version (42703); no silent fallback."
+    },
+    "DB-05": {
+      "status": "P",
+      "evidence": "E01, E14",
+      "observation": "All 234 tracked files byte-identical at completion, including historical FAIL/PASS evidence; temporary verifier output separately captured and restored."
+    },
+    "DB-06": {
+      "status": "P",
+      "evidence": "E14",
+      "observation": "Only positively identified disposable containers removed; no Compose launch/reset/down -v; zero running containers before and after."
+    },
+    "DB-07": {
+      "status": "P",
+      "evidence": "E03, E05",
+      "observation": "Tehran midnight vs UTC midnight and persisted UTC day covered; carried reservations retained."
+    },
+    "DB-08": {
+      "status": "P",
+      "evidence": "E13",
+      "observation": "Reviewer real HTTP oracle cases valid/zero/negative/malformed/503/timeout preserve cached 250; SQL base=250, fixed listing stays 100."
+    },
+    "DB-09": {
+      "status": "P",
+      "evidence": "E03, E11",
+      "observation": "Go build/test commands run independently of frontend tooling. Frontend formats/validates/suggests bids; server remains monetary authority."
+    },
+    "DB-10": {
+      "status": "P",
+      "evidence": "E01, E02, E08",
+      "observation": "OS/tool/browser/PostgreSQL versions, SHA, timestamps, argv, exits, source hashes and deviations recorded."
+    },
+    "DB-11": {
+      "status": "N/A",
+      "evidence": "E01, E08",
+      "observation": "Hosted deployment not used. Local stack independently reports exact target SHA; no claims about Render/Neon/live CI."
+    },
+    "DB-12": {
+      "status": "P",
+      "evidence": "E03, E11",
+      "observation": "Local-only dev snapshot and harness restrictions plus gateway gate/origin/path tests reviewed. No production security certification."
+    },
+    "TASK-01": {
+      "status": "NR",
+      "evidence": "E11; scope exclusion",
+      "observation": "Separate research repository, exact task packages, reference patches and controlled hidden oracles not supplied/reviewed. No task/oracle/fairness/leakage approval claimed."
+    },
+    "TASK-02": {
+      "status": "NR",
+      "evidence": "E11; scope exclusion",
+      "observation": "Separate research repository, exact task packages, reference patches and controlled hidden oracles not supplied/reviewed. No task/oracle/fairness/leakage approval claimed."
+    },
+    "TASK-03": {
+      "status": "NR",
+      "evidence": "E11; scope exclusion",
+      "observation": "Separate research repository, exact task packages, reference patches and controlled hidden oracles not supplied/reviewed. No task/oracle/fairness/leakage approval claimed."
+    },
+    "TASK-04": {
+      "status": "NR",
+      "evidence": "E11; scope exclusion",
+      "observation": "Separate research repository, exact task packages, reference patches and controlled hidden oracles not supplied/reviewed. No task/oracle/fairness/leakage approval claimed."
+    },
+    "TASK-05": {
+      "status": "NR",
+      "evidence": "E11; scope exclusion",
+      "observation": "Separate research repository, exact task packages, reference patches and controlled hidden oracles not supplied/reviewed. No task/oracle/fairness/leakage approval claimed."
+    },
+    "TASK-06": {
+      "status": "NR",
+      "evidence": "E11; scope exclusion",
+      "observation": "Separate research repository, exact task packages, reference patches and controlled hidden oracles not supplied/reviewed. No task/oracle/fairness/leakage approval claimed."
+    },
+    "TASK-07": {
+      "status": "NR",
+      "evidence": "E11; scope exclusion",
+      "observation": "Separate research repository, exact task packages, reference patches and controlled hidden oracles not supplied/reviewed. No task/oracle/fairness/leakage approval claimed."
+    },
+    "TASK-08": {
+      "status": "NR",
+      "evidence": "E11; scope exclusion",
+      "observation": "Separate research repository, exact task packages, reference patches and controlled hidden oracles not supplied/reviewed. No task/oracle/fairness/leakage approval claimed."
+    }
+  },
+  "summary": {
+    "AUTO": {
+      "P": 8
+    },
+    "UI": {
+      "P": 13,
+      "F": 1
+    },
+    "WAL": {
+      "P": 12
+    },
+    "TX": {
+      "P": 13,
+      "F": 1
+    },
+    "DB": {
+      "P": 11,
+      "N/A": 1
+    },
+    "TASK": {
+      "NR": 8
+    }
+  },
+  "findings": [
+    {
+      "id": "DM-REV-CODEX-001",
+      "severity": "Medium",
+      "tests": "UI-11 / WAL-11 display limitation (backend projection itself passes)",
+      "title": "Wallet shows yesterday’s spending as “Spent today”",
+      "reproduction": "On the positively labelled disposable E2E DB only, set guild-buyer daily_spent=300 and daily_spent_on to UTC yesterday. Open /#wallet, select guild-buyer and reload. GET /api/guilds/guild-buyer/wallet independently.",
+      "expected": "Today’s visible completed spend is 0.00 G; raw inspector retains yesterday’s 300 with its date. Reading must not alter stored history.",
+      "actual": "Wallet visibly shows Spent today 3.00 G. GET wallet returns daily_spent=0; SQL retains 300 and yesterday’s date. Reproduced in both custom browser sessions and reviewer SQL test. No spending-limit bypass observed.",
+      "source": "web/src/components.tsx:83; web/src/App.tsx:133 and :919; internal/postgres/inspection.go:42; internal/guild/service.go:GetGuild",
+      "evidence": "E08 browser/finding-stale-spent-today.png, browser/observations.json (stale_counter); E09 independent-tests.log",
+      "action": "Use current-day wallet projection for Wallet/Overview, or project with the observation’s UTC day while keeping dated raw inspector data. Add a stale-day UI regression.",
+      "status": "Open; exact source unchanged."
+    },
+    {
+      "id": "DM-REV-CODEX-002",
+      "severity": "Medium",
+      "tests": "TX-14",
+      "title": "Reciprocal purchases acquire wallet locks in opposite order and deadlock",
+      "reproduction": "Run tools/run_independent.py against this exact checkout. The retained source copy adds only reviewer_independent_test.go. Create a rare listing owned by seller and another owned by buyer. Launch buyer buying seller’s item and seller buying buyer’s item concurrently. A test-only wallet wrapper waits after each real Spend has locked its buyer row; then lets both real Earn calls proceed. This deterministically schedules a naturally possible interleaving without changing application SQL or domain code.",
+      "expected": "Valid reciprocal operations complete through consistent multi-wallet lock order or a bounded transaction retry; failed attempts must roll back.",
+      "actual": "TestReviewerReciprocalPurchasesDoNotDeadlock fails: one service operation returns ERROR: deadlock detected (SQLSTATE 40P01), the other succeeds. SQL total gold=30000, audit rows=2, sold orders=1. Rollback/money conservation hold. HTTP 500 follows from handler mapping by source inspection; HTTP deadlock response was not separately executed.",
+      "source": "internal/order/service.go:132, :135; internal/postgres/guild_repo.go:60; internal/postgres/tx.go:37; internal/api/order_handler.go:188",
+      "evidence": "E09 independent-tests.log; tools/independent_postgres_test.go.txt; E11 source-excerpts.txt",
+      "action": "Acquire all participating wallet locks in a deterministic order, or deliberately retry the entire transaction on 40P01/40001 with bounded attempts. Retain rollback/idempotency guarantees. Review cross-auction two-wallet paths too.",
+      "status": "Open; deterministic counterexample preserved; no production source patched."
+    },
+    {
+      "id": "DM-REV-CODEX-003",
+      "severity": "Medium",
+      "tests": "UI-13",
+      "title": "Mobile wallet audit region cannot receive keyboard focus",
+      "reproduction": "With wallet audit rows present, open /#wallet at 390×844 in Chrome. Run axe-core 4.11.1 WCAG2 A/AA and WCAG2.1 AA scan; inspect .table-wrap.",
+      "expected": "A horizontally scrollable audit table has an accessible keyboard scrolling path, with suitable region naming/focus behavior.",
+      "actual": "Repeated scans flag scrollable-region-focusable, impact serious, target .table-wrap. Audit table has overflow content with no focusable descendant/tabindex. Desktop scan has zero violations. Skip link, main focus, mobile page width, navigation and refresh checks pass. No screen-reader evaluation or complete WCAG certification performed.",
+      "source": "web/src/App.tsx:1181 (AuditTable wrapper); web/src/styles.css (.table-wrap)",
+      "evidence": "E10 browser/axe-wallet-mobile.json and browser/axe-wallet-desktop.json; browser/wallet-mobile.png; E08 browser/browser-trace.zip",
+      "action": "Provide a named keyboard-focusable scroll region and verify horizontal scrolling and focus visibility with keyboard and assistive technology.",
+      "status": "Open; reproduced twice; no fix applied."
+    }
+  ]
+}

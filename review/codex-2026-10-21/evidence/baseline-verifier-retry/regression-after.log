@@ -1,0 +1,66 @@
+=== RUN   TestDailyLimitUTCProjectionAndCarry
+--- PASS: TestDailyLimitUTCProjectionAndCarry (0.00s)
+=== RUN   TestDailyLimitAndAccountingOverflow
+=== RUN   TestDailyLimitAndAccountingOverflow/reserve_limit_overflow
+=== RUN   TestDailyLimitAndAccountingOverflow/spend_limit_overflow
+=== RUN   TestDailyLimitAndAccountingOverflow/exact_capacity
+=== RUN   TestDailyLimitAndAccountingOverflow/unlimited_spend_range
+=== RUN   TestDailyLimitAndAccountingOverflow/unlimited_settlement_range
+=== RUN   TestDailyLimitAndAccountingOverflow/earn_range
+--- PASS: TestDailyLimitAndAccountingOverflow (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/reserve_limit_overflow (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/spend_limit_overflow (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/exact_capacity (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/unlimited_spend_range (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/unlimited_settlement_range (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/earn_range (0.00s)
+PASS
+ok  	market-dragon/internal/guild	0.025s
+2026/10/21 18:09:53 github.com/testcontainers/testcontainers-go - Connected to docker: 
+  Server Version: 29.1.5
+  API Version: 1.52
+  Operating System: Docker Desktop
+  Total Memory: 7940 MB
+  Labels:
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+  Testcontainers for Go Version: v0.43.0
+  Resolved Docker Host: npipe:////./pipe/docker_engine
+  Resolved Docker Socket Path: //var/run/docker.sock
+  Test SessionID: 670c2efdd8218ceb136088cc020f128e5dbc0d4826d5faf4e6f9af6cb86f322d
+  Test ProcessID: 9536be09-8bc3-49e3-95c6-2fdde8b72178
+2026/10/21 18:09:53 🐳 Creating container for image postgres:16-alpine
+2026/10/21 18:09:54 🐳 Creating container for image testcontainers/ryuk:0.14.0
+2026/10/21 18:09:54 ✅ Container created: 568087b5dae2
+2026/10/21 18:09:54 🐳 Starting container: 568087b5dae2
+2026/10/21 18:09:55 ✅ Container started: 568087b5dae2
+2026/10/21 18:09:55 ⏳ Waiting for container id 568087b5dae2 image: testcontainers/ryuk:0.14.0. Waiting for: all of: [log message "Started", port 8080/tcp to be listening]
+2026/10/21 18:09:55 Shell not found in container
+2026/10/21 18:09:55 🔔 Container is ready: 568087b5dae2
+2026/10/21 18:09:55 ✅ Container created: e84eb90bb674
+2026/10/21 18:09:55 🐳 Starting container: e84eb90bb674
+2026/10/21 18:09:56 ✅ Container started: e84eb90bb674
+2026/10/21 18:09:56 ⏳ Waiting for container id e84eb90bb674 image: postgres:16-alpine. Waiting for: all of: [log message "database system is ready to accept connections", port 5432/tcp to be listening]
+2026/10/21 18:10:01 🔔 Container is ready: e84eb90bb674
+=== RUN   TestDailyLimitPriorDayReleaseCannotEraseSpending
+    daily_limit_test.go:47: first purchase error=daily spending limit reached; final purchase error=daily spending limit reached; persisted debits=300 gold=9700 completed=300 reserved=0 audit rows=2
+--- PASS: TestDailyLimitPriorDayReleaseCannotEraseSpending (0.40s)
+=== RUN   TestDailyLimitMixedAgeHoldsAndSettlement
+--- PASS: TestDailyLimitMixedAgeHoldsAndSettlement (0.54s)
+=== RUN   TestDailyLimitConcurrentReserveAndSpend
+--- PASS: TestDailyLimitConcurrentReserveAndSpend (0.58s)
+=== RUN   TestDailyLimitAuditFailureRollsBackDayAndSettlement
+--- PASS: TestDailyLimitAuditFailureRollsBackDayAndSettlement (0.41s)
+=== RUN   TestDailyLimitAuctionRolloverCancelAndSettle
+--- PASS: TestDailyLimitAuctionRolloverCancelAndSettle (0.53s)
+=== RUN   TestDailyLimitMigrationRejectsLegacyData
+=== RUN   TestDailyLimitMigrationRejectsLegacyData/empty
+=== RUN   TestDailyLimitMigrationRejectsLegacyData/legacy
+--- PASS: TestDailyLimitMigrationRejectsLegacyData (0.03s)
+    --- PASS: TestDailyLimitMigrationRejectsLegacyData/empty (0.02s)
+    --- PASS: TestDailyLimitMigrationRejectsLegacyData/legacy (0.01s)
+PASS
+2026/10/21 18:10:04 🐳 Stopping container: e84eb90bb674
+2026/10/21 18:10:05 ✅ Container stopped: e84eb90bb674
+2026/10/21 18:10:05 🐳 Terminating container: e84eb90bb674
+2026/10/21 18:10:06 🚫 Container terminated: e84eb90bb674
+ok  	market-dragon/internal/postgres	12.435s

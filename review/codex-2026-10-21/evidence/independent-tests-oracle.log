@@ -1,0 +1,40 @@
+{"started_at_utc": "2026-10-21T14:43:41.237623+00:00", "argv": ["go", "test", "-v", "-count=1", "./internal/postgres", "-run", "^TestReviewerOracle"], "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market\\artifacts\\codex-review-independent-source", "source_sha": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7", "deviation": "Exact source copied; only reviewer_independent_test.go added; original application unchanged; real fresh Testcontainers."}
+2026/10/21 18:13:43 github.com/testcontainers/testcontainers-go - Connected to docker: 
+  Server Version: 29.1.5
+  API Version: 1.52
+  Operating System: Docker Desktop
+  Total Memory: 7940 MB
+  Labels:
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+  Testcontainers for Go Version: v0.43.0
+  Resolved Docker Host: npipe:////./pipe/docker_engine
+  Resolved Docker Socket Path: //var/run/docker.sock
+  Test SessionID: a2cad56be06aa2448cd21440ea2a66c7d1a34fc1a209135754d33817f51b68ab
+  Test ProcessID: 2d7146a8-c3a1-4bdc-84a1-d16fed3c33b6
+2026/10/21 18:13:43 🐳 Creating container for image postgres:16-alpine
+2026/10/21 18:13:43 🐳 Creating container for image testcontainers/ryuk:0.14.0
+2026/10/21 18:13:43 ✅ Container created: 986631088d7d
+2026/10/21 18:13:43 🐳 Starting container: 986631088d7d
+2026/10/21 18:13:44 ✅ Container started: 986631088d7d
+2026/10/21 18:13:44 ⏳ Waiting for container id 986631088d7d image: testcontainers/ryuk:0.14.0. Waiting for: all of: [log message "Started", port 8080/tcp to be listening]
+2026/10/21 18:13:44 Shell not found in container
+2026/10/21 18:13:44 🔔 Container is ready: 986631088d7d
+2026/10/21 18:13:44 ✅ Container created: 768c1afc34c6
+2026/10/21 18:13:44 🐳 Starting container: 768c1afc34c6
+2026/10/21 18:13:45 ✅ Container started: 768c1afc34c6
+2026/10/21 18:13:45 ⏳ Waiting for container id 768c1afc34c6 image: postgres:16-alpine. Waiting for: all of: [log message "database system is ready to accept connections", port 5432/tcp to be listening]
+2026/10/21 18:13:47 🔔 Container is ready: 768c1afc34c6
+=== RUN   TestReviewerOracleFallbackAndLockedPrice
+    reviewer_independent_test.go:45: scenario=valid fallback=250 SQL base_price=250 listing_price=100
+    reviewer_independent_test.go:45: scenario=zero fallback=250 SQL base_price=250 listing_price=100
+    reviewer_independent_test.go:45: scenario=negative fallback=250 SQL base_price=250 listing_price=100
+    reviewer_independent_test.go:45: scenario=malformed fallback=250 SQL base_price=250 listing_price=100
+    reviewer_independent_test.go:45: scenario=http503 fallback=250 SQL base_price=250 listing_price=100
+    reviewer_independent_test.go:45: scenario=timeout fallback=250 SQL base_price=250 listing_price=100
+--- PASS: TestReviewerOracleFallbackAndLockedPrice (0.36s)
+PASS
+2026/10/21 18:13:48 🐳 Stopping container: 768c1afc34c6
+2026/10/21 18:13:48 ✅ Container stopped: 768c1afc34c6
+2026/10/21 18:13:48 🐳 Terminating container: 768c1afc34c6
+2026/10/21 18:13:49 🚫 Container terminated: 768c1afc34c6
+ok  	market-dragon/internal/postgres	6.171s

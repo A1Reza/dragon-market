@@ -1,0 +1,67 @@
+{"id": "wallet-regressions", "argv": ["go", "test", "-v", "-count=1", "./internal/guild", "./internal/postgres", "-run", "^TestDailyLimit"], "cwd": "S:\\Repos\\reserach-reviewer\\codex-review\\dragon-market", "started_at_utc": "2026-10-21T14:35:33.218056+00:00"}
+=== RUN   TestDailyLimitUTCProjectionAndCarry
+--- PASS: TestDailyLimitUTCProjectionAndCarry (0.00s)
+=== RUN   TestDailyLimitAndAccountingOverflow
+=== RUN   TestDailyLimitAndAccountingOverflow/reserve_limit_overflow
+=== RUN   TestDailyLimitAndAccountingOverflow/spend_limit_overflow
+=== RUN   TestDailyLimitAndAccountingOverflow/exact_capacity
+=== RUN   TestDailyLimitAndAccountingOverflow/unlimited_spend_range
+=== RUN   TestDailyLimitAndAccountingOverflow/unlimited_settlement_range
+=== RUN   TestDailyLimitAndAccountingOverflow/earn_range
+--- PASS: TestDailyLimitAndAccountingOverflow (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/reserve_limit_overflow (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/spend_limit_overflow (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/exact_capacity (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/unlimited_spend_range (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/unlimited_settlement_range (0.00s)
+    --- PASS: TestDailyLimitAndAccountingOverflow/earn_range (0.00s)
+PASS
+ok  	market-dragon/internal/guild	0.024s
+2026/10/21 18:05:34 github.com/testcontainers/testcontainers-go - Connected to docker: 
+  Server Version: 29.1.5
+  API Version: 1.52
+  Operating System: Docker Desktop
+  Total Memory: 7940 MB
+  Labels:
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+  Testcontainers for Go Version: v0.43.0
+  Resolved Docker Host: npipe:////./pipe/docker_engine
+  Resolved Docker Socket Path: //var/run/docker.sock
+  Test SessionID: 836d410318c78405ea087d2935bceafe923fdf397a19c90108e28af91fff332e
+  Test ProcessID: 2592fd53-0e8d-47ff-8b93-8388f4099bc3
+2026/10/21 18:05:34 🐳 Creating container for image postgres:16-alpine
+2026/10/21 18:05:35 🐳 Creating container for image testcontainers/ryuk:0.14.0
+2026/10/21 18:05:35 ✅ Container created: 80a171d80a91
+2026/10/21 18:05:35 🐳 Starting container: 80a171d80a91
+2026/10/21 18:05:35 ✅ Container started: 80a171d80a91
+2026/10/21 18:05:35 ⏳ Waiting for container id 80a171d80a91 image: testcontainers/ryuk:0.14.0. Waiting for: all of: [log message "Started", port 8080/tcp to be listening]
+2026/10/21 18:05:36 Shell not found in container
+2026/10/21 18:05:36 🔔 Container is ready: 80a171d80a91
+2026/10/21 18:05:36 ✅ Container created: 16809d568562
+2026/10/21 18:05:36 🐳 Starting container: 16809d568562
+2026/10/21 18:05:36 ✅ Container started: 16809d568562
+2026/10/21 18:05:36 ⏳ Waiting for container id 16809d568562 image: postgres:16-alpine. Waiting for: all of: [log message "database system is ready to accept connections", port 5432/tcp to be listening]
+2026/10/21 18:05:39 🔔 Container is ready: 16809d568562
+=== RUN   TestDailyLimitPriorDayReleaseCannotEraseSpending
+    daily_limit_test.go:47: first purchase error=daily spending limit reached; final purchase error=daily spending limit reached; persisted debits=300 gold=9700 completed=300 reserved=0 audit rows=2
+--- PASS: TestDailyLimitPriorDayReleaseCannotEraseSpending (0.32s)
+=== RUN   TestDailyLimitMixedAgeHoldsAndSettlement
+--- PASS: TestDailyLimitMixedAgeHoldsAndSettlement (0.35s)
+=== RUN   TestDailyLimitConcurrentReserveAndSpend
+--- PASS: TestDailyLimitConcurrentReserveAndSpend (0.36s)
+=== RUN   TestDailyLimitAuditFailureRollsBackDayAndSettlement
+--- PASS: TestDailyLimitAuditFailureRollsBackDayAndSettlement (0.31s)
+=== RUN   TestDailyLimitAuctionRolloverCancelAndSettle
+--- PASS: TestDailyLimitAuctionRolloverCancelAndSettle (0.43s)
+=== RUN   TestDailyLimitMigrationRejectsLegacyData
+=== RUN   TestDailyLimitMigrationRejectsLegacyData/empty
+=== RUN   TestDailyLimitMigrationRejectsLegacyData/legacy
+--- PASS: TestDailyLimitMigrationRejectsLegacyData (0.02s)
+    --- PASS: TestDailyLimitMigrationRejectsLegacyData/empty (0.01s)
+    --- PASS: TestDailyLimitMigrationRejectsLegacyData/legacy (0.01s)
+PASS
+2026/10/21 18:05:41 🐳 Stopping container: 16809d568562
+2026/10/21 18:05:42 ✅ Container stopped: 16809d568562
+2026/10/21 18:05:42 🐳 Terminating container: 16809d568562
+2026/10/21 18:05:42 🚫 Container terminated: 16809d568562
+ok  	market-dragon/internal/postgres	7.717s
