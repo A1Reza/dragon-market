@@ -1,7 +1,7 @@
 {
   "title": "Dragon Market — Transactional Correctness Baseline Review",
-  "started_at": "2026-10-17T15:34:02.651Z",
-  "source_commit": "07bc7e726c8f8228cd62849ef06054edf4f7e624",
+  "started_at": "2026-10-21T10:32:02.028Z",
+  "source_commit": "f4ba21185d1ba7b4bbb56f5addcc27d1b75bdec7",
   "source_dirty": false,
   "original_baseline": "162c5cab9fa886445dd102f4a99961027f90aebb",
   "human_approval": "PENDING_HUMAN_REVIEW",
@@ -13,6 +13,7 @@
     "cmd/mock-oracle/main.go": "dfcff19ada690bb1e9f36ad547707e7dc90755d40757afe100a089e92b18cf4a",
     "cmd/research-lab/main.go": "e30788e4cc27307e0cf583e857a456b8ed855c36dfd683ccb034160df13ccd55",
     "cmd/research-lab/main_test.go": "70662004e595cdfa39822532369d443393a131c5912c71d75c1f5903dc3b14de",
+    "cmd/review/main.go": "46ad8625b0b46454d9a1719e3bf47cdd22e323935dcc50e0bb278a8125641e16",
     "cmd/server/main.go": "08c4a34150efa709bf957102a272397916285a838e364105758ba0528f3fffe8",
     "docker-compose.yml": "0106bad0d3fd29c6f87b32796914cce3829645105465495714c358ee09a3f3f2",
     "go.mod": "34d6491907a50f38062c2b419a6e77a5a1690831da0d783a9f91d045a5995d03",
@@ -77,8 +78,12 @@
     "internal/postgres/order_repo.go": "06adf54c5800c32467aceb98bc5d2c4da613a315c53cd83d2e6cb265745a1c8e",
     "internal/postgres/order_repo_test.go": "9532b56ae2cca3b271477d83dc19a5ddbe48175e1ec5cdcdacdbb925854418ac",
     "internal/postgres/research_test.go": "cdddd0b2112cf1cbb1ccd09578fc9f5bc56b52a768c7ad95930631aa3f12792c",
-    "internal/postgres/setup_test.go": "5b8f7ca91033008b0295a476a1d1326c44b7b42dcd366c09930f86b20a769323",
+    "internal/postgres/review_initialization_test.go": "44199e42b10f63db85e3adf9bc489da208f0d07a06e308d56578da7936534c26",
+    "internal/postgres/setup_test.go": "4b284806174483dad2fe3a9994f2ea79638a559f34e4e8306e78d45a560c5c6d",
     "internal/postgres/tx.go": "fb65ca00d52271c0e9afd6e8424783665e0b7aabcf69bcf178a5d8e9b9a392aa",
+    "internal/review/database.go": "c48902d606e004fd48cdeb80b4620354db597cbb90999de836a821a3b7cbfe24",
+    "internal/review/gateway.go": "e84e75951c368c2c23b0d93c66e59d25e25eb0d88b1983035f5c03243b243b8a",
+    "internal/review/gateway_test.go": "a1c12a3118329d0139fb69c5ff5a280e70490435b3997998cd45220396c9375e",
     "migrations/down/000005_add_status_to_items_table.down.sql": "ee0aeb6bf946c57c1e92919ce20d8ee39fd0167783c1d67a488ec27f2e6d10cc",
     "migrations/down/000005_alter_items_add_status_and_drop_available.down.sql": "d9e5aed6e92a202eeaf6ba8a6ee5892bfe31e7dea63ca9574cf16644608481a2",
     "migrations/down/000010_add_wallet_audit_and_daily_date.down.sql": "d7014ef641fbca2e878d11e117373c190d145f2c8ce9796ddbceaf15d0fb9283",
@@ -94,35 +99,39 @@
     "migrations/up/000009_create_idempotency_records_table.up.sql": "ffed262267d69e1e1eab0760b9c032eccaf92ddba520cc7cf13950c7083c87a9",
     "migrations/up/000010_add_wallet_audit_and_daily_date.up.sql": "360e5fb7dbd27708b001b46420774ea52691f72ee4a92241186b7c630e4d1158",
     "migrations/up/000011_daily_accounting_v2.up.sql": "7bc361bd0baed5837fc5574d9b527e639289fe64aa0b905c2fd2b73480cc33a9",
-    "scripts/check-daily-limit-mutations.mjs": "3ca13d1b42f9bf94485c80a18b198255a26395ecfb072b9ed117ceacc4f1de39",
+    "scripts/check-daily-limit-mutations.mjs": "30afb574de8f117f503d4394a60c6fae484c212fd7d6f391e97b8c0bc4f85641",
     "scripts/collect-evidence.mjs": "7c78d8ee99a830c7a0d0d1cf609b5352012b1504762f11967ab96fb76f5f7c79",
     "scripts/demo-fixtures.mjs": "32301b2e784a55314e1bac08df5626fc04c4fc303db7c639b03ef92b041a4f60",
     "scripts/e2e-cleanup.mjs": "4dc19e58b1c95fa8825f249368a98c40116b5f4c55f80929b93f0b84fe05694b",
     "scripts/e2e-stack.mjs": "8608bb1c68211f585e7f0f0350bfc00a57745e6f3353614f77c24f3e52ad4bcc",
     "scripts/mutation-check.mjs": "2b22056341d132b75a0732ebbeb28cad511e9b7b0896de4ac6ff339a21216c34",
     "scripts/processes.mjs": "060b34fc573db12bbc58f4893ab4e4aae86269fd1258cfa0108c49d296810a8f",
+    "scripts/review-build.mjs": "ba7b7ddab76bf981565d0841897c9440c04b2f657912cd95571736aafd7d5c74",
+    "scripts/review-smoke.mjs": "dfbf53f200a72647f411464820dd3e723adaaeeec0660fa5b4e04bfc59ea2b96",
     "scripts/verify-transactional-baseline.mjs": "95ea3a1af6f729aa632a5349cf2314601af6f9527bd9db66d61d9cf1f5cdb311",
-    "scripts/verify.mjs": "db9a06ac8c5befeb5c1ecf832d3682ef1d50f2ada530c2883685d8753ce6851a",
+    "scripts/verify.mjs": "911ed80fdd79868c5f809c470e693c93e496eb09d1c4d45f24c74760992d7c8c",
     "scripts/workbench.mjs": "1f6d2fe871c54eae9572cb1c1b1fc00013cf6c5f86e8bbae4e357a7e86190715",
     "web/package-lock.json": "98ced21b251f5ee5595001bb0cc18d9614c6c8b0eb9d15b5c08b4787f845a5a7",
     "web/package.json": "a4879f7088bfd68260df46b75dbe42d80b5545ada1fcfc3cdf1ea4e5889da5bd",
     "web/src/App.test.tsx": "12d19ba67cd4ebb3987780781aad9425ed7681962414b09b905bd758b63d6ec7",
-    "web/src/App.tsx": "eadad38394930ff3f78912deb666058fe35442cf02412c5a8fccd89702bd7a59",
-    "web/src/ResearchLab.tsx": "cbb9205dcf29981e94801bf194d67f0452858ee937fbac1504de8b6569272f96",
+    "web/src/App.tsx": "8b972f2a5cbb8f2e07b4926b28008ef94eaebb899531cadeace13a0c6f1e8c84",
+    "web/src/ResearchLab.tsx": "2248e788b38ba45591c98ecdd89186c527b01082c9c037dd9752737bc80b6373",
     "web/src/api.test.ts": "59f90900106f7edbbe3204e07fb077844737be3cc738eb80f432efee9938d505",
     "web/src/api.ts": "36566e3fb95858aff42ecb5be0baefae38e13e1e076d390eb4830fc43f7e4fe1",
     "web/src/components.tsx": "e98b5253633bc4b1a152806ddf5100c20dc60b143abcfe381d9750c45743b173",
     "web/src/contracts.ts": "6e598c6a2607c14d00be924a5e65dea589a0e228b2c7a570ef18ca1eb552bb5c",
     "web/src/main.tsx": "2aa773539e2765f450d855008a8b7f6129d480f56ad3c70e2a59c90734114717",
-    "web/src/styles.css": "34dfcf3ff0783e7c6bd49b677e2e679d365b41b502ef99438aedb5129f8e28dc",
+    "web/src/review.test.tsx": "18515138dc2db32171dd8771057a7ddc2658bafde2b12eb181c02452766f43c9",
+    "web/src/review.tsx": "44f34a7a5807edb2d52372a3a5211441c07a8cf55ed230bd120627f987034147",
+    "web/src/styles.css": "ec50e342636f0a27846004b91ef4891ce818af9011557121fa1b951971663518",
     "web/src/test-setup.ts": "1c1f608698cea6a2bdf222d68ef48fb2a8f6bb99297afe3ed87151cb67739a99"
   },
   "results": [
     {
       "name": "regression-after",
       "command": "go test -v -count=1 ./internal/guild ./internal/postgres -run ^TestDailyLimit",
-      "started_at": "2026-10-17T15:34:03.631Z",
-      "finished_at": "2026-10-17T15:34:20.882Z",
+      "started_at": "2026-10-21T10:32:02.270Z",
+      "finished_at": "2026-10-21T10:32:10.952Z",
       "exit": 0,
       "status": "PASS",
       "log": "regression-after.log"
@@ -130,8 +139,8 @@
     {
       "name": "go-build",
       "command": "go build ./...",
-      "started_at": "2026-10-17T15:34:20.885Z",
-      "finished_at": "2026-10-17T15:34:22.161Z",
+      "started_at": "2026-10-21T10:32:10.955Z",
+      "finished_at": "2026-10-21T10:32:12.423Z",
       "exit": 0,
       "status": "PASS",
       "log": "go-build.log"
@@ -139,8 +148,8 @@
     {
       "name": "go-vet",
       "command": "go vet ./...",
-      "started_at": "2026-10-17T15:34:22.161Z",
-      "finished_at": "2026-10-17T15:34:22.842Z",
+      "started_at": "2026-10-21T10:32:12.424Z",
+      "finished_at": "2026-10-21T10:32:13.420Z",
       "exit": 0,
       "status": "PASS",
       "log": "go-vet.log"
@@ -148,8 +157,8 @@
     {
       "name": "go-tests",
       "command": "go test -count=1 ./...",
-      "started_at": "2026-10-17T15:34:22.842Z",
-      "finished_at": "2026-10-17T15:34:38.397Z",
+      "started_at": "2026-10-21T10:32:13.420Z",
+      "finished_at": "2026-10-21T10:32:29.761Z",
       "exit": 0,
       "status": "PASS",
       "log": "go-tests.log"
@@ -157,56 +166,11 @@
     {
       "name": "go-race",
       "command": "go test -race -count=1 ./...",
-      "started_at": "2026-10-17T15:34:38.398Z",
-      "finished_at": "2026-10-17T15:34:58.471Z",
+      "started_at": "2026-10-21T10:32:29.761Z",
+      "finished_at": "2026-10-21T10:32:50.039Z",
       "exit": 0,
       "status": "PASS",
       "log": "go-race.log"
-    },
-    {
-      "name": "frontend-typecheck",
-      "command": "npm --prefix web run typecheck",
-      "started_at": "2026-10-17T15:34:58.472Z",
-      "finished_at": "2026-10-17T15:35:01.140Z",
-      "exit": 0,
-      "status": "PASS",
-      "log": "frontend-typecheck.log"
-    },
-    {
-      "name": "frontend-lint",
-      "command": "npm --prefix web run lint",
-      "started_at": "2026-10-17T15:35:01.140Z",
-      "finished_at": "2026-10-17T15:35:18.586Z",
-      "exit": 0,
-      "status": "PASS",
-      "log": "frontend-lint.log"
-    },
-    {
-      "name": "frontend-test",
-      "command": "npm --prefix web run test",
-      "started_at": "2026-10-17T15:35:18.586Z",
-      "finished_at": "2026-10-17T15:35:23.633Z",
-      "exit": 0,
-      "status": "PASS",
-      "log": "frontend-test.log"
-    },
-    {
-      "name": "frontend-build",
-      "command": "npm --prefix web run build",
-      "started_at": "2026-10-17T15:35:23.633Z",
-      "finished_at": "2026-10-17T15:35:27.054Z",
-      "exit": 0,
-      "status": "PASS",
-      "log": "frontend-build.log"
-    },
-    {
-      "name": "browser",
-      "command": "npm --prefix web run test:e2e",
-      "started_at": "2026-10-17T15:35:27.054Z",
-      "finished_at": "2026-10-17T15:36:27.202Z",
-      "exit": 0,
-      "status": "PASS",
-      "log": "browser.log"
     }
   ]
 }

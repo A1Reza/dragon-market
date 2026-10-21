@@ -15,8 +15,8 @@
     --- PASS: TestDailyLimitAndAccountingOverflow/unlimited_settlement_range (0.00s)
     --- PASS: TestDailyLimitAndAccountingOverflow/earn_range (0.00s)
 PASS
-ok  	market-dragon/internal/guild	0.021s
-2026/10/17 19:04:13 github.com/testcontainers/testcontainers-go - Connected to docker:
+ok  	market-dragon/internal/guild	0.023s
+2026/10/21 14:02:03 github.com/testcontainers/testcontainers-go - Connected to docker: 
   Server Version: 29.1.5
   API Version: 1.52
   Operating System: Docker Desktop
@@ -26,32 +26,32 @@ ok  	market-dragon/internal/guild	0.021s
   Testcontainers for Go Version: v0.43.0
   Resolved Docker Host: npipe:////./pipe/docker_engine
   Resolved Docker Socket Path: //var/run/docker.sock
-  Test SessionID: c4cc1d325ff4c32f6190810fad7498de92180b08e358cdbc897d95f81ba07bb5
-  Test ProcessID: cc4aff11-65af-4bd8-ab3e-81b96de31dab
-2026/10/17 19:04:13 🐳 Creating container for image postgres:16-alpine
-2026/10/17 19:04:13 🐳 Creating container for image testcontainers/ryuk:0.14.0
-2026/10/17 19:04:14 ✅ Container created: 09fb63a7716c
-2026/10/17 19:04:14 🐳 Starting container: 09fb63a7716c
-2026/10/17 19:04:14 ✅ Container started: 09fb63a7716c
-2026/10/17 19:04:14 ⏳ Waiting for container id 09fb63a7716c image: testcontainers/ryuk:0.14.0. Waiting for: all of: [log message "Started", port 8080/tcp to be listening]
-2026/10/17 19:04:14 Shell not found in container
-2026/10/17 19:04:14 🔔 Container is ready: 09fb63a7716c
-2026/10/17 19:04:14 ✅ Container created: 71116882eb18
-2026/10/17 19:04:14 🐳 Starting container: 71116882eb18
-2026/10/17 19:04:15 ✅ Container started: 71116882eb18
-2026/10/17 19:04:15 ⏳ Waiting for container id 71116882eb18 image: postgres:16-alpine. Waiting for: all of: [log message "database system is ready to accept connections", port 5432/tcp to be listening]
-2026/10/17 19:04:17 🔔 Container is ready: 71116882eb18
+  Test SessionID: b6c120b35c69d12fc6d7d27b3b19aea2d6b152dbdb644716cd7e3281d1463ab7
+  Test ProcessID: 7d1eaead-0e5e-4771-9cfb-e775d643d6ff
+2026/10/21 14:02:03 🐳 Creating container for image postgres:16-alpine
+2026/10/21 14:02:03 🐳 Creating container for image testcontainers/ryuk:0.14.0
+2026/10/21 14:02:04 ✅ Container created: a6a169250d65
+2026/10/21 14:02:04 🐳 Starting container: a6a169250d65
+2026/10/21 14:02:04 ✅ Container started: a6a169250d65
+2026/10/21 14:02:04 ⏳ Waiting for container id a6a169250d65 image: testcontainers/ryuk:0.14.0. Waiting for: all of: [log message "Started", port 8080/tcp to be listening]
+2026/10/21 14:02:04 Shell not found in container
+2026/10/21 14:02:04 🔔 Container is ready: a6a169250d65
+2026/10/21 14:02:04 ✅ Container created: 8e2107290e27
+2026/10/21 14:02:04 🐳 Starting container: 8e2107290e27
+2026/10/21 14:02:05 ✅ Container started: 8e2107290e27
+2026/10/21 14:02:05 ⏳ Waiting for container id 8e2107290e27 image: postgres:16-alpine. Waiting for: all of: [log message "database system is ready to accept connections", port 5432/tcp to be listening]
+2026/10/21 14:02:07 🔔 Container is ready: 8e2107290e27
 === RUN   TestDailyLimitPriorDayReleaseCannotEraseSpending
     daily_limit_test.go:47: first purchase error=daily spending limit reached; final purchase error=daily spending limit reached; persisted debits=300 gold=9700 completed=300 reserved=0 audit rows=2
---- PASS: TestDailyLimitPriorDayReleaseCannotEraseSpending (0.34s)
-=== RUN   TestDailyLimitMixedAgeHoldsAndSettlemen
---- PASS: TestDailyLimitMixedAgeHoldsAndSettlement (0.36s)
+--- PASS: TestDailyLimitPriorDayReleaseCannotEraseSpending (0.32s)
+=== RUN   TestDailyLimitMixedAgeHoldsAndSettlement
+--- PASS: TestDailyLimitMixedAgeHoldsAndSettlement (0.34s)
 === RUN   TestDailyLimitConcurrentReserveAndSpend
---- PASS: TestDailyLimitConcurrentReserveAndSpend (0.36s)
-=== RUN   TestDailyLimitAuditFailureRollsBackDayAndSettlemen
---- PASS: TestDailyLimitAuditFailureRollsBackDayAndSettlement (0.31s)
+--- PASS: TestDailyLimitConcurrentReserveAndSpend (0.34s)
+=== RUN   TestDailyLimitAuditFailureRollsBackDayAndSettlement
+--- PASS: TestDailyLimitAuditFailureRollsBackDayAndSettlement (0.30s)
 === RUN   TestDailyLimitAuctionRolloverCancelAndSettle
---- PASS: TestDailyLimitAuctionRolloverCancelAndSettle (0.40s)
+--- PASS: TestDailyLimitAuctionRolloverCancelAndSettle (0.41s)
 === RUN   TestDailyLimitMigrationRejectsLegacyData
 === RUN   TestDailyLimitMigrationRejectsLegacyData/empty
 === RUN   TestDailyLimitMigrationRejectsLegacyData/legacy
@@ -59,9 +59,8 @@ ok  	market-dragon/internal/guild	0.021s
     --- PASS: TestDailyLimitMigrationRejectsLegacyData/empty (0.01s)
     --- PASS: TestDailyLimitMigrationRejectsLegacyData/legacy (0.01s)
 PASS
-2026/10/17 19:04:19 🐳 Stopping container: 71116882eb18
-2026/10/17 19:04:20 ✅ Container stopped: 71116882eb18
-2026/10/17 19:04:20 🐳 Terminating container: 71116882eb18
-2026/10/17 19:04:20 🚫 Container terminated: 71116882eb18
-ok  	market-dragon/internal/postgres	7.313s
-\n
+2026/10/21 14:02:09 🐳 Stopping container: 8e2107290e27
+2026/10/21 14:02:10 ✅ Container stopped: 8e2107290e27
+2026/10/21 14:02:10 🐳 Terminating container: 8e2107290e27
+2026/10/21 14:02:10 🚫 Container terminated: 8e2107290e27
+ok  	market-dragon/internal/postgres	7.356s
